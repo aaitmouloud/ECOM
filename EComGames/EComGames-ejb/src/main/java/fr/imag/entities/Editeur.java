@@ -6,7 +6,10 @@
 package fr.imag.entities;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,5 +46,96 @@ public class Editeur implements Serializable {
     @OneToMany(mappedBy = "editeur", fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Collection<Jeu> jeux;
+
+    public Editeur() {
+    }
+
+    public Editeur(String nom, String description, byte[] logo) {
+        this.nom = nom;
+        this.description = description;
+        this.logo = logo;
+        this.jeux = new HashSet<Jeu>();
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public byte[] getLogo() {
+        return logo;
+    }
+
+    public void setLogo(byte[] logo) {
+        this.logo = logo;
+    }
+
+    public Collection<Jeu> getJeux() {
+        return jeux;
+    }
+
+    public boolean addJeu(Jeu jeu) {
+        return this.jeux.add(jeu);
+    }
+
+    @Override
+    public int hashCode() {
+        int hash = 7;
+        hash = 73 * hash + Objects.hashCode(this.nom);
+        hash = 73 * hash + Objects.hashCode(this.description);
+        hash = 73 * hash + Arrays.hashCode(this.logo);
+        hash = 73 * hash + Objects.hashCode(this.jeux);
+        return hash;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
+        final Editeur other = (Editeur) obj;
+        if (!Objects.equals(this.nom, other.nom)) {
+            return false;
+        }
+        if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Arrays.equals(this.logo, other.logo)) {
+            return false;
+        }
+        if (!Objects.equals(this.jeux, other.jeux)) {
+            return false;
+        }
+        return true;
+    }
+
+
+
+    @Override
+    public String toString() {
+        return new StringBuilder("Editeur{").append("id=").append(id)
+                .append(", nom=").append(nom).append(", description=")
+                .append(description).append(", logo=").append(logo)
+                .append(", ").append(jeux.size()).append(" jeux").append('}')
+                .toString();
+    }
 
 }

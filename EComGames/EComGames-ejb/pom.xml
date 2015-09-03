@@ -4,12 +4,12 @@
     <parent>
     <artifactId>EComGames</artifactId>
     <groupId>fr.imag</groupId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
   </parent>
 
     <groupId>fr.imag</groupId>
     <artifactId>EComGames-ejb</artifactId>
-    <version>0.1-SNAPSHOT</version>
+    <version>0.2.1-SNAPSHOT</version>
     <packaging>ejb</packaging>
 
     <name>EComGames-ejb</name>

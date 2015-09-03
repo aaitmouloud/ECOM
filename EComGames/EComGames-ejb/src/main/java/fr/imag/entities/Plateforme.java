@@ -8,6 +8,7 @@ package fr.imag.entities;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -21,7 +22,7 @@ import javax.persistence.ManyToMany;
 
 /**
  * Définit une plate-forme de jeu.
- * 
+ *
  * @author aaitmouloud
  */
 @Entity
@@ -32,51 +33,125 @@ public class Plateforme implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(length = 25, nullable = false)
+    @Column(length = 25, nullable = false, updatable = false)
     private String nom;
 
-    @Column(nullable = true)
+    @Column(nullable = true, updatable = true)
     @Lob
     private byte[] image;
-    
+
     @ManyToMany(mappedBy = "plateformes", fetch = FetchType.LAZY,
             cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     private Collection<Jeu> jeux;
 
-    public Long getId() {
-        return id;
-    }
-    
-    public String getNom() {
-        return nom;
-    }
-
-    public byte[] getImage() {
-        return image;
-    }
-    
-    public void setImage(byte[] image) {
-        this.image = image;
-    }
-    
+    /**
+     *
+     */
     public Plateforme() {
         super();
     }
 
-    public Plateforme(String nom, byte[] image) {
+    /**
+     *
+     * @param nom
+     * @param image
+     * @param jeux
+     */
+    public Plateforme(String nom, byte[] image, Collection<Jeu> jeux) {
         this.nom = nom;
         this.image = image;
+        this.jeux = jeux;
     }
-    
+
+    /**
+     *
+     * @param nom
+     * @param image
+     */
+    public Plateforme(String nom, byte[] image) {
+        this(nom, image, new HashSet<Jeu>());
+    }
+
+    /**
+     *
+     * @param nom
+     */
     public Plateforme(String nom) {
         this(nom, null);
     }
 
+    /**
+     *
+     * @return
+     */
+    public Long getId() {
+        return id;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getNom() {
+        return nom;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public byte[] getImage() {
+        return image;
+    }
+
+    /**
+     *
+     * @param image
+     */
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public Collection<Jeu> getJeux() {
+        return jeux;
+    }
+
+    /**
+     *
+     * @param jeux
+     */
+    public void setJeux(Collection<Jeu> jeux) {
+        this.jeux = jeux;
+    }
+
+    /**
+     *
+     * @param jeu
+     * @return
+     */
+    public boolean addJeu(Jeu jeu) {
+        return this.jeux.add(jeu);
+    }
+
+    /**
+     *
+     * @param jeux
+     * @return
+     */
+    public boolean addAllJeux(Collection<Jeu> jeux) {
+        return this.jeux.addAll(jeux);
+    }
+
     @Override
     public int hashCode() {
-        int hash = 7;
+        int hash = 5;
         hash = 97 * hash + Objects.hashCode(this.nom);
         hash = 97 * hash + Arrays.hashCode(this.image);
+        hash = 97 * hash + Objects.hashCode(this.jeux);
         return hash;
     }
 
@@ -95,15 +170,22 @@ public class Plateforme implements Serializable {
         if (!Arrays.equals(this.image, other.image)) {
             return false;
         }
+        if (!Objects.equals(this.jeux, other.jeux)) {
+            return false;
+        }
         return true;
     }
 
+    /**
+     *
+     * @return
+     */
     @Override
     public String toString() {
-        return "Plateforme{" + "nom=" + nom + ", image=" + image + '}';
+        return new StringBuilder().append("Plateforme{").append("id=")
+                .append(id).append(", nom=").append(nom).append(", image=")
+                .append(image).append(", jeux=").append(jeux).append('}')
+                .toString();
     }
-    
-    
-    
 
 }
