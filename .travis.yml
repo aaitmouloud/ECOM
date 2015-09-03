@@ -1,4 +1,4 @@
 language: java
 
 script:
-	- pushd EComGames && mvn clean install && popd
+        - pushd EComGames && mvn clean install && popd
