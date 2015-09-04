@@ -35,9 +35,6 @@ public class Initializer {
         Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
         Cle cle = new Cle(jeu);
         Achat achat = new Achat(user, Calendar.getInstance(), cle);
-        em.persist(jeu);
-        em.persist(user);
-        em.persist(cle);
         em.persist(achat);
     }
 }

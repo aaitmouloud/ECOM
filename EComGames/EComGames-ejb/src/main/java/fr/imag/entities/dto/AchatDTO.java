@@ -3,62 +3,36 @@
  * - Pas d’Utilisation Commerciale. 
  * - Partage dans les Mêmes Conditions 4.0 International.
  */
-package fr.imag.entities;
+package fr.imag.entities.dto;
 
+import fr.imag.entities.*;
 import java.io.Serializable;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
  *
  * @author aaitmouloud
  */
-@Entity
-public class Achat implements Serializable {
+public class AchatDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(updatable = false)
+    public static final short NOTE_MAX = 10;
     private Long id;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = false)
     private Calendar date;
-
-    @Column(nullable = true, updatable = true)
     private Short note;
-
-    @Column(length = 255, nullable = true, updatable = true)
     private String commentaire;
-
-    @OneToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "cle_id", nullable = false, updatable = false)
-    private Cle cle;
-
-    @ManyToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(nullable = false, updatable = false)
-    private Utilisateur utilisateur;
+    private CleDTO cle;
+    private UtilisateurDTO utilisateur;
 
     /**
      *
      */
-    public Achat() {
+    public AchatDTO(Achat a) {
+        this(a.getId(), new UtilisateurDTO(a.getUtilisateur()),
+                new CleDTO(a.getCle()), a.getDate(), a.getNote(), a.getCommentaire());
     }
 
     /**
@@ -69,7 +43,8 @@ public class Achat implements Serializable {
      * @param note
      * @param commentaire
      */
-    public Achat(Utilisateur utilisateur, Cle cle, Calendar date, Short note, String commentaire) {
+    public AchatDTO(Long id, UtilisateurDTO utilisateur, CleDTO cle, Calendar date, Short note, String commentaire) {
+        this.id = id;
         this.date = date;
         this.utilisateur = utilisateur;
         this.note = note;
@@ -83,8 +58,17 @@ public class Achat implements Serializable {
      * @param date
      * @param cle
      */
-    public Achat(Utilisateur utilisateur, Calendar date, Cle cle) {
-        this(utilisateur, cle, date, null, null);
+    public AchatDTO(Long id, UtilisateurDTO utilisateur, Calendar date, CleDTO cle) {
+        this(id, utilisateur, cle, date, null, null);
+    }
+    
+    public static Collection<AchatDTO> fromBusiness(Collection<Achat> businessObjects) {
+        Collection<AchatDTO> tmp = new HashSet<>();
+        for (Achat businessObject : businessObjects) {
+            tmp.add(new AchatDTO(businessObject));
+        }
+        
+        return tmp;
     }
 
     /**
@@ -139,7 +123,7 @@ public class Achat implements Serializable {
      *
      * @return
      */
-    public Cle getCle() {
+    public CleDTO getCle() {
         return cle;
     }
 
@@ -147,7 +131,7 @@ public class Achat implements Serializable {
      *
      * @return
      */
-    public Utilisateur getUtilisateur() {
+    public UtilisateurDTO getUtilisateur() {
         return utilisateur;
     }
 
@@ -170,7 +154,7 @@ public class Achat implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Achat other = (Achat) obj;
+        final AchatDTO other = (AchatDTO) obj;
         if (!Objects.equals(this.date, other.date)) {
             return false;
         }

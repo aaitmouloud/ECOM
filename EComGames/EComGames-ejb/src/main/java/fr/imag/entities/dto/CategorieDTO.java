@@ -3,60 +3,51 @@
  * - Pas d’Utilisation Commerciale. 
  * - Partage dans les Mêmes Conditions 4.0 International.
  */
-package fr.imag.entities;
+package fr.imag.entities.dto;
 
+import fr.imag.entities.Categorie;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
 
 /**
  *
- * @author min
+ * @author aaitmouloud
  */
-@Entity
-public class Categorie implements Serializable {
+public class CategorieDTO implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(length = 25, nullable = false, updatable = false)
     private String nom;
-    
-    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Collection<Jeu> jeux;
+    private Collection<JeuDTO> jeux;
 
-    public Categorie() {
+    public CategorieDTO(Categorie c) {
+        this(c.getId(), c.getNom());
     }
 
-    public Categorie(String nom) {
+    public CategorieDTO(Long id, String nom) {
         this.nom = nom;
         this.jeux = new HashSet<>();
     }
-
-    public Long getId() {
-        return id;
+    
+     public static Collection<CategorieDTO> fromBusiness(Collection<Categorie> businessObjects) {
+        Collection<CategorieDTO> tmp = new HashSet<>();
+        for (Categorie businessObject : businessObjects) {
+            tmp.add(new CategorieDTO(businessObject));
+        }
+        
+        return tmp;
     }
 
     public String getNom() {
         return nom;
     }
 
-    public Collection<Jeu> getJeux() {
+    public Collection<JeuDTO> getJeux() {
         return jeux;
     }
 
-    public boolean addJeux(Jeu jeu) {
+    public boolean addJeux(JeuDTO jeu) {
         return this.jeux.add(jeu);
     }
 
@@ -76,7 +67,7 @@ public class Categorie implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Categorie other = (Categorie) obj;
+        final CategorieDTO other = (CategorieDTO) obj;
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
