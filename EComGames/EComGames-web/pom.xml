@@ -21,6 +21,13 @@
     
     <dependencies>
         <dependency>
+            <groupId>fr.imag</groupId>
+            <artifactId>EComGames-ejb</artifactId>
+            <version>0.1-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
@@ -31,6 +38,7 @@
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
                <type>jar</type>
+               <scope>provided</scope>
           </dependency>
     </dependencies>
     
