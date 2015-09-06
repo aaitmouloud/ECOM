@@ -3,82 +3,48 @@
  * - Pas d’Utilisation Commerciale. 
  * - Partage dans les Mêmes Conditions 4.0 International.
  */
-package fr.imag.entities;
+package fr.imag.entities.dto;
 
+import fr.imag.entities.Jeu;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.UUID;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import org.eclipse.persistence.annotations.UuidGenerator;
 
 /**
  * Définit un jeu et toutes les informations qui lui sont reliées.
  *
  * @author aaitmouloud
  */
-@Entity
-public class Jeu implements Serializable {
+public class JeuDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @Column(length = 40, updatable = false)
+
     final private String id;
-
-    @Column(length = 100, nullable = false, updatable = false)
     private String nom;
-
-    @Column(nullable = true, length = 255, updatable = true)
     private String description;
-
-    @Column(nullable = false, updatable = false)
     private int annee;
-
-    @Column(nullable = false, updatable = true)
     private int ageMin;
-
-    @Column(nullable = true, updatable = true)
-    @Lob
     private byte[] image;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(joinColumns = {@JoinColumn(nullable = false)}, 
-            inverseJoinColumns = {@JoinColumn(nullable = false)})
-    private Collection<Plateforme> plateformes;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(joinColumns = {@JoinColumn(nullable = false)}, 
-            inverseJoinColumns = {@JoinColumn(nullable = false)})
-    private Collection<Categorie> categories;
-
-    @ManyToOne(fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Editeur editeur;
-
-    @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<Cle> cles;
-
-    @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    private Collection<PrixJeu> prix;
+    private Collection<PlateformeDTO> plateformes;
+    private Collection<CategorieDTO> categories;
+    private EditeurDTO editeur;
+    private Collection<CleDTO> cles;
+    private Collection<PrixJeuDTO> prix;
 
     /**
      *
+     * @param j
      */
-    public Jeu() {
-        this.id = UUID.randomUUID().toString();
+    public JeuDTO(Jeu j) {
+        this(j.getId(), j.getNom(), j.getDescription(), j.getAnnee(), 
+                j.getAgeMin(), j.getImage(), 
+                PlateformeDTO.fromBusiness(j.getPlateformes()),
+                CategorieDTO.fromBusiness(j.getCategories()), 
+                new EditeurDTO(j.getEditeur()), 
+                CleDTO.fromBusiness(j.getCles()), 
+                PrixJeuDTO.fromBusiness(j.getPrix()));
     }
 
     /**
@@ -94,8 +60,8 @@ public class Jeu implements Serializable {
      * @param cles
      * @param prix
      */
-    public Jeu(String nom, String description, int annee, int ageMin, byte[] image, Collection<Plateforme> plateformes, Collection<Categorie> categories, Editeur editeur, Collection<Cle> cles, Collection<PrixJeu> prix) {
-        this();
+    public JeuDTO(String id, String nom, String description, int annee, int ageMin, byte[] image, Collection<PlateformeDTO> plateformes, Collection<CategorieDTO> categories, EditeurDTO editeur, Collection<CleDTO> cles, Collection<PrixJeuDTO> prix) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
         this.annee = annee;
@@ -108,18 +74,14 @@ public class Jeu implements Serializable {
         this.prix = prix;
     }
 
-    /**
-     *
-     * @param nom
-     * @param description
-     * @param annee
-     * @param ageMin
-     */
-    public Jeu(String nom, String description, int annee, int ageMin) {
-        this(nom, description, annee, ageMin, null, new HashSet<Plateforme>(),
-                new HashSet<Categorie>(), null, new HashSet<Cle>(),
-                new HashSet<PrixJeu>());
-
+    
+    public static Collection<JeuDTO> fromBusiness(Collection<Jeu> businessObjects) {
+        Collection<JeuDTO> tmp = new HashSet<>();
+        for (Jeu businessObject : businessObjects) {
+            tmp.add(new JeuDTO(businessObject));
+        }
+        
+        return tmp;
     }
 
     /**
@@ -206,7 +168,7 @@ public class Jeu implements Serializable {
      *
      * @return
      */
-    public Collection<Plateforme> getPlateformes() {
+    public Collection<PlateformeDTO> getPlateformes() {
         return plateformes;
     }
 
@@ -214,7 +176,7 @@ public class Jeu implements Serializable {
      *
      * @param plateformes
      */
-    public void setPlateformes(Collection<Plateforme> plateformes) {
+    public void setPlateformes(Collection<PlateformeDTO> plateformes) {
         this.plateformes = plateformes;
     }
 
@@ -223,7 +185,7 @@ public class Jeu implements Serializable {
      * @param plateforme
      * @return
      */
-    public boolean addPlateforme(Plateforme plateforme) {
+    public boolean addPlateforme(PlateformeDTO plateforme) {
         return this.plateformes.add(plateforme);
     }
 
@@ -231,7 +193,7 @@ public class Jeu implements Serializable {
      *
      * @return
      */
-    public Collection<Categorie> getCategories() {
+    public Collection<CategorieDTO> getCategories() {
         return categories;
     }
 
@@ -239,7 +201,7 @@ public class Jeu implements Serializable {
      *
      * @param categories
      */
-    public void setCategories(Collection<Categorie> categories) {
+    public void setCategories(Collection<CategorieDTO> categories) {
         this.categories = categories;
     }
 
@@ -248,7 +210,7 @@ public class Jeu implements Serializable {
      * @param categorie
      * @return
      */
-    public boolean addCategorie(Categorie categorie) {
+    public boolean addCategorie(CategorieDTO categorie) {
         return this.categories.add(categorie);
     }
 
@@ -256,7 +218,7 @@ public class Jeu implements Serializable {
      *
      * @return
      */
-    public Editeur getEditeur() {
+    public EditeurDTO getEditeur() {
         return editeur;
     }
 
@@ -264,7 +226,7 @@ public class Jeu implements Serializable {
      *
      * @param editeur
      */
-    public void setEditeur(Editeur editeur) {
+    public void setEditeur(EditeurDTO editeur) {
         this.editeur = editeur;
     }
 
@@ -272,7 +234,7 @@ public class Jeu implements Serializable {
      *
      * @return
      */
-    public Collection<Cle> getCles() {
+    public Collection<CleDTO> getCles() {
         return cles;
     }
 
@@ -280,7 +242,7 @@ public class Jeu implements Serializable {
      *
      * @param cles
      */
-    public void setCles(Collection<Cle> cles) {
+    public void setCles(Collection<CleDTO> cles) {
         this.cles = cles;
     }
 
@@ -289,7 +251,7 @@ public class Jeu implements Serializable {
      * @param cle
      * @return
      */
-    public boolean addCle(Cle cle) {
+    public boolean addCle(CleDTO cle) {
         return this.cles.add(cle);
     }
 
@@ -297,7 +259,7 @@ public class Jeu implements Serializable {
      *
      * @return
      */
-    public Collection<PrixJeu> getPrix() {
+    public Collection<PrixJeuDTO> getPrix() {
         return prix;
     }
 
@@ -305,7 +267,7 @@ public class Jeu implements Serializable {
      *
      * @param prix
      */
-    public void setPrix(Collection<PrixJeu> prix) {
+    public void setPrix(Collection<PrixJeuDTO> prix) {
         this.prix = prix;
     }
 
@@ -314,7 +276,7 @@ public class Jeu implements Serializable {
      * @param prixJeu
      * @return
      */
-    public boolean addPrix(PrixJeu prixJeu) {
+    public boolean addPrix(PrixJeuDTO prixJeu) {
         return this.prix.add(prixJeu);
     }
 
@@ -342,7 +304,7 @@ public class Jeu implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Jeu other = (Jeu) obj;
+        final JeuDTO other = (JeuDTO) obj;
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }

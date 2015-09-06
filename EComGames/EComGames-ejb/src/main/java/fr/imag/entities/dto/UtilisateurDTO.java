@@ -3,89 +3,58 @@
  * - Pas d’Utilisation Commerciale. 
  * - Partage dans les Mêmes Conditions 4.0 International.
  */
-package fr.imag.entities;
+package fr.imag.entities.dto;
 
-import fr.imag.entities.dto.UtilisateurDTO;
+import fr.imag.entities.Utilisateur;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 
 /**
- * Définit un utilisateur de l'application.
+ * Définit un DTO d'utilisateur de l'application.
  *
  * @author aaitmouloud
  */
-@Entity
-public class Utilisateur implements Serializable {
+public class UtilisateurDTO implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(length = 25, updatable = true)
     private String nom;
-
-    @Column(length = 100, updatable = true)
     private String hashMdp;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(updatable = true)
     private Calendar dateNaissance;
-
-    @Column(length = 50, updatable = true)
     private String email;
-
-    @OneToMany(mappedBy = "utilisateur", fetch = FetchType.EAGER,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Collection<Achat> achats;
+    private Collection<AchatDTO> achats;
 
     /**
      * Constructeur public par défaut.
+     *
+     * @param user - Entité utilisateur.
      */
-    public Utilisateur() {
+    public UtilisateurDTO(Utilisateur user) {
+        this(user.getId(), user.getNom(), user.getHashMdp(), 
+                user.getDateNaissance(), user.getEmail(), 
+                AchatDTO.fromBusiness(user.getAchats()));
     }
 
     /**
      * Crée un utilisateur à partir de ses infomations.
      *
+     * @param id L'identifiant de l'utilisateur.
      * @param nom Le nom d'utilisateur.
-     * @param mdp Le mot de passe.
+     * @param hashMdp Le mot de passe hashé.
      * @param dateNaissance La date de naissance.
      * @param email L'email.
      * @param achats La liste d'achats de l'utilisateur.
      */
-    public Utilisateur(String nom, String mdp, Calendar dateNaissance, String email, Collection<Achat> achats) {
+    public UtilisateurDTO(Long id, String nom, String hashMdp, Calendar dateNaissance, String email, Collection<AchatDTO> achats) {
+        this.id = id;
         this.nom = nom;
-        this.setHashMdp(mdp);
+        this.hashMdp = hashMdp;
         this.dateNaissance = dateNaissance;
         this.email = email;
         this.achats = achats;
-    }
-
-    /**
-     * Crée un utilisateur à partir de ses infomations.
-     *
-     * @param nom Le nom d'utilisateur.
-     * @param mdp Le mot de passe.
-     * @param dateNaissance La date de naissance.
-     * @param email L'email.
-     */
-    public Utilisateur(String nom, String mdp, Calendar dateNaissance, String email) {
-        this(nom, mdp, dateNaissance, email, new HashSet<Achat>());
     }
 
     /**
@@ -129,8 +98,8 @@ public class Utilisateur implements Serializable {
      *
      * @param mdp Mot de passe à hasher et à stocker en base
      */
-    public final void setHashMdp(String mdp) {
-        this.hashMdp = UtilisateurDTO.hashMdp(mdp);
+    public void setHashMdp(String mdp) {
+        this.hashMdp = hashMdp(mdp);
     }
 
     /**
@@ -187,7 +156,7 @@ public class Utilisateur implements Serializable {
      *
      * @return Liste des achats de l'utilisateur.
      */
-    public Collection<Achat> getAchats() {
+    public Collection<AchatDTO> getAchats() {
         return achats;
     }
 
@@ -197,7 +166,7 @@ public class Utilisateur implements Serializable {
      * @param achat - L'achat
      * @return Si l'ajout s'est effectué avec succès ou non.
      */
-    public boolean addAchat(Achat achat) {
+    public boolean addAchat(AchatDTO achat) {
         return this.achats.add(achat);
     }
 
@@ -220,7 +189,7 @@ public class Utilisateur implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Utilisateur other = (Utilisateur) obj;
+        final UtilisateurDTO other = (UtilisateurDTO) obj;
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
@@ -239,8 +208,6 @@ public class Utilisateur implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return new StringBuilder("Utilisateur{").append("id=").append(id)
@@ -250,6 +217,9 @@ public class Utilisateur implements Serializable {
                 .append(", achats=").append(achats).append('}')
                 .toString();
     }
-
-
+    
+    //TODO: Fonction de hashage
+    public static String hashMdp(String mdp) {
+        return String.valueOf(mdp);
+    }
 }

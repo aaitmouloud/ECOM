@@ -3,58 +3,40 @@
  * - Pas d’Utilisation Commerciale. 
  * - Partage dans les Mêmes Conditions 4.0 International.
  */
-package fr.imag.entities;
+package fr.imag.entities.dto;
 
+import fr.imag.entities.Editeur;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.OneToMany;
 
 /**
  * Définit un éditeur de jeux-vidéo.
  *
  * @author aaitmouloud
  */
-@Entity
-public class Editeur implements Serializable {
+public class EditeurDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+
     private Long id;
-
-    @Column(length = 25, nullable = false)
     private String nom;
-
-    @Column(length = 255, nullable = false)
     private String description;
-
-    @Column(nullable = true)
-    @Lob
     private byte[] logo;
+    private Collection<JeuDTO> jeux;
 
-    @OneToMany(mappedBy = "editeur", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Collection<Jeu> jeux;
-
-    public Editeur() {
+    public EditeurDTO(Editeur e) {
+        this(e.getId(), e.getNom(), e.getDescription(), e.getLogo(),
+                JeuDTO.fromBusiness(e.getJeux()));
     }
 
-    public Editeur(String nom, String description, byte[] logo) {
+    public EditeurDTO(Long id, String nom, String description, byte[] logo, Collection<JeuDTO> jeux) {
+        this.id = id;
         this.nom = nom;
         this.description = description;
         this.logo = logo;
-        this.jeux = new HashSet<Jeu>();
+        this.jeux = jeux;
     }
 
     public Long getId() {
@@ -85,11 +67,11 @@ public class Editeur implements Serializable {
         this.logo = logo;
     }
 
-    public Collection<Jeu> getJeux() {
+    public Collection<JeuDTO> getJeux() {
         return jeux;
     }
 
-    public boolean addJeu(Jeu jeu) {
+    public boolean addJeu(JeuDTO jeu) {
         return this.jeux.add(jeu);
     }
 
@@ -111,7 +93,7 @@ public class Editeur implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Editeur other = (Editeur) obj;
+        final EditeurDTO other = (EditeurDTO) obj;
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
@@ -126,8 +108,6 @@ public class Editeur implements Serializable {
         }
         return true;
     }
-
-
 
     @Override
     public String toString() {

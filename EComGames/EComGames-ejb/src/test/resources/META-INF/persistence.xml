@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+    <persistence-unit name="testPU" transaction-type="RESOURCE_LOCAL">
+        <provider>org.eclipse.persistence.jpa.PersistenceProvider</provider>
+        <class>fr.imag.entities.Achat</class>
+        <class>fr.imag.entities.Categorie</class>
+        <class>fr.imag.entities.Cle</class>
+        <class>fr.imag.entities.Editeur</class>
+        <class>fr.imag.entities.Jeu</class>
+        <class>fr.imag.entities.Plateforme</class>
+        <class>fr.imag.entities.PrixJeu</class>
+        <class>fr.imag.entities.Utilisateur</class>
+        <exclude-unlisted-classes>false</exclude-unlisted-classes>
+        <properties>
+            <property name="eclipselink.target-database" value="Derby" />
+            <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.ClientDriver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:derby:memory:unit-testing-jpa"/> 
+            <property name="javax.persistence.jdbc.user" value=""/> 
+            <property name="javax.persistence.jdbc.password" value=""/>
+            <property name="eclipselink.ddl-generation" value="none" />
+            <property name="eclipselink.logging.level" value="INFO" />
+            <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
+            <property name="eclipselink.ddl-generation.output-mode" value="database"/>
+        </properties>
+    </persistence-unit>
+</persistence>

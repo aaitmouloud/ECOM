@@ -1,0 +1,130 @@
+/*
+ * Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+ * - Pas d’Utilisation Commerciale. 
+ * - Partage dans les Mêmes Conditions 4.0 International.
+ */
+package fr.imag.entities;
+
+import static org.junit.Assert.*;
+import java.io.File;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.sql.SQLNonTransientConnectionException;
+import java.util.Calendar;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+import org.apache.derby.impl.io.VFMemoryStorageFactory;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+/**
+ *
+ * @author aaitmouloud
+ */
+public class PersistenceUnitTest {
+
+    private static Logger logger = Logger.getLogger(PersistenceUnitTest.class.getName());
+
+    private EntityManagerFactory emFactory;
+
+    private EntityManager em;
+
+    @Before
+    public void setUp() throws Exception {
+        try {
+            logger.info("Starting memory database for unit tests");
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver");
+            DriverManager.getConnection("jdbc:derby:memory:unit-testing-jpa;create=true").close();
+        } catch (ClassNotFoundException | SQLException ex) {
+            logger.log(Level.SEVERE, "Exception during database startup.", ex);
+            fail("Exception during database startup.");
+        }
+        try {
+            logger.info("BuildingEntityManager for unit tests");
+            emFactory = Persistence.createEntityManagerFactory("testPU");
+            em = emFactory.createEntityManager();
+        } catch (Exception ex) {
+            logger.log(Level.INFO, "Exception during JPA EntityManager instanciation.", ex);
+            fail("Exception during JPA EntityManager instanciation.");
+        }
+    }
+
+    @After
+    public void tearDown() {
+        try {
+            logger.info("Shuting Eclipselink JPA layer.");
+            if (em != null && em.isOpen()) {
+                em.close();
+            }
+            if (emFactory != null && emFactory.isOpen()) {
+                emFactory.close();
+            }
+            logger.info("Stoppingemory database.");
+            try {
+                DriverManager.getConnection("jdbc:derby:memory:unit-testing-jpa;shutdown=true").close();
+            } catch (SQLNonTransientConnectionException ex) {
+                if (ex.getErrorCode() != 45000) {
+                    throw ex;
+                }
+                // Shutdown success
+            }
+            VFMemoryStorageFactory.purgeDatabase(new File("unit-testing-jpa").getCanonicalPath());
+        } catch (Exception e) {
+            logger.log(Level.INFO, "Exception during testPersistence", e);
+        }
+    }
+
+    @Test
+    public void testPersistence() {
+        EntityTransaction tx = null;
+        try {
+            tx = em.getTransaction();
+            tx.begin();
+
+            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3);
+            PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
+            //jeu.addPrix(prixJeu);
+
+            em.persist(prixJeu);
+            assertTrue("Le prix du jeu n'est pas présent", em.contains(prixJeu));
+            assertTrue("Le jeu n'est pas présent", em.contains(jeu));
+
+            Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
+            em.persist(user);
+            assertTrue("L'utilisateur n'est pas présent", em.contains(user));
+
+            Cle cle = new Cle(jeu);
+            em.persist(cle);
+            assertTrue("La clé n'est pas présente", em.contains(cle));
+
+            Achat achat = new Achat(user, Calendar.getInstance(), cle);
+            em.persist(achat);
+            assertTrue("L'achat n'est pas présent", em.contains(achat));
+
+            final String newEmail = "newemail@google.com";
+            user.setEmail(newEmail);
+            em.merge(user);
+            Utilisateur u = em.find(Utilisateur.class, user.getId());
+            assertTrue("L'email n'a pas été mis à jour.", u.getEmail().equals(newEmail));
+
+            em.remove(prixJeu);
+            em.remove(jeu);
+            assertFalse("Le jeu est toujours présent.", em.contains(jeu));
+            assertFalse("Le prix du jeu est toujours présent.", em.contains(prixJeu));
+
+            tx.commit();
+            logger.info("Stop testPersistence");
+        } catch (Exception ex) {
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            }
+            logger.log(Level.INFO, "Exception during testPersistence", ex);
+            fail("Exception during testPersistence. " + ex.getMessage());
+        }
+    }
+}

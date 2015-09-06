@@ -3,61 +3,45 @@
  * - Pas d’Utilisation Commerciale. 
  * - Partage dans les Mêmes Conditions 4.0 International.
  */
-package fr.imag.entities;
+package fr.imag.entities.dto;
 
+import fr.imag.entities.*;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Objects;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Lob;
-import javax.persistence.ManyToMany;
 
 /**
  * Définit une plate-forme de jeu.
  *
  * @author aaitmouloud
  */
-@Entity
-public class Plateforme implements Serializable {
+public class PlateformeDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @Column(length = 25, nullable = false, updatable = false)
     private String nom;
-
-    @Column(nullable = true, updatable = true)
-    @Lob
     private byte[] image;
-
-    @ManyToMany(mappedBy = "plateformes", fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    private Collection<Jeu> jeux;
+    private Collection<JeuDTO> jeux;
 
     /**
      *
+     * @param p
      */
-    public Plateforme() {
-        super();
+    public PlateformeDTO(Plateforme p) {
+        this(p.getId(), p.getNom(), p.getImage(), JeuDTO.fromBusiness(p.getJeux()));
     }
 
     /**
      *
+     * @param id
      * @param nom
      * @param image
      * @param jeux
      */
-    public Plateforme(String nom, byte[] image, Collection<Jeu> jeux) {
+    public PlateformeDTO(Long id, String nom, byte[] image, Collection<JeuDTO> jeux) {
+        this.id = id;
         this.nom = nom;
         this.image = image;
         this.jeux = jeux;
@@ -65,20 +49,32 @@ public class Plateforme implements Serializable {
 
     /**
      *
+     * @param id
      * @param nom
      * @param image
      */
-    public Plateforme(String nom, byte[] image) {
-        this(nom, image, new HashSet<Jeu>());
+    public PlateformeDTO(Long id, String nom, byte[] image) {
+        this(id, nom, image, new HashSet<JeuDTO>());
     }
 
     /**
      *
+     * @param id
      * @param nom
      */
-    public Plateforme(String nom) {
-        this(nom, null);
+    public PlateformeDTO(Long id, String nom) {
+        this(id, nom, null);
     }
+    
+    public static Collection<PlateformeDTO> fromBusiness(Collection<Plateforme> businessObjects) {
+        Collection<PlateformeDTO> tmp = new HashSet<>();
+        for (Plateforme businessObject : businessObjects) {
+            tmp.add(new PlateformeDTO(businessObject));
+        }
+        
+        return tmp;
+    }
+
 
     /**
      *
@@ -116,7 +112,7 @@ public class Plateforme implements Serializable {
      *
      * @return
      */
-    public Collection<Jeu> getJeux() {
+    public Collection<JeuDTO> getJeux() {
         return jeux;
     }
 
@@ -124,7 +120,7 @@ public class Plateforme implements Serializable {
      *
      * @param jeux
      */
-    public void setJeux(Collection<Jeu> jeux) {
+    public void setJeux(Collection<JeuDTO> jeux) {
         this.jeux = jeux;
     }
 
@@ -133,7 +129,7 @@ public class Plateforme implements Serializable {
      * @param jeu
      * @return
      */
-    public boolean addJeu(Jeu jeu) {
+    public boolean addJeu(JeuDTO jeu) {
         return this.jeux.add(jeu);
     }
 
@@ -142,7 +138,7 @@ public class Plateforme implements Serializable {
      * @param jeux
      * @return
      */
-    public boolean addAllJeux(Collection<Jeu> jeux) {
+    public boolean addAllJeux(Collection<JeuDTO> jeux) {
         return this.jeux.addAll(jeux);
     }
 
@@ -163,7 +159,7 @@ public class Plateforme implements Serializable {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Plateforme other = (Plateforme) obj;
+        final PlateformeDTO other = (PlateformeDTO) obj;
         if (!Objects.equals(this.nom, other.nom)) {
             return false;
         }
