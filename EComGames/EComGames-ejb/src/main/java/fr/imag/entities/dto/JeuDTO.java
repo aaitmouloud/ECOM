@@ -26,6 +26,7 @@ public class JeuDTO implements Serializable {
     private String description;
     private int annee;
     private int ageMin;
+    private String url;
     private byte[] image;
     private Collection<PlateformeDTO> plateformes;
     private Collection<CategorieDTO> categories;
@@ -38,13 +39,13 @@ public class JeuDTO implements Serializable {
      * @param j
      */
     public JeuDTO(Jeu j) {
-        this(j.getId(), j.getNom(), j.getDescription(), j.getAnnee(), 
-                j.getAgeMin(), j.getImage(), 
+        this(j.getId(), j.getNom(), j.getDescription(), j.getAnnee(),
+                j.getAgeMin(), j.getImage(),
                 PlateformeDTO.fromBusiness(j.getPlateformes()),
-                CategorieDTO.fromBusiness(j.getCategories()), 
-                new EditeurDTO(j.getEditeur()), 
-                CleDTO.fromBusiness(j.getCles()), 
-                PrixJeuDTO.fromBusiness(j.getPrix()));
+                CategorieDTO.fromBusiness(j.getCategories()),
+                new EditeurDTO(j.getEditeur()),
+                CleDTO.fromBusiness(j.getCles()),
+                PrixJeuDTO.fromBusiness(j.getPrix()), j.getUrl());
     }
 
     /**
@@ -59,8 +60,12 @@ public class JeuDTO implements Serializable {
      * @param editeur
      * @param cles
      * @param prix
+     * @param url
      */
-    public JeuDTO(String id, String nom, String description, int annee, int ageMin, byte[] image, Collection<PlateformeDTO> plateformes, Collection<CategorieDTO> categories, EditeurDTO editeur, Collection<CleDTO> cles, Collection<PrixJeuDTO> prix) {
+    public JeuDTO(String id, String nom, String description, int annee,
+            int ageMin, byte[] image, Collection<PlateformeDTO> plateformes,
+            Collection<CategorieDTO> categories, EditeurDTO editeur,
+            Collection<CleDTO> cles, Collection<PrixJeuDTO> prix, String url) {
         this.id = id;
         this.nom = nom;
         this.description = description;
@@ -72,15 +77,15 @@ public class JeuDTO implements Serializable {
         this.editeur = editeur;
         this.cles = cles;
         this.prix = prix;
+        this.url = url;
     }
 
-    
     public static Collection<JeuDTO> fromBusiness(Collection<Jeu> businessObjects) {
         Collection<JeuDTO> tmp = new HashSet<>();
         for (Jeu businessObject : businessObjects) {
             tmp.add(new JeuDTO(businessObject));
         }
-        
+
         return tmp;
     }
 
@@ -286,6 +291,7 @@ public class JeuDTO implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.nom);
         hash = 59 * hash + Objects.hashCode(this.description);
         hash = 59 * hash + this.annee;
+        hash = 59 * hash + Objects.hashCode(this.url);
         hash = 59 * hash + this.ageMin;
         hash = 59 * hash + Arrays.hashCode(this.image);
         hash = 59 * hash + Objects.hashCode(this.plateformes);
@@ -309,6 +315,9 @@ public class JeuDTO implements Serializable {
             return false;
         }
         if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.url, other.url)) {
             return false;
         }
         if (this.annee != other.annee) {
@@ -345,10 +354,11 @@ public class JeuDTO implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("Jeu{").append("id=").append(id)
-                .append(", nom=").append(nom).append(", description=")
-                .append(description).append(", annee=").append(annee)
-                .append(", ageMin=").append(ageMin).append(", plateformes=")
-                .append(plateformes).append(", categories=").append(categories)
+                .append(", nom=").append(nom).append(", url=").append(url)
+                .append(", description=").append(description).append(", annee=")
+                .append(annee).append(", ageMin=").append(ageMin)
+                .append(", plateformes=").append(plateformes)
+                .append(", categories=").append(categories)
                 .append(", editeur=").append(editeur).append('}')
                 .toString();
     }

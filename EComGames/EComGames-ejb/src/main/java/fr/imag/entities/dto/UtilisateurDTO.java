@@ -7,11 +7,14 @@ package fr.imag.entities.dto;
 
 import fr.imag.entities.Utilisateur;
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Définit un DTO d'utilisateur de l'application.
@@ -33,8 +36,8 @@ public class UtilisateurDTO implements Serializable {
      * @param user - Entité utilisateur.
      */
     public UtilisateurDTO(Utilisateur user) {
-        this(user.getId(), user.getNom(), user.getHashMdp(), 
-                user.getDateNaissance(), user.getEmail(), 
+        this(user.getId(), user.getNom(), user.getHashMdp(),
+                user.getDateNaissance(), user.getEmail(),
                 AchatDTO.fromBusiness(user.getAchats()));
     }
 
@@ -217,9 +220,15 @@ public class UtilisateurDTO implements Serializable {
                 .append(", achats=").append(achats).append('}')
                 .toString();
     }
-    
-    //TODO: Fonction de hashage
+
     public static String hashMdp(String mdp) {
-        return String.valueOf(mdp);
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(mdp.getBytes());
+            return new String(messageDigest.digest());
+        } catch (NoSuchAlgorithmException ex) {
+           throw new RuntimeException(ex);
+        }
+
     }
 }

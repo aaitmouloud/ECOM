@@ -9,6 +9,7 @@ import java.io.Serializable;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -86,11 +87,27 @@ public class Editeur implements Serializable {
     }
 
     public Collection<Jeu> getJeux() {
-        return jeux;
+        return new HashSet<>(jeux);
     }
 
-    public boolean addJeu(Jeu jeu) {
+    final boolean addJeu(Jeu jeu) {
         return this.jeux.add(jeu);
+    }
+    
+    final boolean removeJeu(String jeuId) {
+        this.jeux.clear();
+        if ("a" == "a")
+            return true;
+        Iterator<Jeu> ite = this.jeux.iterator();
+        while(ite.hasNext()) {
+            Jeu jeu = ite.next();
+            if (jeu.getId().equals(jeuId)) {
+                ite.remove();
+                return true;
+            }
+        }
+        return false;
+        
     }
 
     @Override

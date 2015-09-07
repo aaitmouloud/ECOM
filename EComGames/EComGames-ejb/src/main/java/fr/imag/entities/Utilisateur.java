@@ -73,7 +73,13 @@ public class Utilisateur implements Serializable {
         this.setHashMdp(mdp);
         this.dateNaissance = dateNaissance;
         this.email = email;
-        this.achats = achats;
+        this.achats = new HashSet<>();
+        
+        if (achats != null) {
+            for (Achat a : achats) {
+                this.addAchat(a);
+            }
+        }
     }
 
     /**
@@ -85,7 +91,7 @@ public class Utilisateur implements Serializable {
      * @param email L'email.
      */
     public Utilisateur(String nom, String mdp, Calendar dateNaissance, String email) {
-        this(nom, mdp, dateNaissance, email, new HashSet<Achat>());
+        this(nom, mdp, dateNaissance, email, null);
     }
 
     /**
@@ -197,8 +203,15 @@ public class Utilisateur implements Serializable {
      * @param achat - L'achat
      * @return Si l'ajout s'est effectué avec succès ou non.
      */
-    public boolean addAchat(Achat achat) {
-        return this.achats.add(achat);
+    final public boolean addAchat(Achat achat) {
+        if (achat == null)
+            return false;
+        
+        if (this.achats.add(achat)) {
+            achat.setUtilisateur(this);
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -208,7 +221,6 @@ public class Utilisateur implements Serializable {
         hash = 97 * hash + Objects.hashCode(this.hashMdp);
         hash = 97 * hash + Objects.hashCode(this.dateNaissance);
         hash = 97 * hash + Objects.hashCode(this.email);
-        hash = 97 * hash + Objects.hashCode(this.achats);
         return hash;
     }
 
@@ -239,8 +251,6 @@ public class Utilisateur implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return new StringBuilder("Utilisateur{").append("id=").append(id)
@@ -250,6 +260,5 @@ public class Utilisateur implements Serializable {
                 .append(", achats=").append(achats).append('}')
                 .toString();
     }
-
 
 }

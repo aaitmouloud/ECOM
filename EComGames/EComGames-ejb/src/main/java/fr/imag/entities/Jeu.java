@@ -15,7 +15,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
@@ -23,7 +22,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-import org.eclipse.persistence.annotations.UuidGenerator;
 
 /**
  * Définit un jeu et toutes les informations qui lui sont reliées.
@@ -55,13 +53,17 @@ public class Jeu implements Serializable {
     private byte[] image;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(joinColumns = {@JoinColumn(nullable = false)}, 
-            inverseJoinColumns = {@JoinColumn(nullable = false)})
+    @JoinTable(joinColumns = {
+        @JoinColumn(nullable = false)},
+            inverseJoinColumns = {
+                @JoinColumn(nullable = false)})
     private Collection<Plateforme> plateformes;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinTable(joinColumns = {@JoinColumn(nullable = false)}, 
-            inverseJoinColumns = {@JoinColumn(nullable = false)})
+    @JoinTable(joinColumns = {
+        @JoinColumn(nullable = false)},
+            inverseJoinColumns = {
+                @JoinColumn(nullable = false)})
     private Collection<Categorie> categories;
 
     @ManyToOne(fetch = FetchType.EAGER,
@@ -73,6 +75,9 @@ public class Jeu implements Serializable {
 
     @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<PrixJeu> prix;
+
+    @Column(nullable = false)
+    private String url;
 
     /**
      *
@@ -94,18 +99,39 @@ public class Jeu implements Serializable {
      * @param cles
      * @param prix
      */
-    public Jeu(String nom, String description, int annee, int ageMin, byte[] image, Collection<Plateforme> plateformes, Collection<Categorie> categories, Editeur editeur, Collection<Cle> cles, Collection<PrixJeu> prix) {
+    public Jeu(String nom, String description, int annee, int ageMin, byte[] image, Collection<Plateforme> plateformes, Collection<Categorie> categories, Editeur editeur, Collection<Cle> cles, Collection<PrixJeu> prix, String url) {
         this();
         this.nom = nom;
         this.description = description;
         this.annee = annee;
         this.ageMin = ageMin;
         this.image = image;
-        this.plateformes = plateformes;
-        this.categories = categories;
-        this.editeur = editeur;
-        this.cles = cles;
-        this.prix = prix;
+        this.plateformes = new HashSet<>();
+        if (plateformes != null) {
+            for (Plateforme p : plateformes) {
+                this.addPlateforme(p);
+            }
+        }
+        this.categories = new HashSet<>();
+        if (categories != null) {
+            for (Categorie c : categories) {
+                this.addCategorie(c);
+            }
+        }
+        this.cles = new HashSet<>();
+        if (cles != null) {
+            for (Cle c : cles) {
+                this.addCle(c);
+            }
+        }
+        this.prix = new HashSet<>();
+        if (prix != null) {
+            for (PrixJeu p : prix) {
+                this.addPrix(p);
+            }
+        }
+        this.setEditeur(editeur);
+        this.url = url;
     }
 
     /**
@@ -114,11 +140,11 @@ public class Jeu implements Serializable {
      * @param description
      * @param annee
      * @param ageMin
+     * @param url
      */
-    public Jeu(String nom, String description, int annee, int ageMin) {
+    public Jeu(String nom, String description, int annee, int ageMin, String url) {
         this(nom, description, annee, ageMin, null, new HashSet<Plateforme>(),
-                new HashSet<Categorie>(), null, new HashSet<Cle>(),
-                new HashSet<PrixJeu>());
+                null, null, null, null, url);
 
     }
 
@@ -212,19 +238,15 @@ public class Jeu implements Serializable {
 
     /**
      *
-     * @param plateformes
-     */
-    public void setPlateformes(Collection<Plateforme> plateformes) {
-        this.plateformes = plateformes;
-    }
-
-    /**
-     *
      * @param plateforme
      * @return
      */
-    public boolean addPlateforme(Plateforme plateforme) {
-        return this.plateformes.add(plateforme);
+    final public boolean addPlateforme(Plateforme plateforme) {
+        if (plateforme == null) {
+            return false;
+        }
+
+        return plateforme.addJeu(this) && this.plateformes.add(plateforme);
     }
 
     /**
@@ -237,19 +259,15 @@ public class Jeu implements Serializable {
 
     /**
      *
-     * @param categories
-     */
-    public void setCategories(Collection<Categorie> categories) {
-        this.categories = categories;
-    }
-
-    /**
-     *
      * @param categorie
      * @return
      */
-    public boolean addCategorie(Categorie categorie) {
-        return this.categories.add(categorie);
+    final public boolean addCategorie(Categorie categorie) {
+        if (categorie == null) {
+            return false;
+        }
+
+        return categorie.addJeux(this) && this.categories.add(categorie);
     }
 
     /**
@@ -263,9 +281,16 @@ public class Jeu implements Serializable {
     /**
      *
      * @param editeur
+     * @return
      */
-    public void setEditeur(Editeur editeur) {
+    final public boolean setEditeur(Editeur editeur) {
+        if (this.editeur != null) {
+            this.editeur.removeJeu(this.getId());
+        }
+        
         this.editeur = editeur;
+
+        return this.editeur == null || this.editeur.addJeu(this);
     }
 
     /**
@@ -278,19 +303,19 @@ public class Jeu implements Serializable {
 
     /**
      *
-     * @param cles
-     */
-    public void setCles(Collection<Cle> cles) {
-        this.cles = cles;
-    }
-
-    /**
-     *
      * @param cle
      * @return
      */
-    public boolean addCle(Cle cle) {
-        return this.cles.add(cle);
+    final public boolean addCle(Cle cle) {
+        if (cle == null || cle.getJeu() != null) {
+            return false;
+        }
+
+        if (this.cles.add(cle)) {
+            cle.setJeu(this);
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -303,19 +328,27 @@ public class Jeu implements Serializable {
 
     /**
      *
-     * @param prix
-     */
-    public void setPrix(Collection<PrixJeu> prix) {
-        this.prix = prix;
-    }
-
-    /**
-     *
-     * @param prixJeu
+     * @param pri
      * @return
      */
-    public boolean addPrix(PrixJeu prixJeu) {
-        return this.prix.add(prixJeu);
+    final public boolean addPrix(PrixJeu pri) {
+        if (pri == null || pri.getJeu() != null) {
+            return false;
+        }
+
+        if (this.prix.add(pri)) {
+            pri.setJeu(this);
+            return true;
+        }
+        return false;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
     @Override
@@ -324,13 +357,10 @@ public class Jeu implements Serializable {
         hash = 59 * hash + Objects.hashCode(this.nom);
         hash = 59 * hash + Objects.hashCode(this.description);
         hash = 59 * hash + this.annee;
+        hash = 59 * hash + Objects.hashCode(this.url);
         hash = 59 * hash + this.ageMin;
         hash = 59 * hash + Arrays.hashCode(this.image);
-        hash = 59 * hash + Objects.hashCode(this.plateformes);
-        hash = 59 * hash + Objects.hashCode(this.categories);
-        hash = 59 * hash + Objects.hashCode(this.editeur);
-        hash = 59 * hash + Objects.hashCode(this.cles);
-        hash = 59 * hash + Objects.hashCode(this.prix);
+        hash = 31 * hash + Objects.hashCode(this.cles);
         return hash;
     }
 
@@ -347,6 +377,9 @@ public class Jeu implements Serializable {
             return false;
         }
         if (!Objects.equals(this.description, other.description)) {
+            return false;
+        }
+        if (!Objects.equals(this.url, other.url)) {
             return false;
         }
         if (this.annee != other.annee) {
@@ -367,9 +400,6 @@ public class Jeu implements Serializable {
         if (!Objects.equals(this.editeur, other.editeur)) {
             return false;
         }
-        if (!Objects.equals(this.cles, other.cles)) {
-            return false;
-        }
         if (!Objects.equals(this.prix, other.prix)) {
             return false;
         }
@@ -383,10 +413,11 @@ public class Jeu implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("Jeu{").append("id=").append(id)
-                .append(", nom=").append(nom).append(", description=")
-                .append(description).append(", annee=").append(annee)
-                .append(", ageMin=").append(ageMin).append(", plateformes=")
-                .append(plateformes).append(", categories=").append(categories)
+                .append(", nom=").append(nom).append(", url=").append(url)
+                .append(", description=").append(description).append(", annee=")
+                .append(annee).append(", ageMin=").append(ageMin)
+                .append(", plateformes=").append(plateformes)
+                .append(", categories=").append(categories)
                 .append(", editeur=").append(editeur).append('}')
                 .toString();
     }

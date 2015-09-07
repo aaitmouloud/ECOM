@@ -23,12 +23,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
+ * Test de l'unité de persistence.
  *
  * @author aaitmouloud
  */
 public class PersistenceUnitTest {
 
-    private static Logger logger = Logger.getLogger(PersistenceUnitTest.class.getName());
+    final private static Logger logger = Logger.getLogger(PersistenceUnitTest.class.getName());
 
     private EntityManagerFactory emFactory;
 
@@ -86,13 +87,30 @@ public class PersistenceUnitTest {
             tx = em.getTransaction();
             tx.begin();
 
-            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3);
-            PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
-            //jeu.addPrix(prixJeu);
+            Editeur editeur = new Editeur("Sega Games", "C'est plus fort que toi", null);
+            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");
+            jeu.setEditeur(editeur);
 
-            em.persist(prixJeu);
+            PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
+            PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), null, 77D);
+
+            em.persist(jeu);
             assertTrue("Le prix du jeu n'est pas présent", em.contains(prixJeu));
             assertTrue("Le jeu n'est pas présent", em.contains(jeu));
+            assertTrue("L'éditeur n'est pas présent", em.contains(editeur));
+
+            Jeu j1 = em.find(Jeu.class, jeu.getId());
+            assertTrue("Le jeu a le mauvais éditeur (1).", j1.getEditeur().equals(editeur));
+
+            assertTrue("L'éditeur n'est pas mis à jour", j1.setEditeur(new Editeur("Nintendo", "Mario et cie.", null)));
+            
+            em.merge(j1);
+
+            Jeu j2 = em.find(Jeu.class, j1.getId());
+            assertTrue("Le jeu a le mauvais éditeur (2).", j2.getEditeur().equals(j1.getEditeur()));
+            
+            assertTrue("L'éditeur a encore un jeu affecté. "+j1.getId()+" "+editeur.getJeux(), editeur.getJeux().isEmpty());
+            
 
             Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
             em.persist(user);
@@ -106,6 +124,7 @@ public class PersistenceUnitTest {
             em.persist(achat);
             assertTrue("L'achat n'est pas présent", em.contains(achat));
 
+            //assertTrue("L'utilisateur ne contient pas l'achat", user.getAchats().contains(achat));
             final String newEmail = "newemail@google.com";
             user.setEmail(newEmail);
             em.merge(user);
@@ -113,9 +132,12 @@ public class PersistenceUnitTest {
             assertTrue("L'email n'a pas été mis à jour.", u.getEmail().equals(newEmail));
 
             em.remove(prixJeu);
-            em.remove(jeu);
-            assertFalse("Le jeu est toujours présent.", em.contains(jeu));
-            assertFalse("Le prix du jeu est toujours présent.", em.contains(prixJeu));
+            assertFalse("Le 1er prix du jeu est toujours présent.", em.contains(prixJeu));
+            assertTrue("Le jeu a disparu après la suppression du 1er prix.", em.contains(jeu));
+
+            em.remove(prixJeu2);
+            assertFalse("Le 2e prix du jeu est toujours présent.", em.contains(prixJeu2));
+            assertTrue("Le jeu a disparu après la suppression du 2e prix.", em.contains(jeu));
 
             tx.commit();
             logger.info("Stop testPersistence");

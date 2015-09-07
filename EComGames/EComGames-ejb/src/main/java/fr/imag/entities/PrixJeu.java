@@ -68,10 +68,14 @@ public class PrixJeu implements Serializable {
      * @param prix
      */
     public PrixJeu(Jeu jeu, Calendar dateDebut, Calendar dateFin, Double prix) {
-        this.jeu = jeu;
+        if (jeu == null)
+            throw new IllegalArgumentException("Le jeu est null");
+         
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.prix = prix;
+        
+        jeu.addPrix((this));
     }
 
     /**
@@ -88,6 +92,10 @@ public class PrixJeu implements Serializable {
      */
     public Jeu getJeu() {
         return jeu;
+    }
+    
+    final void setJeu(Jeu jeu) {
+        this.jeu = jeu;
     }
 
     /**
