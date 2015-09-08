@@ -6,8 +6,11 @@
 package fr.imag.ejb;
 
 import fr.imag.entities.Achat;
+import fr.imag.entities.Categorie;
 import fr.imag.entities.Cle;
+import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
+import fr.imag.entities.PrixJeu;
 import fr.imag.entities.Utilisateur;
 import java.util.Calendar;
 import javax.annotation.PostConstruct;
@@ -31,10 +34,27 @@ public class Initializer {
 
     @PostConstruct
     void init() {
-        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3 ,"http://");
-        Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
+        Editeur editeur = new Editeur("Sega Games", "C'est plus fort que toi", null);
+        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");
         Cle cle = new Cle(jeu);
+        jeu.setEditeur(editeur);
+
+        PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
+        PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), null, 77D);
+        em.persist(jeu);
+        
+        Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
+        em.persist(user);
+        
+        user.setEmail("blabla@car.com");
+        em.merge(user);    
+        
         Achat achat = new Achat(user, Calendar.getInstance(), cle);
         em.persist(achat);
+        
+        Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
+        jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
+        jeu2.addCategorie(new Categorie("Jeu de plateforme"));
+        
     }
 }

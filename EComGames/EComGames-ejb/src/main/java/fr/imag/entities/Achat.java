@@ -5,6 +5,7 @@
  */
 package fr.imag.entities;
 
+import fr.imag.util.Util;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
@@ -80,7 +81,7 @@ public class Achat implements Serializable {
         this.date = date;
         this.note = note;
         this.commentaire = commentaire;
-        
+
         cle.setAchat((this));
         utilisateur.addAchat((this));
     }
@@ -172,8 +173,6 @@ public class Achat implements Serializable {
         int hash = 7;
         hash = 37 * hash + Objects.hashCode(this.date);
         hash = 37 * hash + Objects.hashCode(this.note);
-        hash = 37 * hash + Objects.hashCode(this.commentaire);
-        hash = 37 * hash + Objects.hashCode(this.cle);
         hash = 37 * hash + Objects.hashCode(this.utilisateur);
         return hash;
     }
@@ -188,12 +187,6 @@ public class Achat implements Serializable {
         }
         final Achat other = (Achat) obj;
         if (!Objects.equals(this.date, other.date)) {
-            return false;
-        }
-        if (!Objects.equals(this.note, other.note)) {
-            return false;
-        }
-        if (!Objects.equals(this.commentaire, other.commentaire)) {
             return false;
         }
         if (!Objects.equals(this.cle, other.cle)) {
@@ -212,10 +205,10 @@ public class Achat implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("Achat{").append("id=").append(id)
-                .append(", date=").append(date).append(", note=")
+                .append(", date=").append(Util.formatCalendar(date)).append(", note=")
                 .append(note).append(", commentaire=").append(commentaire)
-                .append(", cle=").append(cle).append(", utilisateur=")
-                .append(utilisateur).append('}')
+                .append(", cle=").append(cle == null ? "null" : cle.getCle())
+                .append(", utilisateur=").append(utilisateur == null ? "null" : utilisateur.getId()).append('}')
                 .toString();
     }
 

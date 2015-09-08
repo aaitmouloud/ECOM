@@ -53,7 +53,7 @@ public class Categorie implements Serializable {
     }
 
     public Collection<Jeu> getJeux() {
-        return jeux;
+        return new HashSet<>(jeux);
     }
 
     public boolean addJeux(Jeu jeu) {
@@ -91,8 +91,8 @@ public class Categorie implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("Categorie{").append("id=").append(id)
-                .append(", nom=").append(nom).append(", jeux=").append(jeux)
-                .append('}')
+                .append(", nom=").append(nom).append(",")
+                .append(jeux==null?"aucun":jeux.size()).append(" jeux}")
                 .toString();
     }
     

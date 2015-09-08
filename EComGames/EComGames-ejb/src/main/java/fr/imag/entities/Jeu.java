@@ -233,7 +233,7 @@ public class Jeu implements Serializable {
      * @return
      */
     public Collection<Plateforme> getPlateformes() {
-        return plateformes;
+        return new HashSet<>(plateformes);
     }
 
     /**
@@ -254,7 +254,7 @@ public class Jeu implements Serializable {
      * @return
      */
     public Collection<Categorie> getCategories() {
-        return categories;
+        return new HashSet<>(categories);
     }
 
     /**
@@ -298,7 +298,7 @@ public class Jeu implements Serializable {
      * @return
      */
     public Collection<Cle> getCles() {
-        return cles;
+        return new HashSet<>(cles);
     }
 
     /**
@@ -323,7 +323,7 @@ public class Jeu implements Serializable {
      * @return
      */
     public Collection<PrixJeu> getPrix() {
-        return prix;
+        return new HashSet<>(prix);
     }
 
     /**
@@ -416,9 +416,10 @@ public class Jeu implements Serializable {
                 .append(", nom=").append(nom).append(", url=").append(url)
                 .append(", description=").append(description).append(", annee=")
                 .append(annee).append(", ageMin=").append(ageMin)
-                .append(", plateformes=").append(plateformes)
-                .append(", categories=").append(categories)
-                .append(", editeur=").append(editeur).append('}')
+                .append(",").append(plateformes == null? "aucune": plateformes.size())
+                .append("plateformes ,").append(categories == null? "aucune" : categories.size())
+                .append("categories , editeur=")
+                .append(editeur == null ? "aucun" : editeur.getNom()).append('}')
                 .toString();
     }
 

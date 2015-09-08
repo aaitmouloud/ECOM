@@ -54,9 +54,10 @@ public class Cle implements Serializable {
      */
     public Cle(Jeu jeu, Achat achat) {
         this();
-        if (jeu == null)
+        if (jeu == null) {
             throw new IllegalArgumentException("Le jeu est null");
-        
+        }
+
         this.achat = achat;
         jeu.addCle((this));
     }
@@ -84,7 +85,7 @@ public class Cle implements Serializable {
     public Jeu getJeu() {
         return jeu;
     }
-    
+
     final void setJeu(Jeu jeu) {
         this.jeu = jeu;
     }
@@ -103,9 +104,10 @@ public class Cle implements Serializable {
      * @return
      */
     public boolean setAchat(Achat achat) {
-        if (achat == null || achat.getCle() != null)
+        if (achat == null || achat.getCle() != null) {
             return false;
-            
+        }
+
         achat.setCle(this);
         this.achat = achat;
         return true;
@@ -142,10 +144,10 @@ public class Cle implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("Cle{").append("cle=").append(cle)
-                .append(", jeu=").append(jeu).append(", achat=").append(achat)
+                .append(", jeu=").append(jeu == null ? "aucun" : jeu.getNom())
+                .append(", achat=").append(achat == null ? "aucun" : achat.getId())
                 .append('}')
                 .toString();
     }
-
 
 }
