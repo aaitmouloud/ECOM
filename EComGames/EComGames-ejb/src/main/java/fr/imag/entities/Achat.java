@@ -70,11 +70,19 @@ public class Achat implements Serializable {
      * @param commentaire
      */
     public Achat(Utilisateur utilisateur, Cle cle, Calendar date, Short note, String commentaire) {
+        if (utilisateur == null) {
+            throw new IllegalArgumentException("L'utilisateur est null");
+        }
+        if (cle == null) {
+            throw new IllegalArgumentException("La clé est null");
+        }
+
         this.date = date;
-        this.utilisateur = utilisateur;
         this.note = note;
         this.commentaire = commentaire;
-        this.cle = cle;
+        
+        cle.setAchat((this));
+        utilisateur.addAchat((this));
     }
 
     /**
@@ -141,6 +149,14 @@ public class Achat implements Serializable {
      */
     public Cle getCle() {
         return cle;
+    }
+
+    final void setCle(Cle cle) {
+        this.cle = cle;
+    }
+
+    final void setUtilisateur(Utilisateur utilisateur) {
+        this.utilisateur = utilisateur;
     }
 
     /**

@@ -18,6 +18,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 /**
+ * Définit une clé de jeu-vidéo dans la base de données.
  *
  * @author aaitmouloud
  */
@@ -53,8 +54,11 @@ public class Cle implements Serializable {
      */
     public Cle(Jeu jeu, Achat achat) {
         this();
-        this.jeu = jeu;
+        if (jeu == null)
+            throw new IllegalArgumentException("Le jeu est null");
+        
         this.achat = achat;
+        jeu.addCle((this));
     }
 
     /**
@@ -80,6 +84,10 @@ public class Cle implements Serializable {
     public Jeu getJeu() {
         return jeu;
     }
+    
+    final void setJeu(Jeu jeu) {
+        this.jeu = jeu;
+    }
 
     /**
      *
@@ -92,17 +100,21 @@ public class Cle implements Serializable {
     /**
      *
      * @param achat
+     * @return
      */
-    public void setAchat(Achat achat) {
+    public boolean setAchat(Achat achat) {
+        if (achat == null || achat.getCle() != null)
+            return false;
+            
+        achat.setCle(this);
         this.achat = achat;
+        return true;
     }
 
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 31 * hash + Objects.hashCode(this.cle);
-        hash = 31 * hash + Objects.hashCode(this.jeu);
-        hash = 31 * hash + Objects.hashCode(this.achat);
         return hash;
     }
 
@@ -127,8 +139,6 @@ public class Cle implements Serializable {
         return true;
     }
 
-    
-
     @Override
     public String toString() {
         return new StringBuilder("Cle{").append("cle=").append(cle)
@@ -136,5 +146,6 @@ public class Cle implements Serializable {
                 .append('}')
                 .toString();
     }
+
 
 }

@@ -60,7 +60,13 @@ public class Plateforme implements Serializable {
     public Plateforme(String nom, byte[] image, Collection<Jeu> jeux) {
         this.nom = nom;
         this.image = image;
-        this.jeux = jeux;
+        
+        this.jeux = new HashSet<>();
+        if (jeux != null) {
+            for(Jeu jeu : jeux) {
+                jeu.addPlateforme((this));
+            }
+        }
     }
 
     /**
@@ -69,7 +75,7 @@ public class Plateforme implements Serializable {
      * @param image
      */
     public Plateforme(String nom, byte[] image) {
-        this(nom, image, new HashSet<Jeu>());
+        this(nom, image, null);
     }
 
     /**
@@ -117,15 +123,7 @@ public class Plateforme implements Serializable {
      * @return
      */
     public Collection<Jeu> getJeux() {
-        return jeux;
-    }
-
-    /**
-     *
-     * @param jeux
-     */
-    public void setJeux(Collection<Jeu> jeux) {
-        this.jeux = jeux;
+        return new HashSet<>(jeux);
     }
 
     /**
@@ -133,17 +131,8 @@ public class Plateforme implements Serializable {
      * @param jeu
      * @return
      */
-    public boolean addJeu(Jeu jeu) {
+    final boolean addJeu(Jeu jeu) {
         return this.jeux.add(jeu);
-    }
-
-    /**
-     *
-     * @param jeux
-     * @return
-     */
-    public boolean addAllJeux(Collection<Jeu> jeux) {
-        return this.jeux.addAll(jeux);
     }
 
     @Override

@@ -2,10 +2,10 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
-    <artifactId>EComGames</artifactId>
-    <groupId>fr.imag</groupId>
-    <version>0.2.5-SNAPSHOT</version>
-  </parent>
+        <artifactId>EComGames</artifactId>
+        <groupId>fr.imag</groupId>
+        <version>0.2.5-SNAPSHOT</version>
+    </parent>
 
     <groupId>fr.imag</groupId>
     <artifactId>EComGames-ear</artifactId>
@@ -16,6 +16,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <glassfish.directory>/opt/glassfish-4.1/glassfish</glassfish.directory>
+        <glassfish.domain>domain1</glassfish.domain>
     </properties>
   
     <build>
@@ -36,6 +38,30 @@
                 <configuration>
                     <version>6</version>
                     <defaultLibBundleDir>lib</defaultLibBundleDir>
+                </configuration>
+            </plugin>
+            <!-- Glassfish App Server -->
+            <plugin>
+                <groupId>org.glassfish.maven.plugin</groupId>
+                <artifactId>maven-glassfish-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>
+                    <user>admin</user>
+                    <glassfishDirectory>${glassfish.directory}</glassfishDirectory>
+                    <domainDirectory>${glassfish.directory}/glassfish/domains/</domainDirectory>
+                    <passwordFile>${glassfish.directory}/domains/${glassfish.domain}/config/domain-passwords</passwordFile>
+                    <domain>
+                        <name>${glassfish.domain}</name>
+                        <adminPort>4848</adminPort>
+                        <httpPort>8080</httpPort>
+                        <httpsPort>8443</httpsPort>
+                    </domain>
+                    <components>
+                        <component>
+                            <name>${project.artifactId}</name>
+                            <artifact>target/${project.build.finalName}.ear</artifact>
+                        </component>
+                    </components>
                 </configuration>
             </plugin>
         </plugins>

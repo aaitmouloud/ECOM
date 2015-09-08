@@ -31,7 +31,7 @@ public class Initializer {
 
     @PostConstruct
     void init() {
-        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3);
+        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3 ,"http://");
         Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
         Cle cle = new Cle(jeu);
         Achat achat = new Achat(user, Calendar.getInstance(), cle);

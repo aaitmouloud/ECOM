@@ -1,0 +1,7 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Project under CC 3.0.
+<#if licenseLast??>
+${licenseLast}
+</#if>
