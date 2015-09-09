@@ -5,8 +5,8 @@
  */
 package fr.imag.entities;
 
+import static org.junit.Assert.*;
 import fr.imag.entities.dto.UtilisateurDTO;
-import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -23,6 +23,7 @@ public class MdpHashTest {
         String one = UtilisateurDTO.hashMdp(new String(testString.getBytes()));
         String two = UtilisateurDTO.hashMdp(new String(testString.getBytes()));
         
-        Assert.assertTrue("Hash is not the same.", one.equals(two) && two.equals(one));
+        assertTrue("Hash is not the same.", one.equals(two) && two.equals(one));
     }
+    
 }

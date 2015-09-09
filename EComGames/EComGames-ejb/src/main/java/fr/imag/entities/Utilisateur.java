@@ -6,6 +6,7 @@
 package fr.imag.entities;
 
 import fr.imag.entities.dto.UtilisateurDTO;
+import fr.imag.util.Util;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collection;
@@ -200,9 +201,9 @@ public class Utilisateur implements Serializable {
      * @return Liste des achats de l'utilisateur.
      */
     public Collection<Achat> getAchats() {
-        return achats;
+        return new HashSet<>(achats);
     }
-
+    
     /**
      * Ajoute un achat à l'utilisateur
      *
@@ -251,9 +252,6 @@ public class Utilisateur implements Serializable {
         if (!Objects.equals(this.email, other.email)) {
             return false;
         }
-        if (!Objects.equals(this.achats, other.achats)) {
-            return false;
-        }
         return true;
     }
 
@@ -262,8 +260,8 @@ public class Utilisateur implements Serializable {
         return new StringBuilder("Utilisateur{").append("id=").append(id)
                 .append(", nom=").append(nom).append(", hashMdp=")
                 .append(hashMdp).append(", dateNaissance=")
-                .append(dateNaissance).append(", email=").append(email)
-                .append(", achats=").append(achats).append('}')
+                .append(Util.formatCalendar(dateNaissance)).append(", email=").append(email)
+                .append(", ").append(achats == null? "aucun" : achats.size()).append(" achats}")
                 .toString();
     }
 

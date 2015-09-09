@@ -5,6 +5,7 @@
  */
 package fr.imag.entities;
 
+import fr.imag.util.Util;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Objects;
@@ -165,8 +166,10 @@ public class PrixJeu implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("PrixJeu{").append("id=").append(id)
-                .append(", jeu=").append(jeu).append(", dateDebut=")
-                .append(dateDebut).append(", dateFin=").append(dateFin)
+                .append(", jeu=").append(jeu == null? "aucun": jeu.getNom())
+                .append(", dateDebut=")
+                .append(Util.formatCalendar(dateDebut)).append(", dateFin=")
+                .append(Util.formatCalendar(dateFin))
                 .append(", prix=").append(prix).append('}')
                 .toString();
     }

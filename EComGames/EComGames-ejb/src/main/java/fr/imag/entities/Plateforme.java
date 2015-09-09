@@ -66,10 +66,10 @@ public class Plateforme implements Serializable {
     public Plateforme(String nom, byte[] image, Collection<Jeu> jeux) {
         this.nom = nom;
         this.image = image;
-        
+
         this.jeux = new HashSet<>();
         if (jeux != null) {
-            for(Jeu jeu : jeux) {
+            for (Jeu jeu : jeux) {
                 jeu.addPlateforme((this));
             }
         }
@@ -179,8 +179,8 @@ public class Plateforme implements Serializable {
     public String toString() {
         return new StringBuilder().append("Plateforme{").append("id=")
                 .append(id).append(", nom=").append(nom).append(", image=")
-                .append(image).append(", jeux=").append(jeux).append('}')
-                .toString();
+                .append(image).append(", ").append(jeux == null ? "aucun" : jeux.size())
+                .append(" jeux}").toString();
     }
 
 }

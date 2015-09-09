@@ -27,9 +27,9 @@ import org.junit.Test;
  *
  * @author aaitmouloud
  */
-public class PersistenceUnitTest {
+public class EntitiesTest {
 
-    final private static Logger logger = Logger.getLogger(PersistenceUnitTest.class.getName());
+    final private static Logger logger = Logger.getLogger(EntitiesTest.class.getName());
 
     private EntityManagerFactory emFactory;
 
@@ -103,14 +103,13 @@ public class PersistenceUnitTest {
             assertTrue("Le jeu a le mauvais éditeur (1).", j1.getEditeur().equals(editeur));
 
             assertTrue("L'éditeur n'est pas mis à jour", j1.setEditeur(new Editeur("Nintendo", "Mario et cie.", null)));
-            
+
             em.merge(j1);
 
             Jeu j2 = em.find(Jeu.class, j1.getId());
             assertTrue("Le jeu a le mauvais éditeur (2).", j2.getEditeur().equals(j1.getEditeur()));
-            
-            assertTrue("L'éditeur a encore un jeu affecté. "+j1.getId()+" "+editeur.getJeux(), editeur.getJeux().isEmpty());
-            
+
+            assertTrue("L'éditeur a encore un jeu affecté. " + j1.getId() + " " + editeur.getJeux(), editeur.getJeux().isEmpty());
 
             Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
             em.persist(user);
@@ -123,8 +122,9 @@ public class PersistenceUnitTest {
             Achat achat = new Achat(user, Calendar.getInstance(), cle);
             em.persist(achat);
             assertTrue("L'achat n'est pas présent", em.contains(achat));
+            assertTrue("L'utilisateur ne contient pas l'achat ",
+                    user.getAchats().iterator().next().equals(achat));
 
-            //assertTrue("L'utilisateur ne contient pas l'achat", user.getAchats().contains(achat));
             final String newEmail = "newemail@google.com";
             user.setEmail(newEmail);
             em.merge(user);
@@ -148,5 +148,38 @@ public class PersistenceUnitTest {
             logger.log(Level.INFO, "Exception during testPersistence", ex);
             fail("Exception during testPersistence. " + ex.getMessage());
         }
+    }
+
+    @Test
+    public void toStringTest() {
+        Editeur editeur = new Editeur("Sega Games", "C'est plus fort que toi", null);
+        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");
+        Cle cle = new Cle(jeu);
+        jeu.setEditeur(editeur);
+
+        PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
+        PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), null, 77D);
+
+        Utilisateur user = new Utilisateur("testUser", "monMdp", Calendar.getInstance(), "bla@bla.bel");
+
+        user.setEmail("blabla@car.com");
+
+        Achat achat = new Achat(user, Calendar.getInstance(), cle);
+
+        Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
+        jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
+        jeu2.addCategorie(new Categorie("Jeu de plateforme"));
+        jeu2.addPlateforme(new Plateforme("NES"));
+
+        logger.log(Level.INFO, editeur.toString());
+        logger.log(Level.INFO, jeu.toString());
+        logger.log(Level.INFO, jeu2.toString());
+        logger.log(Level.INFO, achat.toString());
+        logger.log(Level.INFO, jeu2.getCategories().iterator().next().toString());
+        logger.log(Level.INFO, jeu2.getPlateformes().iterator().next().toString());
+        logger.log(Level.INFO, jeu2.getEditeur().toString());
+        logger.log(Level.INFO, prixJeu.toString());
+        logger.log(Level.INFO, prixJeu2.toString());
+        logger.log(Level.INFO, cle.toString());
     }
 }

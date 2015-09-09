@@ -157,7 +157,7 @@ public class Editeur implements Serializable {
         return new StringBuilder("Editeur{").append("id=").append(id)
                 .append(", nom=").append(nom).append(", description=")
                 .append(description).append(", logo=").append(logo)
-                .append(", ").append(jeux.size()).append(" jeux").append('}')
+                .append(", ").append(jeux==null?"aucun":jeux.size()).append(" jeux").append('}')
                 .toString();
     }
 
