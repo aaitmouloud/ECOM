@@ -21,6 +21,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -29,6 +31,13 @@ import javax.persistence.OneToMany;
  * @author aaitmouloud
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="GetJeuByCleId", query="SELECT c.cle FROM Cle c WHERE c.cle = :id"),
+    @NamedQuery(name="GetJeuByEditeurId", query="SELECT e.jeux FROM Editeur e WHERE e.id = :id"),
+    @NamedQuery(name="GetJeuByCategorieId", query="SELECT c.jeux FROM Categorie c WHERE c.id = :id"),
+    @NamedQuery(name="GetJeuByPlateformeId", query="SELECT p.jeux FROM Plateforme p WHERE p.id = :id"), 
+    @NamedQuery(name="GetAllJeu", query="SELECT j FROM Jeu j")
+})
 public class Jeu implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -19,6 +19,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 
 /**
@@ -27,6 +29,10 @@ import javax.persistence.OneToMany;
  * @author aaitmouloud
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="GetEditeurByJeuId", query="SELECT j.editeur FROM Jeu j WHERE j.id = :id"),
+    @NamedQuery(name="GetAllEditeur", query="SELECT e FROM Editeur e")
+})
 public class Editeur implements Serializable {
 
     private static final long serialVersionUID = 1L;

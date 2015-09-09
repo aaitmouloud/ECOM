@@ -19,6 +19,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 
 /**
  * Définit une plate-forme de jeu.
@@ -26,6 +28,10 @@ import javax.persistence.ManyToMany;
  * @author aaitmouloud
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="GetPlateformeByJeuId", query="SELECT j.plateformes FROM Jeu j WHERE j.id = :id"),
+    @NamedQuery(name="GetAllPlateforme", query="SELECT p FROM Plateforme p")
+})
 public class Plateforme implements Serializable {
 
     private static final long serialVersionUID = 1L;
