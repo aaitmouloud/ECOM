@@ -13,6 +13,7 @@ import fr.imag.entities.Jeu;
 import fr.imag.entities.PrixJeu;
 import fr.imag.entities.Utilisateur;
 import java.util.Calendar;
+import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -22,6 +23,8 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 
 /**
+ * EJB Singleton qui remplit la BD au démarrage.
+ * A enelever en prod
  *
  * @author aaitmouloud
  */
@@ -38,7 +41,7 @@ public class Initializer {
     @PostConstruct
     void init() {
         LOGGER.info("Initialisation des données.");
-        Editeur editeur = new Editeur("Sega Games",LOGGER.getAllAppenders()+" C'est plus fort que toi", null);
+        Editeur editeur = new Editeur("Sega Games", LOGGER.getAllAppenders() + " C'est plus fort que toi", null);
         Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");
         Cle cle = new Cle(jeu);
         jeu.setEditeur(editeur);
@@ -61,5 +64,12 @@ public class Initializer {
         jeu2.addCategorie(new Categorie("Jeu de plateforme"));
         em.persist(jeu2);
         LOGGER.info("Fin de l'initialisation des données.");
+    }
+
+    public Collection<Jeu> getJeu() {
+        Jeu jeu = new Jeu("Street Fighter", "Baston baston baston", 1995, 18, "ftp://");
+        em.persist(jeu);
+        
+        return em.createQuery("select j from Jeu j", Jeu.class).getResultList();
     }
 }

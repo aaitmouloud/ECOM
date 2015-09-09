@@ -1,7 +1,7 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+ * - Pas d’Utilisation Commerciale. 
+ * - Partage dans les Mêmes Conditions 4.0 International.
  */
 package fr.imag.dao;
 
