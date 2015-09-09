@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -27,6 +29,10 @@ import javax.persistence.TemporalType;
  * @author aaitmouloud
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="GetAchatByUserId", query="SELECT u.achats FROM Utilisateur u where u.id = :id"),
+    @NamedQuery(name="GetAllAchat", query="SELECT a FROM Achat a")
+})
 public class Achat implements Serializable {
 
     private static final long serialVersionUID = 1L;

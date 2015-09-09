@@ -18,6 +18,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -29,6 +31,10 @@ import javax.persistence.UniqueConstraint;
  * @author aaitmouloud
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="GetPrixJeuByJeuId", query="SELECT j.prix FROM Jeu j WHERE j.id = :id"),
+    @NamedQuery(name="GetAllPrixJeu", query="SELECT p FROM PrixJeu p")
+})
 @Table(name = "PRIX_JEU", 
         uniqueConstraints = @UniqueConstraint(name = "PRIX_JEU_UNIQUE",
         columnNames = {"ID_JEU", "DATE_DEBUT", "DATE_FIN"}))

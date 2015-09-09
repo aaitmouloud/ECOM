@@ -38,7 +38,11 @@ public class CategorieDTO implements Serializable {
         
         return tmp;
     }
-
+     
+     public long getId(){
+         return this.id;
+     }
+     
     public String getNom() {
         return nom;
     }

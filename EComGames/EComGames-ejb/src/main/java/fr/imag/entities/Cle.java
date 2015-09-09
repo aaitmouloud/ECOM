@@ -15,6 +15,8 @@ import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 
 /**
@@ -23,6 +25,11 @@ import javax.persistence.OneToOne;
  * @author aaitmouloud
  */
 @Entity
+@NamedQueries({
+    @NamedQuery(name="GetCleByAchatId", query="SELECT a.cle FROM Achat a WHERE a.id = :id"),
+    @NamedQuery(name="GetCleByJeuId", query="SELECT j.cles FROM Jeu j WHERE j.id = :id"),
+    @NamedQuery(name="GetAllCle", query="SELECT c FROM Cle c")
+})
 public class Cle implements Serializable {
 
     private static final long serialVersionUID = 1L;

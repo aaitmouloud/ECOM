@@ -96,6 +96,14 @@ public class JeuDTO implements Serializable {
     public String getId() {
         return id;
     }
+    
+    /**
+     *
+     * @return
+     */
+    public String getUrl() {
+        return url;
+    }
 
     /**
      *
