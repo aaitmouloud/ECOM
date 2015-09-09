@@ -32,8 +32,8 @@ public class JeuDTO implements Serializable {
     private Collection<CategorieDTO> categories;
     private EditeurDTO editeur;
     private Collection<CleDTO> cles;
-    private Collection<PrixJeuDTO> prix;
-
+    private Collection<PrixJeuDTO> prix; 
+    
     /**
      *
      * @param j
