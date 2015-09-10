@@ -21,7 +21,6 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class UtilisateurDAO extends AbstractDAO implements IntLocalUtilisateurDAO, IntRemoteUtilisateurDAO {
 
-    
     @Override
     public Collection<Utilisateur> findAll() {
         ArrayList<Utilisateur> cud = new ArrayList<>();
@@ -31,5 +30,19 @@ public class UtilisateurDAO extends AbstractDAO implements IntLocalUtilisateurDA
         } catch (Exception e) {
             return Collections.EMPTY_LIST;
         }
+    }
+
+    @Override
+    public Utilisateur findFromLoginEtMdp(String login, String hashMdp) {
+        try {
+            TypedQuery<Utilisateur> query = em.createNamedQuery("GetUserByLoginAndPass", Utilisateur.class);
+
+            query.setParameter("login", login);
+            query.setParameter("hashMdp", hashMdp);
+            return query.getSingleResult();
+        } catch (Exception ex) {
+            return null;
+        }
+
     }
 }

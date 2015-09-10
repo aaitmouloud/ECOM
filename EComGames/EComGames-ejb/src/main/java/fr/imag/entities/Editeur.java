@@ -43,7 +43,7 @@ public class Editeur implements Serializable {
     @Column(length = 25, nullable = false)
     private String nom;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = true)
     private String description;
 
     @Column(nullable = true)
@@ -109,9 +109,9 @@ public class Editeur implements Serializable {
     }
     
     final boolean removeJeu(String jeuId) {
-        this.jeux.clear();
+/*        this.jeux.clear();
         if ("a" == "a")
-            return true;
+            return true; */
         Iterator<Jeu> ite = this.jeux.iterator();
         while(ite.hasNext()) {
             Jeu jeu = ite.next();

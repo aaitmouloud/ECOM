@@ -15,5 +15,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntRemoteUtilisateurDAO extends IntDAO<Utilisateur>{
-
+    Utilisateur findFromLoginEtMdp(String login, String hashmdp);
 }
