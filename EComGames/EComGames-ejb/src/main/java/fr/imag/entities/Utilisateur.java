@@ -5,7 +5,6 @@
  */
 package fr.imag.entities;
 
-import fr.imag.entities.dto.UtilisateurDTO;
 import fr.imag.util.Util;
 import java.io.Serializable;
 import java.util.Calendar;

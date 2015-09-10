@@ -6,8 +6,6 @@
 package fr.imag.entities;
 
 import fr.imag.dao.JeuDAO;
-import fr.imag.entities.dto.EditeurDTO;
-import fr.imag.entities.dto.JeuDTO;
 import static org.junit.Assert.*;
 import java.io.File;
 import java.sql.DriverManager;
@@ -91,8 +89,8 @@ public class EntitiesTest {
             JeuDAO jdao = new JeuDAO();
             jdao.setEntityManager(em);
             
-            EditeurDTO editeur = new EditeurDTO("Sega Games");
-            JeuDTO jeu = new JeuDTO("Legend of Zelda", "Link sauve Zelda", 1990, 3, null, null, null, null, null, null, "url");
+            Editeur editeur = new Editeur("Sega Games");
+            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, null, null, null, null, null, null, "url");
             jeu.setEditeur(editeur);
 
             assertTrue("Le jeu n'a pas pu être créé", jdao.create(jeu));
@@ -101,11 +99,11 @@ public class EntitiesTest {
             List<Jeu> r = q.getResultList();
 
             assertTrue("Le jeu n'est pas présent " + r, !r.isEmpty());
-            logger.info("Stop testDTOPersistence");
+            logger.info("Stop testPersistence");
         } catch (Exception ex) {
             
-            logger.log(Level.INFO, "Exception during testDTOPersistence", ex);
-            fail("Exception during testDTOPersistence. " + ex.getMessage());
+            logger.log(Level.INFO, "Exception during testPersistence", ex);
+            fail("Exception during testPersistence. " + ex.getMessage());
         }
     }
 

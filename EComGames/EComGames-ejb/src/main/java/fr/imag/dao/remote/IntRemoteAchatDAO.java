@@ -5,9 +5,9 @@
  */
 package fr.imag.dao.remote;
 
-import fr.imag.entities.dto.AchatDTO;
-import fr.imag.entities.dto.UtilisateurDTO;
-import java.util.Collection;
+import fr.imag.dao.IntDAO;
+import fr.imag.entities.Achat;
+
 import javax.ejb.Remote;
 
 /**
@@ -15,11 +15,6 @@ import javax.ejb.Remote;
  * @author seb
  */
 @Remote
-public interface IntRemoteAchatDAO {
-    public AchatDTO find(long id);
-    public Collection<AchatDTO> findAll();
-    public Collection<AchatDTO> findAllFromUser(UtilisateurDTO user);
-    public boolean create(AchatDTO obj);
-    public boolean update(AchatDTO obj);
-    public boolean delete(AchatDTO obj);
+public interface IntRemoteAchatDAO extends IntDAO<Achat> {
+;
 }
