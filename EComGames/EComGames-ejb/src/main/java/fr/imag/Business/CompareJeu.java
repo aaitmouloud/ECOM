@@ -5,33 +5,52 @@
  */
 package fr.imag.Business;
 
+import fr.imag.Business.remote.JeuManagerRemote;
 import fr.imag.entities.dto.JeuDTO;
-import javax.ejb.Stateless;
-
+import java.util.Comparator;
+import javax.ejb.EJB;
 /**
  *
  * @author seb
  */
-@Stateless
-public class CompareJeu implements CompareJeuLocal, Comparable<JeuDTO> {
 
-    private Element e;
-    private Sens s;
-    public static enum Element{
-        Note,
-        Defaut,
-        BestSell,
-        Genre
-    };
+public class CompareJeu implements Comparator<JeuDTO> {
+    @EJB
+    JeuManagerRemote jm;
     
-    public static enum Sens{
-        Croissant,
-        Decroissant
-    };
+    private JeuManager.Element e;
+    private JeuManager.Sens s;
+    
+    public void setElement(JeuManager.Element e){
+        this.e = e;
+    }
+    
+    public void setSens(JeuManager.Sens s){
+        this.s = s;
+    }
+    
     
     @Override
-    public int compareTo(JeuDTO t) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int compare(JeuDTO t1, JeuDTO t2) {
+        int nb;
+        switch(e){
+            case BestSell :
+                nb = ((Float) jm.getAverageNote(t1)).compareTo((Float) jm.getAverageNote(t2)); break;
+            case Note: 
+                nb = ((Integer) jm.getNbSell(t1)).compareTo((Integer) jm.getNbSell(t2)); break;
+            case Editeur:
+                nb = t1.getEditeur().getNom().compareTo(t2.getEditeur().getNom()); break;
+            case Annee:
+                nb = ((Integer)t1.getAnnee()).compareTo((Integer)t2.getAnnee());break;
+            case Prix:
+                nb = jm.getPrix(t1).compareTo(jm.getPrix(t2)); break;
+            case Defaut: 
+            default: nb =  t1.getNom().compareTo(t2.getNom());
+        }
+        switch(s){
+            case Decroissant: nb = -nb;break;
+        }
+        return nb;
     }
 
     // Add business logic below. (Right-click in editor and choose
