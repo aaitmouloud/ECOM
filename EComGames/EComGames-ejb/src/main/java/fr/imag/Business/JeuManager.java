@@ -10,6 +10,7 @@ import fr.imag.Business.remote.JeuManagerRemote;
 import fr.imag.dao.remote.IntRemoteAchatDAO;
 import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.dao.remote.IntRemotePrixJeuDAO;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.dto.AchatDTO;
 import fr.imag.entities.dto.CleDTO;
 import fr.imag.entities.dto.JeuDTO;
@@ -57,8 +58,8 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     }
     
     @Override
-    public Collection<JeuDTO> orderBy(Collection<JeuDTO> cjd, Element e, Sens s){
-        ArrayList<JeuDTO> lj = new ArrayList<>(cjd);
+    public Collection<Jeu> orderBy(Collection<Jeu> cjd, Element e, Sens s){
+        ArrayList<Jeu> lj = new ArrayList<>(cjd);
         cj.setElement(e);
         cj.setSens(s);
         Collections.sort(lj, cj);
@@ -66,7 +67,7 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     }
 
     @Override
-    public float getAverageNote(JeuDTO j) {
+    public float getAverageNote(Jeu j) {
         float result = 0;
         int nb = 0;
         Collection<CleDTO> cc = cleDAO.findAllFromJeu(j);
@@ -83,13 +84,13 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     }
 
     @Override
-    public int getNbSell(JeuDTO j) {
+    public int getNbSell(Jeu j) {
         int nb = 0;
-        Collection<CleDTO> cc = cleDAO.findAllFromJeu(j);
-        Iterator<CleDTO> ic = cc.iterator();
+        Collection<Cle> cc = cleDAO.findAllFromJeu(j);
+        Iterator<Cle> ic = cc.iterator();
         while (ic.hasNext()){
-            CleDTO c = ic.next();
-            AchatDTO a = achatDAO.findAllFromCle(c);
+            Cle c = ic.next();
+            Achat a = achatDAO.findAllFromCle(c);
             if (a != null){
                 nb++;
             }
@@ -98,8 +99,8 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     }
     
     @Override
-    public Double getPrix(JeuDTO j) {
-        PrixJeuDTO p = prixJeuDAO.findPriceFromJeu(j);
+    public Double getPrix(Jeu j) {
+        PrixJeu p = prixJeuDAO.findPriceFromJeu(j);
         return p.getPrix();
     }
     

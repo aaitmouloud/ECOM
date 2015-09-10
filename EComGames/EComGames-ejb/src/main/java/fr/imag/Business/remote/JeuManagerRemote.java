@@ -6,6 +6,7 @@
 package fr.imag.Business.remote;
 
 import fr.imag.Business.JeuManager;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.dto.JeuDTO;
 import java.util.Collection;
 import javax.ejb.Remote;
@@ -16,8 +17,8 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface JeuManagerRemote {
-    Collection<JeuDTO> orderBy(Collection<JeuDTO> cjd, JeuManager.Element e, JeuManager.Sens s);
-    public float getAverageNote(JeuDTO j);
-    public int getNbSell(JeuDTO j);
-    public Double getPrix(JeuDTO j);
+    Collection<Jeu> orderBy(Collection<Jeu> cjd, JeuManager.Element e, JeuManager.Sens s);
+    public float getAverageNote(Jeu j);
+    public int getNbSell(Jeu j);
+    public Double getPrix(Jeu j);
 }

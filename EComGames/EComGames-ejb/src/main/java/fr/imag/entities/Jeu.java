@@ -36,11 +36,11 @@ import javax.persistence.OneToMany;
     @NamedQuery(name="GetJeuByEditeurId", query="SELECT e.jeux FROM Editeur e WHERE e.id = :id"),
     @NamedQuery(name="GetJeuByCategorieId", query="SELECT c.jeux FROM Categorie c WHERE c.id = :id"),
     @NamedQuery(name="GetJeuByPlateformeId", query="SELECT p.jeux FROM Plateforme p WHERE p.id = :id"),
-//    @NamedQuery(name="SearchJeu", query="SELECT j FROM Jeu j INNER JOIN j.categories c JOIN j.editeur e INNER JOIN j.plateformes pl INNER JOIN j.prix p "
-//            + "WHERE p.prix >= :prixMin AND p.prix <= :prixMax AND p.dateFin IS NULL "
-//            + "AND (:cid IS NULL OR :cid IN (j.categories)) "
-//            + "AND (:ced IS NULL OR e IN :ced) "
-//            + "AND (:plid IS NULL OR (SELECT CASE WHEN (COUNT(plat) >= 1) THEN TRUE ELSE FALSE END FROM j.plateformes plat WHERE plat IN :plid))"),
+    @NamedQuery(name="SearchJeu", query="SELECT j FROM Jeu j INNER JOIN j.categories c JOIN j.editeur e INNER JOIN j.plateformes pl INNER JOIN j.prix p "
+            + "WHERE p.prix >= :prixMin AND p.prix <= :prixMax AND p.dateFin IS NULL "
+            + "AND (:cid IS NULL OR (SELECT COUNT(cat) FROM j.categories cat WHERE cat IN :cid) = :cnb) "
+            + "AND (:ced IS NULL OR e IN :ced) "
+            + "AND (:plid IS NULL OR EXISTS (SELECT plat FROM j.plateformes plat WHERE plat IN :plid))"),
     @NamedQuery(name="GetAllJeu", query="SELECT j FROM Jeu j")
 })
 public class Jeu implements Serializable {

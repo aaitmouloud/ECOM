@@ -6,6 +6,7 @@
 package fr.imag.Business;
 
 import fr.imag.Business.remote.JeuManagerRemote;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.dto.JeuDTO;
 import java.util.Comparator;
 import javax.ejb.EJB;
@@ -14,7 +15,7 @@ import javax.ejb.EJB;
  * @author seb
  */
 
-public class CompareJeu implements Comparator<JeuDTO> {
+public class CompareJeu implements Comparator<Jeu> {
     @EJB
     JeuManagerRemote jm;
     
@@ -31,7 +32,7 @@ public class CompareJeu implements Comparator<JeuDTO> {
     
     
     @Override
-    public int compare(JeuDTO t1, JeuDTO t2) {
+    public int compare(Jeu t1, Jeu t2) {
         int nb;
         switch(e){
             case BestSell :
