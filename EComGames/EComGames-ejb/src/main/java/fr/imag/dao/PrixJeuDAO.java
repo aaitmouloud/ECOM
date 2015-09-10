@@ -8,6 +8,7 @@ package fr.imag.dao;
 import fr.imag.dao.local.IntLocalPrixJeuDAO;
 import fr.imag.dao.local.IntLocalJeuDAO;
 import fr.imag.dao.remote.IntRemotePrixJeuDAO;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.PrixJeu;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -35,6 +36,18 @@ public class PrixJeuDAO extends AbstractDAO implements IntLocalPrixJeuDAO, IntRe
 
         } catch (Exception e) {
             return Collections.EMPTY_LIST;
+        }
+    }
+    
+    @Override
+    public PrixJeu findPriceFromJeu(Jeu j) {
+        try{
+             TypedQuery<PrixJeu> query = em.createNamedQuery("GetCurrentPrixJeuByJeuId", PrixJeu.class);
+             query.setParameter("id", j.getId());
+             PrixJeu p = query.getSingleResult();
+             return p;
+        }catch (Exception e){
+            return null;
         }
     }
 

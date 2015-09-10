@@ -40,7 +40,7 @@ import javax.persistence.OneToMany;
             + "WHERE p.prix >= :prixMin AND p.prix <= :prixMax AND p.dateFin IS NULL "
             + "AND (:cid IS NULL OR (SELECT COUNT(cat) FROM j.categories cat WHERE cat IN :cid) = :cnb) "
             + "AND (:ced IS NULL OR e IN :ced) "
-            + "AND (:plid IS NULL OR EXISTS (SELECT plat FROM j.plateformes plat WHERE plat IN :plid))"),
+            + "AND (:plid IS NULL OR EXISTS(SELECT plat FROM j.plateformes plat WHERE plat IN :plid))"),
     @NamedQuery(name="GetAllJeu", query="SELECT j FROM Jeu j")
 })
 public class Jeu implements Serializable {

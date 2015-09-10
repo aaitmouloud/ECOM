@@ -7,7 +7,6 @@ package fr.imag.Business;
 
 import fr.imag.Business.remote.JeuManagerRemote;
 import fr.imag.entities.Jeu;
-import fr.imag.entities.dto.JeuDTO;
 import java.util.Comparator;
 import javax.ejb.EJB;
 /**

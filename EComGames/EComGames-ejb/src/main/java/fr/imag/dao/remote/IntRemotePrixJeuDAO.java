@@ -6,6 +6,7 @@
 package fr.imag.dao.remote;
 
 import fr.imag.dao.IntDAO;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.PrixJeu;
 import javax.ejb.Remote;
 
@@ -15,5 +16,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntRemotePrixJeuDAO extends IntDAO<PrixJeu> {
-    
+    public PrixJeu findPriceFromJeu(Jeu j);
 }

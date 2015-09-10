@@ -7,7 +7,6 @@ package fr.imag.Business.remote;
 
 import fr.imag.Business.JeuManager;
 import fr.imag.entities.Jeu;
-import fr.imag.entities.dto.JeuDTO;
 import java.util.Collection;
 import javax.ejb.Remote;
 

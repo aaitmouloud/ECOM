@@ -10,11 +10,10 @@ import fr.imag.Business.remote.JeuManagerRemote;
 import fr.imag.dao.remote.IntRemoteAchatDAO;
 import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.dao.remote.IntRemotePrixJeuDAO;
+import fr.imag.entities.Achat;
+import fr.imag.entities.Cle;
 import fr.imag.entities.Jeu;
-import fr.imag.entities.dto.AchatDTO;
-import fr.imag.entities.dto.CleDTO;
-import fr.imag.entities.dto.JeuDTO;
-import fr.imag.entities.dto.PrixJeuDTO;
+import fr.imag.entities.PrixJeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -28,11 +27,6 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
-    @EJB
-    IntRemoteCleDAO cleDAO;
-    
-    @EJB
-    IntRemoteAchatDAO achatDAO;
     
     @EJB
     IntRemotePrixJeuDAO prixJeuDAO;
@@ -70,11 +64,11 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     public float getAverageNote(Jeu j) {
         float result = 0;
         int nb = 0;
-        Collection<CleDTO> cc = cleDAO.findAllFromJeu(j);
-        Iterator<CleDTO> ic = cc.iterator();
+        Collection<Cle> cc = j.getCles();
+        Iterator<Cle> ic = cc.iterator();
         while (ic.hasNext()){
-            CleDTO c = ic.next();
-            AchatDTO a = achatDAO.findAllFromCle(c);
+            Cle c = ic.next();
+            Achat a = c.getAchat();
             if (a != null){
                 result += a.getNote();
                 nb++;
@@ -86,11 +80,11 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     @Override
     public int getNbSell(Jeu j) {
         int nb = 0;
-        Collection<Cle> cc = cleDAO.findAllFromJeu(j);
+        Collection<Cle> cc = j.getCles();
         Iterator<Cle> ic = cc.iterator();
         while (ic.hasNext()){
             Cle c = ic.next();
-            Achat a = achatDAO.findAllFromCle(c);
+            Achat a = c.getAchat();
             if (a != null){
                 nb++;
             }

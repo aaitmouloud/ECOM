@@ -6,6 +6,7 @@
 package fr.imag.dao.local;
 
 import fr.imag.dao.IntDAO;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.PrixJeu;
 import javax.ejb.Local;
 
@@ -15,5 +16,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface IntLocalPrixJeuDAO extends IntDAO<PrixJeu> {
-    
+    public PrixJeu findPriceFromJeu(Jeu j);
 }
