@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.imag.Business;
+package fr.imag.business;
 
-import fr.imag.Business.Local.JeuManagerLocal;
-import fr.imag.Business.remote.JeuManagerRemote;
+import fr.imag.business.Local.JeuManagerLocal;
+import fr.imag.business.remote.JeuManagerRemote;
 import fr.imag.dao.remote.IntRemoteAchatDAO;
 import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.dao.remote.IntRemotePrixJeuDAO;

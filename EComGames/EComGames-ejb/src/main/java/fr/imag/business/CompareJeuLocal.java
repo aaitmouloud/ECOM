@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.imag.Business;
+package fr.imag.business;
 
 import javax.ejb.Local;
 

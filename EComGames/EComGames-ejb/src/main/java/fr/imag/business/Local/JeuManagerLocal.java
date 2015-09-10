@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.imag.Business.remote;
+package fr.imag.business.Local;
 
-import fr.imag.Business.JeuManager;
+import fr.imag.business.JeuManager;
 import fr.imag.entities.Jeu;
 import java.util.Collection;
-import javax.ejb.Remote;
+import javax.ejb.Local;
 
 /**
  *
  * @author seb
  */
-@Remote
-public interface JeuManagerRemote {
+@Local
+public interface JeuManagerLocal {
     Collection<Jeu> orderBy(Collection<Jeu> cjd, JeuManager.Element e, JeuManager.Sens s);
     public float getAverageNote(Jeu j);
     public int getNbSell(Jeu j);
