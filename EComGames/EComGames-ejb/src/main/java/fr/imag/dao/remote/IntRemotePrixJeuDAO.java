@@ -19,6 +19,8 @@ public interface IntRemotePrixJeuDAO {
     public PrixJeuDTO find(long id);
     public Collection<PrixJeuDTO> findAll();
     public Collection<PrixJeuDTO> findAllFromJeu(JeuDTO j);
+    public PrixJeuDTO findPriceFromJeu(JeuDTO j);
+    public PrixJeuDTO getMaxPrix();
     public boolean create(PrixJeuDTO obj);
     public boolean update(PrixJeuDTO obj);
     public boolean delete(PrixJeuDTO obj);

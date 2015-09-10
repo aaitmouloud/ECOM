@@ -31,6 +31,7 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries({
     @NamedQuery(name="GetAchatByUserId", query="SELECT u.achats FROM Utilisateur u where u.id = :id"),
+    @NamedQuery(name="GetAchatByCleId", query="SELECT c.achat FROM Cle c where c.cle = :id"),
     @NamedQuery(name="GetAllAchat", query="SELECT a FROM Achat a")
 })
 public class Achat implements Serializable {

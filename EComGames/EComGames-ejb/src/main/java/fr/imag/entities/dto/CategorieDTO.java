@@ -39,7 +39,7 @@ public class CategorieDTO implements Serializable {
         return tmp;
     }
      
-     public long getId(){
+     public Long getId(){
          return this.id;
      }
      

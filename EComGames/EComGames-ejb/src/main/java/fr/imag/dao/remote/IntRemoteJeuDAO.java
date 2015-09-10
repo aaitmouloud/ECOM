@@ -10,6 +10,7 @@ import fr.imag.entities.dto.CleDTO;
 import fr.imag.entities.dto.EditeurDTO;
 import fr.imag.entities.dto.JeuDTO;
 import fr.imag.entities.dto.PlateformeDTO;
+import fr.imag.entities.dto.PrixJeuDTO;
 import java.util.Collection;
 import javax.ejb.Remote;
 
@@ -25,6 +26,7 @@ public interface IntRemoteJeuDAO {
     public Collection<JeuDTO> findAllFromCategorie(CategorieDTO c);
     public Collection<JeuDTO> findAllFromEditeur (EditeurDTO e);
     public Collection<JeuDTO> findAllFromPlaterforme (PlateformeDTO p);
+    public Collection<JeuDTO> Search (Collection<CategorieDTO> cc, Collection<EditeurDTO> ce, Collection<PlateformeDTO> cp, PrixJeuDTO min, PrixJeuDTO max);
     public boolean create(JeuDTO obj);
     public boolean update(JeuDTO obj);
     public boolean delete(JeuDTO obj);

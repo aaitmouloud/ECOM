@@ -7,6 +7,7 @@ package fr.imag.dao.local;
 
 import fr.imag.entities.Achat;
 import fr.imag.entities.dto.AchatDTO;
+import fr.imag.entities.dto.CleDTO;
 import fr.imag.entities.dto.UtilisateurDTO;
 import java.util.Collection;
 import javax.ejb.Local;
@@ -20,6 +21,7 @@ public interface IntLocalAchatDAO {
     public AchatDTO find(long id);
     public Collection<AchatDTO> findAll();
     public Collection<AchatDTO> findAllFromUser(UtilisateurDTO user);
+    public AchatDTO findAllFromCle(CleDTO cle);
     public boolean create(AchatDTO obj);
     public boolean update(AchatDTO obj);
     public boolean delete(AchatDTO obj);

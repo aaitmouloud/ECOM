@@ -33,7 +33,8 @@ import javax.persistence.UniqueConstraint;
 @Entity
 @NamedQueries({
     @NamedQuery(name="GetPrixJeuByJeuId", query="SELECT j.prix FROM Jeu j WHERE j.id = :id"),
-    @NamedQuery(name="GetAllPrixJeu", query="SELECT p FROM PrixJeu p")
+    @NamedQuery(name="GetAllPrixJeu", query="SELECT p FROM PrixJeu p"),
+    @NamedQuery(name="GetMaxPrix", query="SELECT p FROM PrixJeu p WHERE p.prix = (SELECT max(p2.prix) FROM PrixJeu p2 WHERE p2.dateFin IS NULL)")
 })
 @Table(name = "PRIX_JEU", 
         uniqueConstraints = @UniqueConstraint(name = "PRIX_JEU_UNIQUE",
