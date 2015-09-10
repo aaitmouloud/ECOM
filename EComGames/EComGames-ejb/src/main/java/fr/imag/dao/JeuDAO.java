@@ -12,7 +12,10 @@ import fr.imag.dao.local.IntLocalCategorieDAO;
 import fr.imag.dao.local.IntLocalCleDAO;
 import fr.imag.dao.local.IntLocalEditeurDAO;
 import fr.imag.dao.remote.IntRemoteJeuDAO;
+import fr.imag.entities.Categorie;
+import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
+import fr.imag.entities.Plateforme;
 import fr.imag.entities.dto.CategorieDTO;
 import fr.imag.entities.dto.CleDTO;
 import fr.imag.entities.dto.EditeurDTO;
@@ -22,6 +25,7 @@ import fr.imag.entities.dto.PrixJeuDTO;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
@@ -138,6 +142,62 @@ public class JeuDAO extends IntDAO implements IntLocalJeuDAO, IntRemoteJeuDAO{
             return Collections.EMPTY_LIST;
         }
     }
+     
+    @Override
+    public Collection<JeuDTO> Search (Collection<CategorieDTO> cc, Collection<EditeurDTO> ce, Collection<PlateformeDTO> cp, PrixJeuDTO min, PrixJeuDTO max){
+        ArrayList<Categorie> c = new ArrayList<>();
+        ArrayList<Editeur> e = new ArrayList<>();
+        ArrayList<Plateforme> p = new ArrayList<>();
+        Iterator<CategorieDTO> ic = cc.iterator();
+        Iterator<EditeurDTO> ie = ce.iterator();
+        Iterator<PlateformeDTO> ip = cp.iterator();
+        while (ic.hasNext()){
+            CategorieDTO cd = ic.next();
+            c.add(categorieDAO.convertDTO(cd));
+        }
+        
+        while (ie.hasNext()){
+            EditeurDTO ed = ie.next();
+            e.add(editeurDAO.convertDTO(ed));
+        }
+        
+        while (ip.hasNext()){
+            PlateformeDTO pd = ip.next();
+            p.add(plateformeDAO.convertDTO(pd));
+        }
+        
+        ArrayList<JeuDTO> cjd = new ArrayList<>();
+        try{
+            TypedQuery<Jeu> query = em.createNamedQuery("SearchJeu", Jeu.class);
+             query.setParameter("prixMin",min.getPrix() );
+             query.setParameter("prixMax", max.getPrix());
+             if (c.isEmpty()){
+                 query.setParameter("cid", null);
+             }else{
+                 query.setParameter("cid", c);
+             }
+             
+             if (e.isEmpty()){
+                 query.setParameter("ced", null);
+             }else{
+                 query.setParameter("ced", e);
+             }
+             
+             if(p.isEmpty()){
+                 query.setParameter("plid", null);
+             }else{
+                 query.setParameter("plid", p);
+             }
+             
+             Collection<Jeu> cj = query.getResultList();     
+             for(Jeu j: cj){
+                 cjd.add(convert(j));
+             }
+             return cjd;       
+        }catch (Exception ex){
+            return Collections.EMPTY_LIST;
+        }
+    }
     
     @Override
     public boolean create(JeuDTO obj) {
@@ -177,9 +237,11 @@ public class JeuDAO extends IntDAO implements IntLocalJeuDAO, IntRemoteJeuDAO{
 
     @Override
     public Jeu convertDTO(JeuDTO obj) {
-        Jeu j;
+        Jeu j = null;
         if (obj != null){
-            j = em.find(Jeu.class, obj.getId());
+            if (obj.getId() != null){
+                j = em.find(Jeu.class, obj.getId());
+            }
             if (j == null){
                 j = new Jeu(obj.getNom(), obj.getDescription(), obj.getAnnee(), obj.getAgeMin(),obj.getUrl());
                 for (CategorieDTO c: obj.getCategories()){

@@ -71,6 +71,29 @@ public class PrixJeuDAO extends IntDAO implements IntLocalPrixJeuDAO, IntRemoteP
             return Collections.EMPTY_LIST;
         }
     }
+    
+    @Override
+    public PrixJeuDTO findPriceFromJeu(JeuDTO j) {
+        try{
+             TypedQuery<PrixJeu> query = em.createNamedQuery("GetCurrentPrixJeuByJeuId", PrixJeu.class);
+             query.setParameter("id", j.getId());
+             PrixJeu p = query.getSingleResult();
+             return convert(p);
+        }catch (Exception e){
+            return null;
+        }
+    }
+    
+    @Override
+    public PrixJeuDTO getMaxPrix() {
+        try{
+             TypedQuery<PrixJeu> query = em.createNamedQuery("GetMaxPrix", PrixJeu.class);
+             PrixJeu p = (PrixJeu)query.getSingleResult();
+            return convert(p);
+        }catch (Exception e){
+            return null;
+        }
+    }
  
    @Override
     public boolean create(PrixJeuDTO obj) {
@@ -110,9 +133,11 @@ public class PrixJeuDAO extends IntDAO implements IntLocalPrixJeuDAO, IntRemoteP
     
    @Override
     public PrixJeu convertDTO(PrixJeuDTO obj) {
-          PrixJeu p;
+          PrixJeu p = null;
         if (obj != null){
-            p = em.find(PrixJeu.class, obj.getId());
+            if (obj.getId() != null){
+             p = em.find(PrixJeu.class, obj.getId());
+            }
             if (p == null){
                 p = new PrixJeu(jeuDAO.convertDTO(obj.getJeu()), obj.getDateDebut(), obj.getDateFin(), obj.getPrix());
                  }

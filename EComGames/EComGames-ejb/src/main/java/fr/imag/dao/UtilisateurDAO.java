@@ -110,9 +110,11 @@ public class UtilisateurDAO extends IntDAO implements IntLocalUtilisateurDAO, In
    
     @Override
     public Utilisateur convertDTO(UtilisateurDTO obj) {
-          Utilisateur u;
+          Utilisateur u = null;
         if (obj != null){
-            u = em.find(Utilisateur.class, obj.getId());
+            if (obj.getId() != null){
+             u = em.find(Utilisateur.class, obj.getId());
+            }
             if (u == null){
                 u = new Utilisateur(obj.getNom(), obj.getHashMdp(), obj.getDateNaissance(), obj.getEmail());
                 for (AchatDTO a:obj.getAchats()){

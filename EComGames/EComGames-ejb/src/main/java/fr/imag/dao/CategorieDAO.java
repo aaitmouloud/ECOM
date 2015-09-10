@@ -103,9 +103,11 @@ public class CategorieDAO extends IntDAO implements IntLocalCategorieDAO, IntRem
     
     @Override
     public Categorie convertDTO(CategorieDTO obj) {
-         Categorie c;
+         Categorie c = null;
         if (obj != null){
-            c = em.find(Categorie.class, obj.getId());
+            if (obj.getId() != null){
+                c = em.find(Categorie.class, obj.getId());
+            }
             if (c == null){
                 c = new Categorie(obj.getNom());
                 for (JeuDTO j: obj.getJeux()){

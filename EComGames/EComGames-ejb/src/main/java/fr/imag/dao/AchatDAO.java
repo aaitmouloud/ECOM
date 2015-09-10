@@ -11,6 +11,7 @@ import fr.imag.dao.local.IntLocalCleDAO;
 import fr.imag.dao.remote.IntRemoteAchatDAO;
 import fr.imag.entities.Achat;
 import fr.imag.entities.dto.AchatDTO;
+import fr.imag.entities.dto.CleDTO;
 import fr.imag.entities.dto.UtilisateurDTO;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -73,6 +74,18 @@ public class AchatDAO extends IntDAO implements IntLocalAchatDAO, IntRemoteAchat
             return Collections.EMPTY_LIST;
         }
     }
+    
+    @Override
+    public AchatDTO findAllFromCle(CleDTO cle) {
+        try{
+             TypedQuery<Achat> query = em.createNamedQuery("GetAchatByCleId", Achat.class);
+             query.setParameter("id", cle.getCle());
+             Achat a = (Achat)query.getSingleResult();
+            return convert(a);
+        }catch (Exception e){
+            return null;
+        }
+    }
 
 
     @Override
@@ -112,9 +125,11 @@ public class AchatDAO extends IntDAO implements IntLocalAchatDAO, IntRemoteAchat
 
     @Override
     public Achat convertDTO(AchatDTO obj) {
-        Achat a;
+        Achat a = null;
         if (obj != null){
-            a = em.find(Achat.class, obj.getId());
+            if (obj.getId() != null){
+                a = em.find(Achat.class, obj.getId());
+            }
             if (a == null){
                 a = new Achat(utilisateurDAO.convertDTO(obj.getUtilisateur()), cleDAO.convertDTO(obj.getCle()), obj.getDate(), obj.getNote(), obj.getCommentaire());
             }
@@ -134,6 +149,8 @@ public class AchatDAO extends IntDAO implements IntLocalAchatDAO, IntRemoteAchat
         }
         return null;
     }
+
+    
 
    
     

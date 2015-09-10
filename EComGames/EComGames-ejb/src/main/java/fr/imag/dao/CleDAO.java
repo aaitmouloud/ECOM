@@ -125,9 +125,11 @@ public class CleDAO extends IntDAO implements IntLocalCleDAO, IntRemoteCleDAO {
 
     @Override
      public Cle convertDTO(CleDTO obj) {
-      Cle c;
+      Cle c = null;
         if (obj != null){
-            c = em.find(Cle.class, obj.getCle());
+            if (obj.getCle()!= null){
+             c = em.find(Cle.class, obj.getCle());
+            }
             if (c == null){
                 c = new Cle(jeuDAO.convertDTO(obj.getJeu()),achatDAO.convertDTO(obj.getAchat()));
             }

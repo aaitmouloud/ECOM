@@ -106,9 +106,11 @@ public class PlateformeDAO extends IntDAO implements IntLocalPlateformeDAO, IntR
 
     @Override
     public Plateforme convertDTO(PlateformeDTO obj) {
-          Plateforme p;
+          Plateforme p = null;
         if (obj != null){
-            p = em.find(Plateforme.class, obj.getId());
+            if (obj.getId() != null){
+             p = em.find(Plateforme.class, obj.getId());
+            }
             if (p == null){
                 p = new Plateforme(obj.getNom(), obj.getImage());
             }

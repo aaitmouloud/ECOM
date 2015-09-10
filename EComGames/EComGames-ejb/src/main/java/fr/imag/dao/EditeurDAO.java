@@ -105,9 +105,11 @@ public class EditeurDAO extends IntDAO implements IntLocalEditeurDAO, IntRemoteE
 
     @Override
     public Editeur convertDTO(EditeurDTO obj) {
-        Editeur e;
+        Editeur e = null;
         if (obj != null){
-            e = em.find(Editeur.class, obj.getId());
+            if (obj.getId() != null){
+             e = em.find(Editeur.class, obj.getId());
+            }
             if (e == null){
                 e = new Editeur(obj.getNom(), obj.getDescription(), obj.getLogo());
                 for (JeuDTO j: obj.getJeux()){
