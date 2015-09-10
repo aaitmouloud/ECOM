@@ -89,7 +89,7 @@ public class Jeu implements Serializable {
     @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Cle> cles;
 
-    @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<PrixJeu> prix;
 
     @Column(nullable = false)

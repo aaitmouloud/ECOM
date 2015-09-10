@@ -93,15 +93,19 @@ public class EntitiesTest {
             Editeur editeur = new Editeur("Sega Games");
             Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "http://");
             jeu.setEditeur(editeur);
+            jeu.addCurrentPrix(50D);
 
             assertTrue("Le jeu n'a pas pu être créé", jdao.create(jeu));
 
             tx = em.getTransaction();
             tx.begin();
             TypedQuery<Jeu> q = em.createQuery("select j from Jeu j", Jeu.class);
-            Jeu r = q.getSingleResult();
+            List<Jeu> r = q.getResultList();
             tx.commit();
-            assertFalse("Le jeu n'est pas présent " + r, r == null);
+            assertFalse("Le jeu n'est pas présent ", r.isEmpty());
+            Double pp = r.iterator().next().getCurrentPrix().getPrix();
+            assertTrue("Le jeu a le mauvais prix ", pp == 50D);
+            
             logger.info("Stop testPersistence");
         } catch (Exception ex) {
             if (tx != null && tx.isActive()) {
