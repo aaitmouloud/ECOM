@@ -5,9 +5,10 @@
  */
 package fr.imag.util;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.text.DateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 /**
  * Classe d'util
@@ -21,8 +22,20 @@ public class Util {
     private static final String NULL_STRING = "null";
 
     public static String formatCalendar(Calendar calendar) {
-        if (calendar == null)
+        if (calendar == null) {
             return NULL_STRING;
+        }
         return stdDF.format(calendar.getTime());
+    }
+
+    public static String hashMdp(String mdp) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
+            messageDigest.update(mdp.getBytes());
+            return new String(messageDigest.digest());
+        } catch (NoSuchAlgorithmException ex) {
+            throw new RuntimeException(ex);
+        }
+
     }
 }

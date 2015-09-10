@@ -5,9 +5,8 @@
  */
 package fr.imag.dao.remote;
 
-import fr.imag.entities.dto.CategorieDTO;
-import fr.imag.entities.dto.JeuDTO;
-import java.util.Collection;
+import fr.imag.dao.IntDAO;
+import fr.imag.entities.Categorie;
 import javax.ejb.Remote;
 
 /**
@@ -15,12 +14,5 @@ import javax.ejb.Remote;
  * @author seb
  */
 @Remote
-public interface IntRemoteCategorieDAO {
-    public CategorieDTO find(long id);
-    public Collection<CategorieDTO> findAll();
-    public Collection<CategorieDTO> findAllFromJeu(JeuDTO jeu);
-    public boolean create(CategorieDTO obj);
-    public boolean update(CategorieDTO obj);
-    public boolean delete(CategorieDTO obj);
-    
+public interface IntRemoteCategorieDAO extends IntDAO<Categorie> {
 }

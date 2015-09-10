@@ -6,7 +6,7 @@
 package fr.imag.entities;
 
 import static org.junit.Assert.*;
-import fr.imag.entities.dto.UtilisateurDTO;
+import fr.imag.util.Util;
 import org.junit.Test;
 
 /**
@@ -20,8 +20,8 @@ public class MdpHashTest {
     public void test() {
         String testString = "This is a very very very very long long string kmjlmds57#\"\"512155,;;n4578aamien";
         
-        String one = UtilisateurDTO.hashMdp(new String(testString.getBytes()));
-        String two = UtilisateurDTO.hashMdp(new String(testString.getBytes()));
+        String one = Util.hashMdp(new String(testString.getBytes()));
+        String two = Util.hashMdp(new String(testString.getBytes()));
         
         assertTrue("Hash is not the same.", one.equals(two) && two.equals(one));
     }

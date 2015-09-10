@@ -5,10 +5,8 @@
  */
 package fr.imag.dao.remote;
 
-import fr.imag.entities.dto.AchatDTO;
-import fr.imag.entities.dto.CleDTO;
-import fr.imag.entities.dto.JeuDTO;
-import java.util.Collection;
+import fr.imag.dao.IntDAO;
+import fr.imag.entities.Cle;
 import javax.ejb.Remote;
 
 /**
@@ -16,13 +14,6 @@ import javax.ejb.Remote;
  * @author seb
  */
 @Remote
-public interface IntRemoteCleDAO {
-    public CleDTO find(long id);
-    public Collection<CleDTO> findAll();
-    public Collection<CleDTO> findAllFromAchat(AchatDTO a);
-    public Collection<CleDTO> findAllFromJeu(JeuDTO j);
-    public boolean create(CleDTO obj);
-    public boolean update(CleDTO obj);
-    public boolean delete(CleDTO obj);
-    
+public interface IntRemoteCleDAO extends IntDAO<Cle> {
+
 }

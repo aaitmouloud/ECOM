@@ -5,14 +5,14 @@
  */
 package fr.imag.dao;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import java.util.Collection;
 
 /**
  *
- * @author seb
+ * @param <T> Entity class of the DAO.
+ * @author aaitmouloud
  */
-abstract class IntDAO {
-    @PersistenceContext(unitName = "EComGamesPU")
-    protected EntityManager em;
+public interface IntDAO<T> {
+    public Collection<T> findAll();
+    public <T> boolean create(T entity);
 }

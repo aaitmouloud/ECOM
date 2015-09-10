@@ -101,8 +101,5 @@ public class Categorie implements Serializable {
                 .append(jeux==null?"aucun":jeux.size()).append(" jeux}")
                 .toString();
     }
-    
-    
-    
-    
+
 }

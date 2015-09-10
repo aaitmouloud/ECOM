@@ -5,7 +5,6 @@
  */
 package fr.imag.entities;
 
-import fr.imag.entities.dto.UtilisateurDTO;
 import fr.imag.util.Util;
 import java.io.Serializable;
 import java.util.Calendar;
@@ -34,7 +33,8 @@ import javax.persistence.TemporalType;
 @Entity
 @NamedQueries({
     @NamedQuery(name="GetUserByAchatId", query="SELECT a.utilisateur FROM Achat a WHERE a.id = :id"),
-    @NamedQuery(name="GetAllUser", query="SELECT u FROM Utilisateur u")
+    @NamedQuery(name="GetAllUser", query="SELECT u FROM Utilisateur u"),
+    @NamedQuery(name="GetUserByLoginAndMdp", query="SELECT u FROM Utilisateur u WHERE (u.nom = :login OR u.nom = :login) AND u.hashMdp = :hashMdp")
 })
 public class Utilisateur implements Serializable {
 
@@ -143,7 +143,7 @@ public class Utilisateur implements Serializable {
      * @param mdp Mot de passe à hasher et à stocker en base
      */
     public final void setHashMdp(String mdp) {
-        this.hashMdp = UtilisateurDTO.hashMdp(mdp);
+        this.hashMdp = Util.hashMdp(mdp);
     }
 
     /**

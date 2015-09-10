@@ -5,9 +5,8 @@
  */
 package fr.imag.dao.remote;
 
-import fr.imag.entities.dto.JeuDTO;
-import fr.imag.entities.dto.PrixJeuDTO;
-import java.util.Collection;
+import fr.imag.dao.IntDAO;
+import fr.imag.entities.PrixJeu;
 import javax.ejb.Remote;
 
 /**
@@ -15,14 +14,6 @@ import javax.ejb.Remote;
  * @author seb
  */
 @Remote
-public interface IntRemotePrixJeuDAO {
-    public PrixJeuDTO find(long id);
-    public Collection<PrixJeuDTO> findAll();
-    public Collection<PrixJeuDTO> findAllFromJeu(JeuDTO j);
-    public PrixJeuDTO findPriceFromJeu(JeuDTO j);
-    public PrixJeuDTO getMaxPrix();
-    public boolean create(PrixJeuDTO obj);
-    public boolean update(PrixJeuDTO obj);
-    public boolean delete(PrixJeuDTO obj);
+public interface IntRemotePrixJeuDAO extends IntDAO<PrixJeu> {
     
 }

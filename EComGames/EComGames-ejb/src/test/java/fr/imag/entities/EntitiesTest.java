@@ -5,18 +5,21 @@
  */
 package fr.imag.entities;
 
+import fr.imag.dao.JeuDAO;
 import static org.junit.Assert.*;
 import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLNonTransientConnectionException;
 import java.util.Calendar;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.TypedQuery;
 import org.apache.derby.impl.io.VFMemoryStorageFactory;
 import org.junit.After;
 import org.junit.Before;
@@ -77,6 +80,30 @@ public class EntitiesTest {
             VFMemoryStorageFactory.purgeDatabase(new File("unit-testing-jpa").getCanonicalPath());
         } catch (Exception e) {
             logger.log(Level.INFO, "Exception during testPersistence", e);
+        }
+    }
+
+    //@Test
+    public void testDTPPersistence() {
+        try {
+            JeuDAO jdao = new JeuDAO();
+            jdao.setEntityManager(em);
+            
+            Editeur editeur = new Editeur("Sega Games");
+            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, null, null, null, null, null, null, "url");
+            jeu.setEditeur(editeur);
+
+            assertTrue("Le jeu n'a pas pu être créé", jdao.create(jeu));
+
+            TypedQuery<Jeu> q = em.createQuery("select j from Jeu j", Jeu.class);
+            List<Jeu> r = q.getResultList();
+
+            assertTrue("Le jeu n'est pas présent " + r, !r.isEmpty());
+            logger.info("Stop testPersistence");
+        } catch (Exception ex) {
+            
+            logger.log(Level.INFO, "Exception during testPersistence", ex);
+            fail("Exception during testPersistence. " + ex.getMessage());
         }
     }
 

@@ -56,12 +56,20 @@ public class Editeur implements Serializable {
 
     public Editeur() {
     }
+    
+    public Editeur(String nom) {
+        this(nom, null);
+    }
+    
+    public Editeur(String nom, String description) {
+        this(nom, description, null);
+    }
 
     public Editeur(String nom, String description, byte[] logo) {
         this.nom = nom;
         this.description = description;
         this.logo = logo;
-        this.jeux = new HashSet<Jeu>();
+        this.jeux = new HashSet<>();
     }
 
     public Long getId() {

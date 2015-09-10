@@ -5,10 +5,8 @@
  */
 package fr.imag.dao.local;
 
+import fr.imag.dao.IntDAO;
 import fr.imag.entities.Categorie;
-import fr.imag.entities.dto.CategorieDTO;
-import fr.imag.entities.dto.JeuDTO;
-import java.util.Collection;
 import javax.ejb.Local;
 
 /**
@@ -16,13 +14,5 @@ import javax.ejb.Local;
  * @author seb
  */
 @Local
-public interface IntLocalCategorieDAO {
-    public CategorieDTO find(long id);
-    public Collection<CategorieDTO> findAll();
-    public Collection<CategorieDTO> findAllFromJeu(JeuDTO jeu);
-    public boolean create(CategorieDTO obj);
-    public boolean update(CategorieDTO obj);
-    public boolean delete(CategorieDTO obj);
-    Categorie convertDTO(CategorieDTO obj);
-    CategorieDTO convert(Categorie obj);
+public interface IntLocalCategorieDAO extends IntDAO<Categorie> {
 }
