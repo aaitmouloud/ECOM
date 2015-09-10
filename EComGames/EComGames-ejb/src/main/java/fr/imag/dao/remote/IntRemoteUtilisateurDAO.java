@@ -16,11 +16,19 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntRemoteUtilisateurDAO {
-        public UtilisateurDTO find(long id);
+
+    public UtilisateurDTO find(long id);
+
     public Collection<UtilisateurDTO> findAll();
+
     public Collection<UtilisateurDTO> findAllFromAchat(AchatDTO a);
+
     public boolean create(UtilisateurDTO obj);
+
     public boolean update(UtilisateurDTO obj);
+
     public boolean delete(UtilisateurDTO obj);
-    
+
+    public UtilisateurDTO findFromLoginEtMdp(String login, String hashMdp);
+
 }

@@ -15,12 +15,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import javax.ejb.EJB;
+import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
 /**
  *
  * @author seb
  */
+@Stateless
 public class CategorieDAO extends IntDAO implements IntLocalCategorieDAO, IntRemoteCategorieDAO {
     @EJB
     IntLocalJeuDAO jeuDAO;

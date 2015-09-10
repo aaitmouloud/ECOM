@@ -15,4 +15,8 @@ import javax.persistence.PersistenceContext;
 abstract class IntDAO {
     @PersistenceContext(unitName = "EComGamesPU")
     protected EntityManager em;
+    
+    public void setEntityManager(EntityManager em) {
+        this.em = em;
+    }
 }
