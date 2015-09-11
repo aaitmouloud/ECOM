@@ -9,6 +9,7 @@
         <title>EComGames</title>
     </h:head>
     <h:body style="background:white;">
+        <h1>Le loggué est <h:outputText value="#{empty loggedUserBean.user? 'Le session de logged est null': loggedUserBean.user}" /></h1>
         <h1>EComGames - Très très belle page</h1>
         <h2>Welcome <h:outputText value="#{empty helloBean or empty helloBean.name? 'fantôme': helloBean.name}" />.</h2>
         <table>

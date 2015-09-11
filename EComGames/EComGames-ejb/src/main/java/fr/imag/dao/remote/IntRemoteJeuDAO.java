@@ -21,7 +21,7 @@ import javax.ejb.Remote;
 @Remote
 public interface IntRemoteJeuDAO extends IntDAO<Jeu> {
 
-    public Collection<Jeu> Search(Collection<Categorie> cc,
-            Collection<Editeur> ce, Collection<Plateforme> cp,
-            PrixJeu min, PrixJeu max);
+    public Collection<Jeu> Search(Collection<String> cc,
+            Collection<String> ce, Collection<String> cp,
+            double min, double max);
 }

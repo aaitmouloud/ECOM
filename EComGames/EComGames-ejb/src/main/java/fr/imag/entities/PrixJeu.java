@@ -36,9 +36,7 @@ import javax.persistence.UniqueConstraint;
     @NamedQuery(name = "GetAllPrixJeu", query = "SELECT p FROM PrixJeu p"),
     @NamedQuery(name = "GetMaxPrix", query = "SELECT p FROM PrixJeu p WHERE p.prix = (SELECT max(p2.prix) FROM PrixJeu p2 WHERE p2.dateFin IS NULL)")
 })
-@Table(name = "PRIX_JEU",
-        uniqueConstraints = @UniqueConstraint(name = "PRIX_JEU_UNIQUE",
-                columnNames = {"ID_JEU", "DATE_DEBUT", "DATE_FIN"}))
+@Table(name = "PRIX_JEU")
 public class PrixJeu implements Serializable {
 
     private static final long serialVersionUID = 1L;

@@ -48,12 +48,14 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     }; 
     
     public JeuManager(){
-        cj = new CompareJeu();
+        cj = new CompareJeu(this);
     }
     
     @Override
     public Collection<Jeu> orderBy(Collection<Jeu> cjd, Element e, Sens s){
         ArrayList<Jeu> lj = new ArrayList<>(cjd);
+        Iterator<Jeu> i = cjd.iterator();
+     
         cj.setElement(e);
         cj.setSens(s);
         Collections.sort(lj, cj);
@@ -94,8 +96,15 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     
     @Override
     public Double getPrix(Jeu j) {
-        PrixJeu p = prixJeuDAO.findPriceFromJeu(j);
-        return p.getPrix();
+        Collection<PrixJeu> cp = j.getPrix();
+        Iterator<PrixJeu> i = cp.iterator();
+        while (i.hasNext()){
+            PrixJeu p = i.next();
+            if (p.getDateFin() == null){
+                return  p.getPrix();
+            }
+        }
+        return null;
     }
     
     

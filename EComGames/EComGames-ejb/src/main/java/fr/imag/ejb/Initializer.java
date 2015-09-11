@@ -50,7 +50,7 @@ public class Initializer {
         PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), null, 77D);
         em.persist(jeu);
 
-        Utilisateur user = new Utilisateur("unU", "monMdp", Calendar.getInstance(), "bla@bla.bel");
+        Utilisateur user = new Utilisateur("toto", "toto", Calendar.getInstance(), "bla@bla.bel");
         em.persist(user);
 
         user.setEmail("blabla@car.com");

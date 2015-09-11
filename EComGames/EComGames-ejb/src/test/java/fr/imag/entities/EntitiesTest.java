@@ -11,6 +11,7 @@ import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLNonTransientConnectionException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.logging.Level;
@@ -19,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import org.apache.derby.impl.io.VFMemoryStorageFactory;
 import org.junit.After;
@@ -93,6 +95,10 @@ public class EntitiesTest {
             Editeur editeur = new Editeur("Sega Games");
             Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "http://");
             jeu.setEditeur(editeur);
+            Categorie c = new Categorie("RPG");
+            Categorie c1 = new Categorie("Action");
+            jeu.addCategorie(c);
+            jeu.addCategorie(c1);
             jeu.addCurrentPrix(50D);
 
             assertTrue("Le jeu n'a pas pu être créé", jdao.create(jeu));
@@ -103,9 +109,17 @@ public class EntitiesTest {
             List<Jeu> r = q.getResultList();
             tx.commit();
             assertFalse("Le jeu n'est pas présent ", r.isEmpty());
-            Double pp = r.iterator().next().getCurrentPrix().getPrix();
-            assertTrue("Le jeu a le mauvais prix ", pp == 50D);
+            Jeu j = r.iterator().next();
+            assertTrue("Le jeu a le mauvais prix ", j.getCurrentPrix().getPrix() == 50D);
+            assertTrue("Le jeu n'a pas assez de catégories ", j.getCategories().size() == 2);
             
+            Query qq = em.createQuery("SELECT j2.id FROM Jeu j2 INNER JOIN j2.categories cc "
+                    + "WHERE cc.nom IN :cid GROUP BY j2.id HAVING (COUNT(DISTINCT cc.id) = :csize)");
+            qq.setParameter("cid", Arrays.asList("RPG", "Action"));
+            qq.setParameter("csize", 2);
+            List res = qq.getResultList();
+            assertFalse("Aucun résultat", res.isEmpty());
+                   
             logger.info("Stop testPersistence");
         } catch (Exception ex) {
             if (tx != null && tx.isActive()) {
@@ -116,7 +130,7 @@ public class EntitiesTest {
         }
     }
 
-    @Test
+    //@Test
     public void testPersistence() {
         EntityTransaction tx = null;
         try {
