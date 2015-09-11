@@ -5,12 +5,7 @@
  */
 package fr.imag.dao;
 
-import fr.imag.dao.local.IntLocalPrixJeuDAO;
-import fr.imag.dao.local.IntLocalPlateformeDAO;
 import fr.imag.dao.local.IntLocalJeuDAO;
-import fr.imag.dao.local.IntLocalCategorieDAO;
-import fr.imag.dao.local.IntLocalCleDAO;
-import fr.imag.dao.local.IntLocalEditeurDAO;
 import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.entities.Categorie;
 import fr.imag.entities.Editeur;
@@ -20,7 +15,6 @@ import fr.imag.entities.PrixJeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -30,22 +24,6 @@ import javax.persistence.TypedQuery;
  */
 @Stateless
 public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuDAO {
-
-    @EJB
-    IntLocalCategorieDAO categorieDAO;
-
-    @EJB
-    IntLocalCleDAO cleDAO;
-
-    @EJB
-    IntLocalEditeurDAO editeurDAO;
-
-    @EJB
-    IntLocalPrixJeuDAO prixJeuDAO;
-
-    @EJB
-    IntLocalPlateformeDAO plateformeDAO;
-
 
     @Override
     public Collection<Jeu> findAll() {

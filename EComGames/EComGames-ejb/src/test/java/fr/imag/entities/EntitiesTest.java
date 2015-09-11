@@ -83,25 +83,34 @@ public class EntitiesTest {
         }
     }
 
-    //@Test
-    public void testDTPPersistence() {
+    @Test
+    public void testStatelessPersistence() {
+        EntityTransaction tx = null;
         try {
             JeuDAO jdao = new JeuDAO();
             jdao.setEntityManager(em);
-            
+
             Editeur editeur = new Editeur("Sega Games");
-            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, null, null, null, null, null, null, "url");
+            Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "http://");
             jeu.setEditeur(editeur);
+            jeu.addCurrentPrix(50D);
 
             assertTrue("Le jeu n'a pas pu être créé", jdao.create(jeu));
 
+            tx = em.getTransaction();
+            tx.begin();
             TypedQuery<Jeu> q = em.createQuery("select j from Jeu j", Jeu.class);
             List<Jeu> r = q.getResultList();
-
-            assertTrue("Le jeu n'est pas présent " + r, !r.isEmpty());
+            tx.commit();
+            assertFalse("Le jeu n'est pas présent ", r.isEmpty());
+            Double pp = r.iterator().next().getCurrentPrix().getPrix();
+            assertTrue("Le jeu a le mauvais prix ", pp == 50D);
+            
             logger.info("Stop testPersistence");
         } catch (Exception ex) {
-            
+            if (tx != null && tx.isActive()) {
+                tx.rollback();
+            } 
             logger.log(Level.INFO, "Exception during testPersistence", ex);
             fail("Exception during testPersistence. " + ex.getMessage());
         }
@@ -130,6 +139,8 @@ public class EntitiesTest {
             assertTrue("Le jeu a le mauvais éditeur (1).", j1.getEditeur().equals(editeur));
 
             assertTrue("L'éditeur n'est pas mis à jour", j1.setEditeur(new Editeur("Nintendo", "Mario et cie.", null)));
+            Editeur e = em.find(Editeur.class, editeur.getId());
+            assertTrue("L'éditeur n'est pas mis à jour - 2", e.getJeux().isEmpty());
 
             em.merge(j1);
 
@@ -177,7 +188,7 @@ public class EntitiesTest {
         }
     }
 
-    @Test
+    //@Test
     public void toStringTest() {
         Editeur editeur = new Editeur("Sega Games", "C'est plus fort que toi", null);
         Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");

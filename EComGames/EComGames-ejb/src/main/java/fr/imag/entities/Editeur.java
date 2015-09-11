@@ -109,9 +109,9 @@ public class Editeur implements Serializable {
     }
     
     final boolean removeJeu(String jeuId) {
-        this.jeux.clear();
+/*        this.jeux.clear();
         if ("a" == "a")
-            return true;
+            return true; */
         Iterator<Jeu> ite = this.jeux.iterator();
         while(ite.hasNext()) {
             Jeu jeu = ite.next();
