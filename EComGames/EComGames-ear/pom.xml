@@ -16,7 +16,7 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <glassfish.directory>/opt/glassfish-4.1/glassfish</glassfish.directory>
+        <glassfish.directory>/home/cedric/glassfish-4.1/glassfish</glassfish.directory>
         <glassfish.domain>domain1</glassfish.domain>
     </properties>
   

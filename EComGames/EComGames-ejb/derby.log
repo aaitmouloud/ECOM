@@ -1,0 +1,20 @@
+----------------------------------------------------------------
+2015-09-10 12:52:30.967 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.5.3.0 - (802917): instance a816c00e-014f-b750-8214-000004387788
+on database directory memory:/home/cedric/NetBeansProjects/ECOM/EComGames/EComGames-ejb/unit-testing-jpa  
+
+Database Class Loader started - derby.database.classpath=''
+
+2015-09-10 12:52:32.922 GMT:
+Shutting down instance a816c00e-014f-b750-8214-000004387788
+----------------------------------------------------------------
+----------------------------------------------------------------
+2015-09-10 12:52:32.930 GMT:
+ Booting Derby version The Apache Software Foundation - Apache Derby - 10.5.3.0 - (802917): instance 56b64192-014f-b750-8214-000004387788
+on database directory memory:/home/cedric/NetBeansProjects/ECOM/EComGames/EComGames-ejb/unit-testing-jpa  
+
+Database Class Loader started - derby.database.classpath=''
+
+2015-09-10 12:52:33.373 GMT:
+Shutting down instance 56b64192-014f-b750-8214-000004387788
+----------------------------------------------------------------
