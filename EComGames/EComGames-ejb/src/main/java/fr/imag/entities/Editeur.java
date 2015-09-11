@@ -43,7 +43,7 @@ public class Editeur implements Serializable {
     @Column(length = 25, nullable = false)
     private String nom;
 
-    @Column(length = 255, nullable = false)
+    @Column(length = 255, nullable = true)
     private String description;
 
     @Column(nullable = true)

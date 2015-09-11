@@ -94,8 +94,15 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     
     @Override
     public Double getPrix(Jeu j) {
-        PrixJeu p = prixJeuDAO.findPriceFromJeu(j);
-        return p.getPrix();
+        Collection<PrixJeu> cp = j.getPrix();
+        Iterator<PrixJeu> i = cp.iterator();
+        while (i.hasNext()){
+            PrixJeu p = i.next();
+            if (p.getDateFin() == null){
+                return  p.getPrix();
+            }
+        }
+        return null;
     }
     
     

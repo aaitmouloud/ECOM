@@ -16,7 +16,7 @@ import org.junit.Test;
  */
 public class MdpHashTest {
 
-    @Test
+    //@Test
     public void test() {
         String testString = "This is a very very very very long long string kmjlmds57#\"\"512155,;;n4578aamien";
         

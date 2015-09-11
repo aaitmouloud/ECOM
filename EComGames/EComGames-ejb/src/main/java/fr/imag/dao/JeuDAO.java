@@ -49,13 +49,12 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
 
     @Override
     public Collection<Jeu> findAll() {
-        ArrayList<Jeu> cjd = new ArrayList<>();
         try {
             TypedQuery<Jeu> query = em.createNamedQuery("GetAllJeu", Jeu.class);
             return query.getResultList();
             
         } catch (Exception e) {
-            return Collections.EMPTY_LIST;
+            throw (new RuntimeException(e));
         }
     }
 
