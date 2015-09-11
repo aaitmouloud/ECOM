@@ -8,6 +8,7 @@ package fr.imag.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -62,9 +63,29 @@ public class Categorie implements Serializable {
         return new HashSet<>(jeux);
     }
 
-    public boolean addJeux(Jeu jeu) {
+    public boolean addJeu(Jeu jeu) {
         return this.jeux.add(jeu);
     }
+    
+    final boolean removeJeu(Jeu jeu) {
+   
+        if (jeu == null) {
+            return false;
+        }
+
+        Iterator<Jeu> ite = jeux.iterator();
+        Jeu j;
+        while (ite.hasNext()) {
+            j = ite.next();
+            if (j.equals(jeu) || j.getId().equals(jeu.getId())) {
+                ite.remove();
+                return true;
+            }
+        }
+        return false;
+    
+    }
+
 
     @Override
     public int hashCode() {
@@ -102,4 +123,5 @@ public class Categorie implements Serializable {
                 .toString();
     }
 
+    
 }

@@ -32,24 +32,19 @@ import javax.persistence.UniqueConstraint;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="GetPrixJeuByJeuId", query="SELECT j.prix FROM Jeu j WHERE j.id = :id"),
-    @NamedQuery(name="GetAllPrixJeu", query="SELECT p FROM PrixJeu p"),
-    @NamedQuery(name="GetMaxPrix", query="SELECT p FROM PrixJeu p WHERE p.prix = (SELECT max(p2.prix) FROM PrixJeu p2 WHERE p2.dateFin IS NULL)")
+    @NamedQuery(name = "GetPrixJeuByJeuId", query = "SELECT j.prix FROM Jeu j WHERE j.id = :id"),
+    @NamedQuery(name = "GetAllPrixJeu", query = "SELECT p FROM PrixJeu p"),
+    @NamedQuery(name = "GetMaxPrix", query = "SELECT p FROM PrixJeu p WHERE p.prix = (SELECT max(p2.prix) FROM PrixJeu p2 WHERE p2.dateFin IS NULL)")
 })
-@Table(name = "PRIX_JEU", 
+@Table(name = "PRIX_JEU",
         uniqueConstraints = @UniqueConstraint(name = "PRIX_JEU_UNIQUE",
-        columnNames = {"ID_JEU", "DATE_DEBUT", "DATE_FIN"}))
+                columnNames = {"ID_JEU", "DATE_DEBUT", "DATE_FIN"}))
 public class PrixJeu implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-
-    @ManyToOne(fetch = FetchType.LAZY,
-            cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
-    @JoinColumn(name = "ID_JEU", nullable = false)
-    private Jeu jeu;
 
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "DATE_DEBUT")
@@ -76,13 +71,14 @@ public class PrixJeu implements Serializable {
      * @param prix
      */
     public PrixJeu(Jeu jeu, Calendar dateDebut, Calendar dateFin, Double prix) {
-        if (jeu == null)
+        if (jeu == null) {
             throw new IllegalArgumentException("Le jeu est null");
-         
+        }
+
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.prix = prix;
-        
+
         jeu.addPrix((this));
     }
 
@@ -92,18 +88,6 @@ public class PrixJeu implements Serializable {
      */
     public Long getId() {
         return id;
-    }
-
-    /**
-     *
-     * @return
-     */
-    public Jeu getJeu() {
-        return jeu;
-    }
-    
-    final void setJeu(Jeu jeu) {
-        this.jeu = jeu;
     }
 
     /**
@@ -122,6 +106,10 @@ public class PrixJeu implements Serializable {
         return dateFin;
     }
 
+    public void setDateFin(Calendar dateFin) {
+        this.dateFin = dateFin;
+    }
+
     /**
      *
      * @return
@@ -133,7 +121,6 @@ public class PrixJeu implements Serializable {
     @Override
     public int hashCode() {
         int hash = 7;
-        hash = 11 * hash + Objects.hashCode(this.jeu);
         hash = 11 * hash + Objects.hashCode(this.dateDebut);
         hash = 11 * hash + Objects.hashCode(this.dateFin);
         hash = 11 * hash + Objects.hashCode(this.prix);
@@ -149,9 +136,6 @@ public class PrixJeu implements Serializable {
             return false;
         }
         final PrixJeu other = (PrixJeu) obj;
-        if (!Objects.equals(this.jeu, other.jeu)) {
-            return false;
-        }
         if (!Objects.equals(this.dateDebut, other.dateDebut)) {
             return false;
         }
@@ -167,7 +151,6 @@ public class PrixJeu implements Serializable {
     @Override
     public String toString() {
         return new StringBuilder("PrixJeu{").append("id=").append(id)
-                .append(", jeu=").append(jeu == null? "aucun": jeu.getNom())
                 .append(", dateDebut=")
                 .append(Util.formatCalendar(dateDebut)).append(", dateFin=")
                 .append(Util.formatCalendar(dateFin))
