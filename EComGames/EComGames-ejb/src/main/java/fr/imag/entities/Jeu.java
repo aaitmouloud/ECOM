@@ -7,8 +7,10 @@ package fr.imag.entities;
 
 import java.io.Serializable;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
 import java.util.UUID;
 import javax.persistence.CascadeType;
@@ -32,16 +34,16 @@ import javax.persistence.OneToMany;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="GetJeuByCleId", query="SELECT c.cle FROM Cle c WHERE c.cle = :id"),
-    @NamedQuery(name="GetJeuByEditeurId", query="SELECT e.jeux FROM Editeur e WHERE e.id = :id"),
-    @NamedQuery(name="GetJeuByCategorieId", query="SELECT c.jeux FROM Categorie c WHERE c.id = :id"),
-    @NamedQuery(name="GetJeuByPlateformeId", query="SELECT p.jeux FROM Plateforme p WHERE p.id = :id"),
-    @NamedQuery(name="SearchJeu", query="SELECT j FROM Jeu j INNER JOIN j.categories c JOIN j.editeur e INNER JOIN j.plateformes pl INNER JOIN j.prix p "
+    @NamedQuery(name = "GetJeuByCleId", query = "SELECT c.cle FROM Cle c WHERE c.cle = :id"),
+    @NamedQuery(name = "GetJeuByEditeurId", query = "SELECT e.jeux FROM Editeur e WHERE e.id = :id"),
+    @NamedQuery(name = "GetJeuByCategorieId", query = "SELECT c.jeux FROM Categorie c WHERE c.id = :id"),
+    @NamedQuery(name = "GetJeuByPlateformeId", query = "SELECT p.jeux FROM Plateforme p WHERE p.id = :id"),
+    @NamedQuery(name = "SearchJeu", query = "SELECT j FROM Jeu j INNER JOIN j.categories c JOIN j.editeur e INNER JOIN j.plateformes pl INNER JOIN j.prix p "
             + "WHERE p.prix >= :prixMin AND p.prix <= :prixMax AND p.dateFin IS NULL "
             + "AND (:cid IS NULL OR (SELECT COUNT(cat) FROM j.categories cat WHERE cat IN :cid) = :cnb) "
             + "AND (:ced IS NULL OR e IN :ced) "
             + "AND (:plid IS NULL OR EXISTS(SELECT plat FROM j.plateformes plat WHERE plat IN :plid))"),
-    @NamedQuery(name="GetAllJeu", query="SELECT j FROM Jeu j")
+    @NamedQuery(name = "GetAllJeu", query = "SELECT j FROM Jeu j")
 })
 public class Jeu implements Serializable {
 
@@ -87,7 +89,7 @@ public class Jeu implements Serializable {
     @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<Cle> cles;
 
-    @OneToMany(mappedBy = "jeu", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Collection<PrixJeu> prix;
 
     @Column(nullable = false)
@@ -250,6 +252,24 @@ public class Jeu implements Serializable {
         return new HashSet<>(plateformes);
     }
 
+    public boolean removePlateforme(Plateforme p) {
+        if (p == null) {
+            return false;
+        }
+
+        Iterator<Plateforme> ite = plateformes.iterator();
+        Plateforme pl;
+        while (ite.hasNext()) {
+            pl = ite.next();
+            if (pl.equals(p) || pl.getId().equals(p.getId())) {
+                ite.remove();
+                p.removeJeu(this);
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      *
      * @param plateforme
@@ -281,7 +301,25 @@ public class Jeu implements Serializable {
             return false;
         }
 
-        return categorie.addJeux(this) && this.categories.add(categorie);
+        return categorie.addJeu(this) && this.categories.add(categorie);
+    }
+
+    public boolean removeCategorie(Categorie c) {
+        if (c == null) {
+            return false;
+        }
+
+        Iterator<Categorie> ite = categories.iterator();
+        Categorie cat;
+        while (ite.hasNext()) {
+            cat = ite.next();
+            if (cat.equals(c) || cat.getId().equals(c.getId())) {
+                ite.remove();
+                c.removeJeu(this);
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
@@ -301,7 +339,7 @@ public class Jeu implements Serializable {
         if (this.editeur != null) {
             this.editeur.removeJeu(this.getId());
         }
-        
+
         this.editeur = editeur;
 
         return this.editeur == null || this.editeur.addJeu(this);
@@ -346,15 +384,37 @@ public class Jeu implements Serializable {
      * @return
      */
     final public boolean addPrix(PrixJeu pri) {
-        if (pri == null || pri.getJeu() != null) {
-            return false;
-        }
+        return this.prix.add(pri);
+    }
 
-        if (this.prix.add(pri)) {
-            pri.setJeu(this);
-            return true;
+    final public boolean addCurrentPrix(double prix) {
+        Calendar now = Calendar.getInstance();
+        PrixJeu last = null;
+        for (PrixJeu pj : this.prix) {
+
+            if (pj.getDateDebut().before(now)
+                    && (last == null || pj.getDateFin().after(last.getDateFin()))) {
+                last = pj;
+            }
         }
-        return false;
+        if (last != null) {
+            last.setDateFin(now);
+        }
+        return this.addPrix(new PrixJeu(this, now, null, prix));
+
+    }
+
+    public PrixJeu getCurrentPrix() {
+        Calendar now = Calendar.getInstance();
+        
+        for (PrixJeu pj : this.prix) {
+
+            if (pj.getDateDebut().before(now)
+                    && (pj.getDateFin() == null || pj.getDateFin().after(now))) {
+                return pj;
+            }
+        }
+        return null;
     }
 
     public String getUrl() {
@@ -430,8 +490,8 @@ public class Jeu implements Serializable {
                 .append(", nom=").append(nom).append(", url=").append(url)
                 .append(", description=").append(description).append(", annee=")
                 .append(annee).append(", ageMin=").append(ageMin)
-                .append(",").append(plateformes == null? "aucune": plateformes.size())
-                .append("plateformes ,").append(categories == null? "aucune" : categories.size())
+                .append(",").append(plateformes == null ? "aucune" : plateformes.size())
+                .append("plateformes ,").append(categories == null ? "aucune" : categories.size())
                 .append("categories , editeur=")
                 .append(editeur == null ? "aucun" : editeur.getNom()).append('}')
                 .toString();
