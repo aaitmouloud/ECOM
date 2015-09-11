@@ -8,18 +8,21 @@ package fr.imag.business;
 import fr.imag.business.remote.JeuManagerRemote;
 import fr.imag.entities.Jeu;
 import java.util.Comparator;
-import javax.ejb.EJB;
 /**
  *
  * @author seb
  */
 
+
 public class CompareJeu implements Comparator<Jeu> {
-    @EJB
-    JeuManagerRemote jm;
+    JeuManager jm;
     
     private JeuManager.Element e;
     private JeuManager.Sens s;
+    
+    public CompareJeu(JeuManager jm){
+        this.setManager(jm);
+    }
     
     public void setElement(JeuManager.Element e){
         this.e = e;
@@ -29,14 +32,20 @@ public class CompareJeu implements Comparator<Jeu> {
         this.s = s;
     }
     
+    public void setManager(JeuManager jm){
+        this.jm = jm;
+    }
+    
+    
+    
     
     @Override
     public int compare(Jeu t1, Jeu t2) {
         int nb;
         switch(e){
-            case BestSell :
+            case Note :
                 nb = ((Float) jm.getAverageNote(t1)).compareTo((Float) jm.getAverageNote(t2)); break;
-            case Note: 
+            case BestSell: 
                 nb = ((Integer) jm.getNbSell(t1)).compareTo((Integer) jm.getNbSell(t2)); break;
             case Editeur:
                 nb = t1.getEditeur().getNom().compareTo(t2.getEditeur().getNom()); break;

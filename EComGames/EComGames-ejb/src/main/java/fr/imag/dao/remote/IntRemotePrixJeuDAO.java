@@ -16,4 +16,6 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntRemotePrixJeuDAO extends IntDAO<PrixJeu> {
+    
+    public PrixJeu getMaxPrix();
 }

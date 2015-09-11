@@ -48,12 +48,14 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     }; 
     
     public JeuManager(){
-        cj = new CompareJeu();
+        cj = new CompareJeu(this);
     }
     
     @Override
     public Collection<Jeu> orderBy(Collection<Jeu> cjd, Element e, Sens s){
         ArrayList<Jeu> lj = new ArrayList<>(cjd);
+        Iterator<Jeu> i = cjd.iterator();
+     
         cj.setElement(e);
         cj.setSens(s);
         Collections.sort(lj, cj);

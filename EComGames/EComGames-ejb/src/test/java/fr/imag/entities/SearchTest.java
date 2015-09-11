@@ -18,8 +18,10 @@ import java.io.File;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.SQLNonTransientConnectionException;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -90,7 +92,7 @@ public class SearchTest {
         }
     }
     
-    @Test
+    //@Test
     public void testSearch(){
         EntityTransaction tx = null;
         try {
@@ -154,6 +156,7 @@ public class SearchTest {
             jeu2.addPlateforme(plateforme);
             jeu2.addPlateforme(plateforme2);
             
+            cle.setAchat(achat);
             cle3.setAchat(achat2);
             cle4.setAchat(achat3);
             
@@ -190,6 +193,7 @@ public class SearchTest {
             
             prDAO.create(prixjeu);
             prDAO.create(prixjeu2);
+            prDAO.create(prixjeu3);
             
             uDAO.create(utilisateur);
             
@@ -198,41 +202,126 @@ public class SearchTest {
             assertTrue("Le nombre de vente de Skyrim est faux", jM.getNbSell(jeu2) == 2);
             assertTrue("La note moyenne de Skyrim est fausse", jM.getAverageNote(jeu2) == 14);
             assertTrue("Le prix en cours de Skyrim est faux", jM.getPrix(jeu2) == 30);
-            Collection<Jeu> cj = jDAO.findAll();
-            assertTrue("Aucun jeu trouvé dans la base", em.contains(jeu));
+            
             tx = em.getTransaction();
             tx.begin();
-            assertTrue("Aucun jeu trouvé dans la base", !em.createQuery("SELECT j FROM Jeu j", Jeu.class).getResultList().isEmpty());
+            
+            assertTrue("Le prix en cours de Skyrim est faux", prDAO.getMaxPrix().equals(prixjeu));
+            
+            Collection<Jeu> cj = jDAO.findAll();
+            assertTrue("Aucun jeu trouvé dans la base", !cj.isEmpty());
+    
             
             cj = jM.orderBy(cj, JeuManager.Element.Note, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Note Croissante est vide ", cj.iterator().hasNext());
+            assertTrue("La collection par Note Croissante est vide ",!cj.isEmpty());
             Jeu top = cj.iterator().next();
             assertTrue("Le tri par Note Croissante est faux", top.equals(jeu));
             
             cj = jM.orderBy(cj, JeuManager.Element.Annee, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Année Croissante est vide ", cj.iterator().hasNext());
+            assertTrue("La collection par Année Croissante est vide ", !cj.isEmpty());
             top = cj.iterator().next();
             assertTrue("Le tri par Année Croissante est faux", top.equals(jeu2));
             
             cj = jM.orderBy(cj, JeuManager.Element.BestSell, JeuManager.Sens.Croissant);
-            assertTrue("La collection par MeilleurVente Croissante est vide ", cj.iterator().hasNext());
+            assertTrue("La collection par MeilleurVente Croissante est vide ", !cj.isEmpty());
             top = cj.iterator().next();
             assertTrue("Le tri par MeilleurVente Croissante est faux", top.equals(jeu));
             
             cj = jM.orderBy(cj, JeuManager.Element.Editeur, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Editeur Croissant est vide ", cj.iterator().hasNext());
+            assertTrue("La collection par Editeur Croissant est vide ", !cj.isEmpty());
             top = cj.iterator().next();
             assertTrue("Le tri par Editeur Croissant est faux", top.equals(jeu2));
             
              cj = jM.orderBy(cj, JeuManager.Element.Prix, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Prix Croissant est vide ", cj.iterator().hasNext());
+            assertTrue("La collection par Prix Croissant est vide ", !cj.isEmpty());
             top = cj.iterator().next();
             assertTrue("Le tri par Prix Croissant est faux", top.equals(jeu2));
             
              cj = jM.orderBy(cj, JeuManager.Element.Defaut, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Defaut Croissante est vide ", cj.iterator().hasNext());
+            assertTrue("La collection par Defaut Croissante est vide ", !cj.isEmpty());
             top = cj.iterator().next();
-            assertTrue("Le tri par Defaut Croissante est faux", top.equals(jeu));
+            assertTrue("Le tri par Defaut Croissante est faux", top.equals(jeu2));
+            
+            
+            
+            ArrayList<String> ac = new ArrayList<>();
+            ArrayList<String> ae = new ArrayList<>();
+            ArrayList<String> ap = new ArrayList<>();
+            
+            ac.add(categorie2.getNom());
+            
+            Collection<Jeu> result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche par categorie est fausse " + result.size(),result.size() == 1);
+            assertTrue("La recherche par categorie renvoit le mauvais jeu",result.iterator().next().equals(jeu));
+            
+            ac.remove(categorie2.getNom());
+            ac.add(categorie.getNom());
+            ac.add(categorie4.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche par multiple categorie est fausse " + result.size(),result.size() == 1);
+            assertTrue("La recherche par multiple categorie renvoit le mauvais jeu",result.iterator().next().equals(jeu2));
+            
+            ac.remove(categorie.getNom());
+            ac.remove(categorie4.getNom());
+            ae.add(editeur2.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche par editeur est fausse " + result.size(),result.size() == 1);
+            assertTrue("La recherche par editeur renvoit le mauvais jeu",result.iterator().next().equals(jeu2));
+            
+            ae.add(editeur.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche par multiple editeur est fausse " + result.size(),result.size() == 2);
+            
+            ae.remove(editeur.getNom());
+            ae.remove(editeur2.getNom());
+            ap.add(plateforme2.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche par plateforme est fausse " + result.size(),result.size() == 1);
+            assertTrue("La recherche par plateforme renvoit le mauvais jeu",result.iterator().next().equals(jeu2));
+            
+            ap.add(plateforme.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche par multiple plateforme est fausse",result.size() == 2);
+            
+            ap.remove(plateforme.getNom());
+            ap.remove(plateforme2.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 30);
+            assertTrue("La recherche par prix est fausse " + result.size(),result.size() == 1);
+            assertTrue("La recherche par prix renvoit le mauvais jeu",result.iterator().next().equals(jeu2));
+            
+            result = jDAO.Search(ac, ae, ap, 30, 60);
+            assertTrue("La recherche par prix est fausse " + result.size(),result.size() == 2);
+            
+            result = jDAO.Search(ac, ae, ap, 100, 1200);
+            assertTrue("La recherche par prix est fausse " + result.size(),result.size() == 0);
+            
+            ac.add(categorie.getNom());
+            ae.add(editeur.getNom());
+            ae.add(editeur2.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 0, 120);
+            assertTrue("La recherche globale(etape 1) est fausse " + result.size(),result.size() == 2);
+            
+            
+            result = jDAO.Search(ac, ae, ap, 30, 60);
+            assertTrue("La recherche globale(etape 2) est fausse " + result.size(),result.size() == 2);
+            
+            ap.add(plateforme.getNom());
+            result = jDAO.Search(ac, ae, ap, 30, 60);
+            assertTrue("La recherche globale(etape 4) est fausse " + result.size(),result.size() == 2);
+            
+            ac.add(categorie2.getNom());
+            
+            result = jDAO.Search(ac, ae, ap, 30, 60);
+            assertTrue("La recherche globale(etape finale) est fausse",result.size() == 1);
+            assertTrue("La recherche globale renvoit le mauvais jeu",result.iterator().next().equals(jeu));
+            
             tx.commit();
             logger.info("Stop testSearch");
         } catch (Exception ex) {

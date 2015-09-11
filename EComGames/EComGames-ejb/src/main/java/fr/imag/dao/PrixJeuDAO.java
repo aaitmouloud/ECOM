@@ -38,5 +38,16 @@ public class PrixJeuDAO extends AbstractDAO implements IntLocalPrixJeuDAO, IntRe
             return Collections.EMPTY_LIST;
         }
     }
+    
+    @Override
+    public PrixJeu getMaxPrix() {
+        try{
+             TypedQuery<PrixJeu> query = em.createNamedQuery("GetMaxPrix", PrixJeu.class);
+             PrixJeu p = (PrixJeu)query.getSingleResult();
+            return p;
+        }catch (Exception e){
+            return null;
+        }
+    }
 
 }
