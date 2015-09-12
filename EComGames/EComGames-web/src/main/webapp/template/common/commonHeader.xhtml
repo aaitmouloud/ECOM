@@ -1,28 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      >        
+
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://xmlns.jcp.org/jsf/core"    
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">        
     <body>
-	    <ui:composition>
-                <div id="webSiteName">
-                    <h1>EComGames</h1>
-                </div>
-                <div id="usrMenu">
-                    <div id="monPanier">
-                        <a href="?monPanier=true">mon Panier</a>
-                    </div>
-                    <div id="monComte">
-                        <a href="?Comte=true">mon Comte</a>
-                    </div>
-                    <div id="connexion">
-                        <a href="?connexion=true">connexion</a>
-                    </div>
-                </div>
-                
-	    </ui:composition>
+        <ui:composition>
+            <div id="webSiteName">
+                <h1>EComGames</h1>
+            </div>
+            <h:form id="usrMenu">
+
+                <c:choose>
+                    <c:when test="#{loggedUserBean.unlogged}">
+                        <h:outputLink value="javascript:void(0)" 
+                                      onclick="PF('loginDlg').show()" 
+                                      title="Connexion"
+                                      styleClass="header_link"
+                                      id="loginLink">
+                            Se connecter
+                        </h:outputLink>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="header_link">
+                            Bienvenue <span style="font-weight:bold;">#{loggedUserBean.username}</span> (#{loggedUserBean.email})
+                        </div>
+                        <p:commandLink
+                            value="Se déconnecter"
+                            action="#{loggedUserBean.logout()}"
+                            styleClass="header_link"
+                            update="@all" 
+                            />
+                    </c:otherwise>
+                </c:choose>
+
+                <p:dialog header="Se connecter à EComGames" widgetVar="loginDlg" 
+                          resizable="false" closeOnEscape="true" 
+                          hideEffect="fade" position="center,top" >
+                    <h:panelGrid columns="2" cellpadding="5" footerClass="loginPopupFooter">
+                        <h:outputLabel for="login" value="Login:" />
+                        <p:inputText id="login" value="#{loginBean.login}" required="true" label="username" />
+
+                        <h:outputLabel for="motDePasse" value="Mot de passe: " />
+                        <p:password id="motDePasse" value="#{loginBean.password}" required="true" label="password" />
+
+                        <f:facet name="footer" >
+                            <p:growl id="growl" sticky="false" showDetail="true" autoUpdate="true" life="1200" />
+                            
+                            <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
+
+                            <p:commandButton value="Se connecter" update="growl"
+                                             actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"
+                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { updateEverything(); }" />
+                        </f:facet>  
+
+                    </h:panelGrid>
+                </p:dialog>
+
+                <a href="?monPanier=true" class="header_link">Panier</a>
+                <a href="?Compte=true" class="header_link">Compte</a>
+
+            </h:form>
+        </ui:composition>
     </body>
 </html>
 

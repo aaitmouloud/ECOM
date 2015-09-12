@@ -23,7 +23,7 @@
     </session-config>
 
     <welcome-file-list>
-        <welcome-file>welcome.jsf</welcome-file>
+        <welcome-file>default.jsf</welcome-file>
     </welcome-file-list>
   
 </web-app>
