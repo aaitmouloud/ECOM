@@ -1,0 +1,59 @@
+/*
+Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+- Pas d’Utilisation Commerciale. 
+- Partage dans les Mêmes Conditions 4.0 International.
+*/
+/* 
+    Created on : 11 sept. 2015, 09:24:20
+    Author     : cedric
+*/
+
+/*
+partie balise
+*/
+table{
+    margin-right: auto;
+    margin-left: auto;
+}
+
+th, td{
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-style: solid;
+    border-width: 3px;
+}
+
+/*
+partie class
+*/
+.center{
+    text-align: center;
+}
+
+/*
+partie id
+*/
+
+#multiselect{
+    float : left;
+    display: inline-block;
+}
+
+#gameList{
+   margin-right: auto;
+   margin-left: auto;
+   width: 70%;
+   background-color : #E6E2AF;
+}
+
+#genre, #publisher{
+    border-style: solid;
+    border-width: 3px;
+    background-color : #E6E2AF;
+}
+
+#publisher{
+    margin-top: 20px;
+}
