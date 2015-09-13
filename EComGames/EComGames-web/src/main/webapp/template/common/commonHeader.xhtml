@@ -37,6 +37,9 @@
                     </c:otherwise>
                 </c:choose>
 
+                <a href="?monPanier=true" class="header_link">Panier</a>
+                <a href="?Compte=true" class="header_link">Compte</a>
+
                 <p:dialog header="Se connecter à EComGames" widgetVar="loginDlg" 
                           resizable="false" closeOnEscape="true" 
                           hideEffect="fade" position="center,top" >
@@ -47,23 +50,29 @@
                         <h:outputLabel for="motDePasse" value="Mot de passe: " />
                         <p:password id="motDePasse" value="#{loginBean.password}" required="true" label="password" />
 
+
                         <f:facet name="footer" >
                             <p:growl id="growl" sticky="false" showDetail="true" autoUpdate="true" life="1200" />
-
                             <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
-
                             <p:commandButton value="Se connecter" update="growl"
                                              actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"
                                              oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { updateEverything(); }" />
                         </f:facet>  
 
+
                     </h:panelGrid>
                 </p:dialog>
-
-                <a href="?monPanier=true" class="header_link">Panier</a>
-                <a href="?Compte=true" class="header_link">Compte</a>
+            </h:form>
+            <h:form id="searchBar">
+                <p:autoComplete id="searchField" value="#{helloBean.name}"
+                                queryDelay="1000" completeMethod="#{helloBean.auto}"
+                                required="true" requiredMessage="Veuillez entrer " 
+                                placeholder="Recherche... "/> 
 
             </h:form>
+
+
+
         </ui:composition>
     </body>
 </html>
