@@ -16,10 +16,16 @@
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> 
     </properties>
-    
-    <dependencies>
+
+                    
+    <dependencies>	
+        <dependency>
+            <groupId>org.primefaces</groupId>
+            <artifactId>primefaces</artifactId>
+            <version>5.0</version>
+        </dependency>		
         <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
@@ -30,8 +36,8 @@
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
-            <type>jar</type>
         </dependency>
+      
         <dependency>
             <groupId>fr.imag</groupId>
             <artifactId>EComGames-ejb</artifactId>
@@ -90,5 +96,4 @@
             </plugin>
         </plugins>
     </build>
-
 </project>
