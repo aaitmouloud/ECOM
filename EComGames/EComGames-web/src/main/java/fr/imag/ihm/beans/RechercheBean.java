@@ -9,12 +9,16 @@ import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.entities.Jeu;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.view.ViewScoped;
+import javax.faces.bean.ViewScoped;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -22,7 +26,7 @@ import javax.faces.view.ViewScoped;
  */
 @ManagedBean(name = "rechercheBean")
 @ViewScoped
-public class RechercheBean implements Serializable{
+public class RechercheBean implements Serializable {
 
     @EJB
     IntRemoteJeuDAO jeuDao;
@@ -30,20 +34,21 @@ public class RechercheBean implements Serializable{
     private String searchTerm;
     private Collection<String> nomsJeux;
 
-    private void setNomsJeux() {
+    @PostConstruct
+    public void setNomsJeux() {
         if (nomsJeux == null) {
+            Logger.getLogger(RechercheBean.class).debug("Invoking @PostConstruct of RechercheBean");
             Collection<Jeu> jeux = jeuDao.findAll();
 
             if (jeux == null || jeux.isEmpty()) {
                 nomsJeux = Collections.emptyList();
             }
 
-            Collection<String> noms = new ArrayList<>();
+            nomsJeux = new ArrayList<>();
             for (Jeu jeu : jeux) {
-                noms.add(jeu.getNom());
+                nomsJeux.add(jeu.getNom());
             }
-
-            nomsJeux = noms;
+            Logger.getLogger(RechercheBean.class).debug("End Invoking @PostConstruct of RechercheBean " + nomsJeux);
         }
     }
 
@@ -55,9 +60,19 @@ public class RechercheBean implements Serializable{
         return searchTerm;
     }
 
-    public List<String> getCompletion() {
-        setNomsJeux();
-        return new ArrayList<>(nomsJeux);
+    public List<String> completion(String query) {
+        HashSet<String> toReturn = new HashSet<>();
+        List<String> queryParts = Arrays.asList(query.split((" ")));
+
+        for (String jeu : nomsJeux) {
+            for (String term : queryParts) {
+                if (jeu.toLowerCase().contains(term.toLowerCase())) {
+                    toReturn.add(jeu);
+                }
+            }
+        }
+
+        return new ArrayList<>(toReturn);
     }
 
 }

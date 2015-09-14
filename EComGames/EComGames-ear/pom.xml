@@ -4,12 +4,12 @@
     <parent>
         <artifactId>EComGames</artifactId>
         <groupId>fr.imag</groupId>
-        <version>0.2.5-SNAPSHOT</version>
+        <version>0.3.0-SNAPSHOT</version>
     </parent>
 
     <groupId>fr.imag</groupId>
     <artifactId>EComGames-ear</artifactId>
-    <version>0.2.5-SNAPSHOT</version>
+    <version>0.3.0-SNAPSHOT</version>
     <packaging>ear</packaging>
 
     <name>EComGames-ear</name>
@@ -70,13 +70,13 @@
         <dependency>
             <groupId>fr.imag</groupId>
             <artifactId>EComGames-ejb</artifactId>
-            <version>0.2.5-SNAPSHOT</version>
+            <version>0.3.0-SNAPSHOT</version>
             <type>ejb</type>
         </dependency>
         <dependency>
             <groupId>fr.imag</groupId>
             <artifactId>EComGames-web</artifactId>
-            <version>0.2.5-SNAPSHOT</version>
+            <version>0.3.0-SNAPSHOT</version>
             <type>war</type>
         </dependency>
     </dependencies>
