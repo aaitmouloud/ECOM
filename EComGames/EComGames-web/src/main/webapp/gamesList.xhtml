@@ -34,14 +34,14 @@
 		<div id="gameList">
 		    <h1 class="center">Jeux</h1>
 		    <table>
-			<tr><th>Jaquette</th><th>Nom</th><th>Date</th><th>Note</th><th>Prix</th></tr>
-			<ui:repeat value="#{helloBean.jeux}" var="jeu">   
+			<tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th></tr>
+                        <ui:repeat value="#{gameBean.allJeux}" var="jeu">   
 			    <tr>
 				<td><h:outputText rendered="#{empty jeu.image}" value="Aucune image." /></td>
 				<td>#{jeu.nom}<br/>#{jeu.description}</td>
-				<td>01/01/2015</td>
+				<td>#{jeu.annee}</td>
 				<td>*****</td>
-				<td>3.99€</td>                    
+                                <td>#{jeu.currentPrix.prix}€</td>                    
 			    </tr>
 			</ui:repeat>
 		    </table>
