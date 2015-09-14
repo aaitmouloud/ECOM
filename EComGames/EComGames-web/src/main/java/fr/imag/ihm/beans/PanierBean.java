@@ -35,6 +35,10 @@ public class PanierBean implements Serializable {
     public void init() {
         gameC = new HashMap<>();
     }
+    
+    public boolean isEmptyOrNot(){
+        return gameC.isEmpty();
+    }
 
     public void addGame(Jeu j) {
         FacesMessage message;

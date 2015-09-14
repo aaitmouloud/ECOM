@@ -35,13 +35,24 @@ public class ItemBean implements Serializable{
     }
     
     public String getEditeur(){
-        return j.getEditeur().getNom();
+        if (j.getEditeur() != null){
+             return j.getEditeur().getNom();
+        }else{
+            return "Editeur inconnu";
+        }
+       
         
     }
     
+    public boolean isPrixNull(){
+        return getPrixUnit() == 0;
+    }
+    
     public double getPrixUnit(){
-        return j.getCurrentPrix().getPrix();
-        
+        if (j.getCurrentPrix() != null){
+            return j.getCurrentPrix().getPrix();
+        }
+        return -1;
     }
     
     public int getNombre(){
@@ -50,7 +61,9 @@ public class ItemBean implements Serializable{
     }
     
     public void setNombre(int nb){
-        this.nb = nb;
+        if (nb >= 1 ){
+            this.nb = nb;
+        }
     }
     
     public double getPrix(){
