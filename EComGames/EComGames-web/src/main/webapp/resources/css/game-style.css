@@ -1,0 +1,91 @@
+/*
+Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+- Pas d’Utilisation Commerciale. 
+- Partage dans les Mêmes Conditions 4.0 International.
+*/
+/* 
+    Created on : 11 sept. 2015, 09:24:20
+    Author     : cedric
+*/
+
+/*
+partie balise
+*/
+body{
+    background-color: #A7A37E;
+}
+
+img{
+    margin-top: 10%;
+    margin-bottom: auto;
+    max-width : 80%;
+}
+
+p{
+    text-align: justify;
+}
+
+/*
+partie class
+*/
+.sectionTitle{
+    text-align: center;
+}
+
+.inline{
+    display : inline-block;
+}
+
+
+/*
+partie id
+*/
+#gameTitle{
+    color : blue;
+    text-align: center;
+}
+
+#description{
+    background-color: #E6E2AF;
+    padding-left: 1%;
+    padding-right: 1%;
+    margin : auto;
+    width : 95%;
+}
+
+#img{
+    margin-left : 20%;
+    margin-right: -15px;
+    width : 20%;
+}
+
+#summary{
+    margin-left : auto;
+    margin-right: auto;
+    padding-top : 1px;
+    padding-bottom : 1px;
+    width : 30%;
+    background-color : #E6E2AF;
+}
+
+#comments{
+    margin-left : auto;
+    margin-right: auto;
+    width : 95%;
+    background-color : #E6E2AF;
+    padding-left: 1%;
+    padding-right: 1%;
+}
+
+#information{
+    margin-left : 5%;
+}
+
+#game{
+    margin-top: 5px;
+    margin-right: auto;
+    margin-left: auto;
+    width: 75%;
+    border-style: solid;
+    border-width: 3px;
+}

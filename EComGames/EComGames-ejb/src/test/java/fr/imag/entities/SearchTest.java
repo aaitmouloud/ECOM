@@ -21,7 +21,6 @@ import java.sql.SQLNonTransientConnectionException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -33,7 +32,6 @@ import org.junit.After;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import org.junit.Before;
-import org.junit.Test;
 
 /**
  *
@@ -299,7 +297,7 @@ public class SearchTest {
             assertTrue("La recherche par prix est fausse " + result.size(),result.size() == 2);
             
             result = jDAO.Search(ac, ae, ap, 100, 1200);
-            assertTrue("La recherche par prix est fausse " + result.size(),result.size() == 0);
+            assertTrue("La recherche par prix est fausse " + result.size(), result.isEmpty());
             
             ac.add(categorie.getNom());
             ae.add(editeur.getNom());
