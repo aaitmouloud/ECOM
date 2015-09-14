@@ -82,7 +82,7 @@
                             <h:outputText value="#{item.nom}" />
                             <h:outputText value="#{item.editeur}" />
                             <h:outputText value="#{item.prixUnit}" />
-                            <h:inputText onchange="#{panier.Update(item)}" value="#{item.nombre}" />
+                            <h:inputText onchange="#{panier.update(item)}" value="#{item.nombre}" />
                             <h:panelGrid columns="2">
                                 <h:outputText value="#{item.prix}" />
                                 <h:commandButton value="Supprimer" actionListener="#{panier.remove(item.jeu)}" />
@@ -99,9 +99,11 @@
                 </p:dialog>
             </h:form>
             <h:form id="searchBar">
-                <p:autoComplete id="searchField" value="#{helloBean.name}"
-                                queryDelay="1000" completeMethod="#{helloBean.auto}"
-                                required="true" requiredMessage="Veuillez entrer " 
+                #{rechercheBean.completion}
+                <p:autoComplete id="searchField" value="#{rechercheBean.searchTerm}"
+                                dropdown="true"
+                                queryDelay="1000" completeMethod="#{rechercheBean.completion}"
+                                required="true" requiredMessage="Veuillez entrer des termes à rechercher" 
                                 placeholder="Recherche... "/> 
 
             </h:form>

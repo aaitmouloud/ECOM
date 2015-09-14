@@ -400,6 +400,9 @@ public class Jeu implements Serializable {
     }
 
     public PrixJeu getCurrentPrix() {
+        if (this.prix == null || this.prix.isEmpty())
+            return null;
+        
         Calendar now = Calendar.getInstance();
         
         for (PrixJeu pj : this.prix) {
