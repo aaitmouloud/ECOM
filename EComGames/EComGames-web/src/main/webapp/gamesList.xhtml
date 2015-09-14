@@ -47,7 +47,7 @@
 		</div>
                 <h:outputScript library="js" name="gamelist.js" />
 		<div id="gameList">
-		    <h1 class="center">Jeux</h1>
+		    <h1 id="jeuTitle" class="center">Jeux</h1>
 		    <table id="gamelistTable">
 			<tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th></tr>
                         <ui:repeat value="#{gameBean.allJeux}" var="jeu">   

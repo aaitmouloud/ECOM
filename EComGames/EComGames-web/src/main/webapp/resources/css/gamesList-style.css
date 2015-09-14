@@ -39,6 +39,9 @@ partie balise
     background-color: #ADD8E6 ;
 }
 
+#jeuTitle  {
+    margin-bottom: 15px;
+}
 .divrender {
     border-style: solid;
     border-width: 3px;
@@ -72,7 +75,7 @@ partie id
 #gameList{
    margin-right: auto;
    margin-left: auto;
-   width: 60%;
+   width: 50%;
    min-height: 670px;
    border-left-style: solid;
    border-right-style: solid;
@@ -81,7 +84,7 @@ partie id
 }
 
 #genre, #publisher, #price{
-    margin-left: 70px;
+   
     margin-top: 20px;
     width: 200px;
     float: left;
@@ -91,6 +94,9 @@ partie id
  //   background-color : #E6E2AF;
 }
 
+#multiselect {
+    margin-left: 250px;
+}
 #publisher, #price {
     clear: left;
     
