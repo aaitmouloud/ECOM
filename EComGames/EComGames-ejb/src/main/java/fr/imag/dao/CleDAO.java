@@ -8,6 +8,7 @@ package fr.imag.dao;
 import fr.imag.dao.local.IntLocalCleDAO;
 import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.entities.Cle;
+import fr.imag.entities.Jeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -26,6 +27,19 @@ public class CleDAO extends AbstractDAO implements IntLocalCleDAO, IntRemoteCleD
         ArrayList<Cle> ccd = new ArrayList<>();
         try {
             TypedQuery<Cle> query = em.createNamedQuery("GetAllCle", Cle.class);
+            return query.getResultList();
+
+        } catch (Exception e) {
+            return Collections.EMPTY_LIST;
+        }
+    }
+    
+    @Override
+    public Collection<Cle> findAvailableCle(Jeu j){
+        ArrayList<Cle> ccd = new ArrayList<>();
+        try {
+            TypedQuery<Cle> query = em.createNamedQuery("GetAvailableCleByJeu", Cle.class);
+            query.setParameter("id", j.getId());
             return query.getResultList();
 
         } catch (Exception e) {

@@ -28,7 +28,8 @@ import javax.persistence.OneToOne;
 @NamedQueries({
     @NamedQuery(name="GetCleByAchatId", query="SELECT a.cle FROM Achat a WHERE a.id = :id"),
     @NamedQuery(name="GetCleByJeuId", query="SELECT j.cles FROM Jeu j WHERE j.id = :id"),
-    @NamedQuery(name="GetAllCle", query="SELECT c FROM Cle c")
+    @NamedQuery(name="GetAllCle", query="SELECT c FROM Cle c"),
+        @NamedQuery(name="GetAvailableCleByJeu", query="SELECT COUNT(c.cle) FROM Cle c INNER JOIN c.jeu j WHERE j.id = :id GROUP BY c.cle HAVING (c.achat IS NULL)")
 })
 public class Cle implements Serializable {
 
