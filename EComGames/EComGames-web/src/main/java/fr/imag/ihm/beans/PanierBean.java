@@ -45,7 +45,7 @@ public class PanierBean implements Serializable {
         addGame(j);
         ItemBean ib = gameC.get(j);
         ib.setNombre(nb);
-        Update(ib);
+        update(ib);
     }
 
     public void addGame(Jeu j) {
