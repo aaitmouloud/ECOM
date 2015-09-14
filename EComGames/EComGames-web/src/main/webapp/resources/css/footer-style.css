@@ -7,3 +7,18 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
     Created on : 10 sept. 2015, 16:13:30
     Author     : loic
 */
+
+footer {
+    padding: 0px;
+    margin: 0px;
+    width: 100%;
+    height: 100px;
+    background-color: black;
+}
+
+#copyright{
+      color: #ffffff;
+      text-align: center;
+      font-size: 12px;
+      padding-top: 50px;
+}
