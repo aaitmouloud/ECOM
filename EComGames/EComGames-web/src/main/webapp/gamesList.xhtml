@@ -48,6 +48,7 @@
                 <h:outputScript library="js" name="gamelist.js" />
 		<div id="gameList">
 		    <h1 class="center">Jeux</h1>
+
 		    <table id="gamelistTable">
 			<tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th></tr>
                         <ui:repeat value="#{gameBean.allJeux}" var="jeu">   
@@ -56,10 +57,13 @@
 				<td>#{jeu.nom}<br/>#{jeu.description}</td>
 				<td>#{jeu.annee}</td>
 				<td>*****</td>
-                                <td>#{jeu.currentPrix.prix}€</td>                    
+				 <td>#{jeu.currentPrix.prix}€</td>  
+                                 <td><p:commandLink value="Ajouter au panier" action="#{panier.addGame(jeu)}" update=":panierDisplay:panierId"  /></td>
+
 			    </tr>
 			</ui:repeat>
 		    </table>
+
 		</div>
             </ui:define>
 
