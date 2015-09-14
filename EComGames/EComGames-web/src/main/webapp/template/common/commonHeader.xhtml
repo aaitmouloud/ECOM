@@ -93,7 +93,6 @@
                                         <td> <h:outputText value="#{item.editeur}" /></td>
                                         <c:choose>
                                             <c:when test="#{item.prixNull}">
-
                                                 <td><h:outputText value="N/D" /></td>
                                                 <td><h:outputText value="N/D" /></td>
                                             </c:when>
@@ -103,8 +102,6 @@
                                             </c:otherwise>
                                         </c:choose>
 
-                                    
-                                        
                                                <td> <c:choose>
                                                     <c:when test="#{item.prixNull}">
                                                         <h:outputText value="Gratuit" />
@@ -119,11 +116,11 @@
                                 </ui:repeat>
                                 <tr><td colspan="0"><h:outputText value="#{panier.prix}" /></td></tr>
                                 </table>
-                                <!--<f:facet name="footer" >
+                                <f:facet name="footer" >
                                     <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
                                     <p:commandButton value="Valider mes achats" update="growlPanier" 
                                                      />
-                                </f:facet>  -->
+                                </f:facet>
 
                         </c:otherwise>
                     </c:choose>

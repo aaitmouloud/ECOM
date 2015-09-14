@@ -6,6 +6,7 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
           
       xmlns:p="http://primefaces.org/ui">
+    <h:head></h:head>
     <h:body>
 	
     	<ui:composition template="template/common/commonLayout.xhtml">
@@ -15,7 +16,7 @@
 		    <div id="genre">
 			<h2 class="center">Catégorie</h2>
 			<form>
-			    <input type="checkbox" name="Action" value="1"> Action</input><br/>
+                            <input type="checkbox" name="Action" value="1"> Action</input><br/>
 			    <input type="checkbox" name="Aventure" value="2"> Aventure</input><br/>
 			    <input type="checkbox" name="FPS" value="3"> FPS</input><br/>
 			    <input type="checkbox" name="STR" value="4"> STR</input><br/>
@@ -31,14 +32,27 @@
 			    <input type="checkbox" name="Valve" value="4"> Valve</input><br/>
 			</form>		    
 		    </div>
+                    <div id="price">
+			<h2 class="center">Prix</h2>
+                        <h:form style="text-align: center">
+			    <h:panelGrid columns="1" style="margin-bottom: 10px;width: 85%;margin-left:15px;margin-right:15px">
+                                <h:outputText id="displayRange" value="Entre 0€ et 100€" />
+                                    <p:slider for="txt6,txt7" display="displayRange" style="width: 100%" range="true" displayTemplate="Entre {min}€ et {max}€" />
+                            </h:panelGrid>
+                            <h:inputHidden id="txt6" value="0" />
+                            <h:inputHidden id="txt7" value="100" />
+			</h:form>		    
+		    </div>
+                    
 		</div>
+                <h:outputScript library="js" name="gamelist.js" />
 		<div id="gameList">
 		    <h1 class="center">Jeux</h1>
-                    <h:form id="GameListFrom">
-		    <table>
+
+		    <table id="gamelistTable">
 			<tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th></tr>
                         <ui:repeat value="#{gameBean.allJeux}" var="jeu">   
-			    <tr>
+                            <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
 				<td><h:outputText rendered="#{empty jeu.image}" value="Aucune image." /></td>
 				<td>#{jeu.nom}<br/>#{jeu.description}</td>
 				<td>#{jeu.annee}</td>
@@ -49,7 +63,7 @@
 			    </tr>
 			</ui:repeat>
 		    </table>
-                    </h:form>
+
 		</div>
             </ui:define>
             
