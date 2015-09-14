@@ -11,16 +11,6 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 /*
 partie balise
 */
-body{
-    background-color: #A7A37E;
-}
-
-img{
-    margin-top: 10%;
-    margin-bottom: auto;
-    max-width : 80%;
-}
-
 p{
     text-align: justify;
 }
@@ -53,10 +43,16 @@ partie id
     width : 95%;
 }
 
-#img{
+#divGameImg{
     margin-left : 20%;
     margin-right: -15px;
     width : 20%;
+}
+
+#gameImg{
+    margin-top: 10%;
+    margin-bottom: auto;
+    max-width : 80%;
 }
 
 #summary{
