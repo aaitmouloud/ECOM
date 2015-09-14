@@ -25,11 +25,11 @@ import javax.faces.context.FacesContext;
  */
 @ManagedBean(name = "panier")
 @SessionScoped
-public class Panier implements Serializable {
+public class PanierBean implements Serializable {
 
     @EJB
     private IntRemoteCleDAO cleDao;
-    private Map<Jeu, Item> gameC;
+    private Map<Jeu, ItemBean> gameC;
     
     @PostConstruct
     public void init() {
@@ -41,13 +41,13 @@ public class Panier implements Serializable {
         try {
 
             if (gameC.containsKey(j)) {
-                Item i = gameC.get(j);
+                ItemBean i = gameC.get(j);
                 i.setNombre(i.getNombre() + 1);
                 gameC.remove(j);
                 gameC.put(j, i);
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "Un nouvel exemplaire de " + j.getNom() + " a été ajouté au panier.");
             } else {
-                gameC.put(j, new Item(j));
+                gameC.put(j, new ItemBean(j));
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Ajouté:", "Le jeu " + j.getNom() + " a été ajouté au panier.");
             }
         } catch (Exception e) {
@@ -68,7 +68,7 @@ public class Panier implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void Update(Item i) {
+    public void Update(ItemBean i) {
         FacesMessage message;
         if (gameC.containsKey(i.getJeu())) {
             int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
@@ -87,7 +87,7 @@ public class Panier implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public Collection<Item> getGame() {
+    public Collection<ItemBean> getGame() {
         return new ArrayList<>(gameC.values());
     }
 

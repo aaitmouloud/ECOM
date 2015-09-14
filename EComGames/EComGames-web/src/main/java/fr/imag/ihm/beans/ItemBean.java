@@ -16,11 +16,11 @@ import javax.faces.bean.RequestScoped;
  */
 @ManagedBean(name = "item")
 @RequestScoped
-public class Item implements Serializable{
+public class ItemBean implements Serializable{
     private Jeu j;
     private int nb;
     
-    public Item(Jeu j){
+    public ItemBean(Jeu j){
         this.j = j;
         this.nb = 1;
     }
