@@ -16,13 +16,11 @@
 
                 <c:choose>
                     <c:when test="#{loggedUserBean.unlogged}">
-                        <h:outputLink value="javascript:void(0)" 
+                        <p:commandLink value="Se connecter" 
                                       onclick="PF('loginDlg').show()" 
                                       title="Connexion"
                                       styleClass="header_link"
-                                      id="loginLink">
-                            Se connecter
-                        </h:outputLink>
+                                      id="loginLink" />
                     </c:when>
                     <c:otherwise>
                         <div class="header_link">
@@ -59,10 +57,10 @@
 
                         <f:facet name="footer" >
                             <p:growl id="growl" sticky="false" showDetail="true" autoUpdate="true" life="1200" />
-                            <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
+                            <!-- <p:remoteCommand name="updateEverything" process="@this" update="@all" /> -->
                             <p:commandButton value="Se connecter" update="growl"
                                              actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"
-                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { updateEverything(); }" />
+                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { location.reload(); }" />
                         </f:facet>  
 
 
@@ -98,14 +96,15 @@
             </h:form>
 
             <h:form id="searchBar">
-                #{rechercheBean.searchTerm}
+                #{rechercheBean.searchTerm = null}
+                #{rechercheBean.setNomsJeux()}
                 <p:growl id="growlSearch" sticky="false" showDetail="true" autoUpdate="true" life="2500" /> 
                 <p:autoComplete id="searchField" value="#{rechercheBean.searchTerm}" 
                                 completeMethod="#{rechercheBean.completion}" placeholder="Recherche... "
-                                required="true" requiredMessage="Veuillez -#{rechercheBean.searchTerm}- entrer les termes à rechercher"
-                                disabled="false" dropdown="true" />
+                                required="true" requiredMessage="Veuillez entrer les termes à rechercher"
+                                disabled="false" />
                 <p:commandButton disabled="false" 
-                                 value="Rechercher" action="gamesList" style="display:none;" 
+                                 value="Rechercher" action="gamesList?faces-redirect=true" style="display:none;" 
                                  update="growlSearch">
                     <f:param name="search" value="#{rechercheBean.searchTerm}" />
                 </p:commandButton>
