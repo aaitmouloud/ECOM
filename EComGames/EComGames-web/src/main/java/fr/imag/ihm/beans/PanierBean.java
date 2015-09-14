@@ -11,6 +11,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -39,6 +40,13 @@ public class PanierBean implements Serializable {
     public boolean isEmptyOrNot(){
         return gameC.isEmpty();
     }
+    
+    public void addGame(Jeu j,int nb) {
+        addGame(j);
+        ItemBean ib = gameC.get(j);
+        ib.setNombre(nb);
+        Update(ib);
+    }
 
     public void addGame(Jeu j) {
         FacesMessage message;
@@ -46,10 +54,18 @@ public class PanierBean implements Serializable {
 
             if (gameC.containsKey(j)) {
                 ItemBean i = gameC.get(j);
-                i.setNombre(i.getNombre() + 1);
-                gameC.remove(j);
-                gameC.put(j, i);
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "Un nouvel exemplaire de " + j.getNom() + " a été ajouté au panier.");
+                
+                int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
+                if (i.getNombre()+1 > nbCleDispo) {
+                    i.setNombre(nbCleDispo);message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant.");
+                }else{
+                    i.setNombre(i.getNombre() + 1);
+                    gameC.remove(j);
+                    gameC.put(j, i);
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "Un nouvel exemplaire de " + j.getNom() + " a été ajouté au panier.");
+
+                }
+               
             } else {
                 gameC.put(j, new ItemBean(j));
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Ajouté:", "Le jeu " + j.getNom() + " a été ajouté au panier.");
@@ -93,6 +109,16 @@ public class PanierBean implements Serializable {
 
     public Collection<ItemBean> getGame() {
         return new ArrayList<>(gameC.values());
+    }
+    
+    public double getPrix(){
+        double prix = 0;
+        Iterator<ItemBean> i = gameC.values().iterator();
+        while (i.hasNext()){
+            ItemBean ib = i.next();
+            prix += ib.getPrix();
+        }
+        return prix;
     }
 
 }

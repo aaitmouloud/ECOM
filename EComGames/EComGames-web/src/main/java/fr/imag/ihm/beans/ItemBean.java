@@ -14,8 +14,6 @@ import javax.faces.bean.RequestScoped;
  *
  * @author seb
  */
-@ManagedBean(name = "item")
-@RequestScoped
 public class ItemBean implements Serializable{
     private Jeu j;
     private int nb;
@@ -45,7 +43,7 @@ public class ItemBean implements Serializable{
     }
     
     public boolean isPrixNull(){
-        return getPrixUnit() == 0;
+        return getPrixUnit() == (double)0;
     }
     
     public double getPrixUnit(){
