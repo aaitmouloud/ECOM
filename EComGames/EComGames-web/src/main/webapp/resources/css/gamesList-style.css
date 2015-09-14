@@ -25,11 +25,24 @@ th, td{
     border-width: 3px;
 }
 
+th{
+    background-color: black;
+    color : white;
+}
+
+img{
+    max-width: 30%;
+}
+
 /*
 partie class
 */
 .center{
     text-align: center;
+}
+
+.desc{
+    font-size: small;
 }
 
 /*
@@ -39,6 +52,7 @@ partie id
 #multiselect{
     float : left;
     display: inline-block;
+    margin-left: 2%;
 }
 
 #gameList{
@@ -52,6 +66,9 @@ partie id
     border-style: solid;
     border-width: 3px;
     background-color : #E6E2AF;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
 }
 
 #publisher{
