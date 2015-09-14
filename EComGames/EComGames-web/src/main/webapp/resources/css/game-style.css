@@ -60,12 +60,19 @@ partie id
     width : 95%;
 }
 
+
 #img{
     padding: 0px;
     margin: 0px;
     margin-left: 20px;
     margin-top: -15px;
     width : 20%;
+}
+
+#gameImg{
+    margin-top: 10%;
+    margin-bottom: auto;
+    max-width : 80%;
 }
 
 #summary{

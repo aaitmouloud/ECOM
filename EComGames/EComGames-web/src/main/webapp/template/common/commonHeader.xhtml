@@ -16,13 +16,11 @@
 
                 <c:choose>
                     <c:when test="#{loggedUserBean.unlogged}">
-                        <h:outputLink value="javascript:void(0)" 
-                                      onclick="PF('loginDlg').show()" 
-                                      title="Connexion"
-                                      styleClass="header_link"
-                                      id="loginLink">
-                            Se connecter
-                        </h:outputLink>
+                        <p:commandLink value="Se connecter" 
+                                       onclick="PF('loginDlg').show()" 
+                                       title="Connexion"
+                                       styleClass="header_link"
+                                       id="loginLink" />
                     </c:when>
                     <c:otherwise>
                         <div class="header_link">
@@ -49,48 +47,23 @@
                 <p:dialog header="Se connecter à EComGames" widgetVar="loginDlg" 
                           resizable="false" closeOnEscape="true" 
                           hideEffect="fade" position="center,top" >
+
                     <h:panelGrid columns="2" cellpadding="5" footerClass="loginPopupFooter">
                         <h:outputLabel for="login" value="Login:" />
-                        <p:inputText id="login" value="#{loginBean.login}" required="true" label="username" />
+                        <p:inputText id="login" value="#{loginBean.login}" label="username" />
 
                         <h:outputLabel for="motDePasse" value="Mot de passe: " />
-                        <p:password id="motDePasse" value="#{loginBean.password}" required="true" label="password" />
+                        <p:password id="motDePasse" value="#{loginBean.password}" label="password" />
 
 
                         <f:facet name="footer" >
-                            <p:growl id="growl" sticky="false" showDetail="true" autoUpdate="true" life="1200" />
+                            <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" life="1200" />
                             <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
                             <p:commandButton value="Se connecter" update="growl"
                                              actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"
-                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { updateEverything(); }" />
-                        </f:facet>  
-
-
-                    </h:panelGrid>
-                </p:dialog>
-                <p:dialog header="Panier" widgetVar="panierPopup" 
-                          resizable="false" closeOnEscape="true" 
-                          hideEffect="fade" position="center,top" >
-                    <h:panelGrid columns="5" cellpadding="5" footerClass="panierPopupFooter">
-                        <h:outputText value="Nom" />
-                        <h:outputText value="Editeur" />
-                        <h:outputText value="Prix Unitaire" />
-                        <h:outputText value="Nombre" />
-                        <h:outputText value="Prix" />
-
-                        <ui:repeat value="#{panier.game}" var="machin">
-                            <h:outputText value="#{item.nom}" />
-                            <h:outputText value="#{item.editeur}" />
-                            <h:outputText value="#{item.prixUnit}" />
-                            <h:inputText onchange="#{panier.Update(item)}" value="#{item.nombre}" />
-                            <h:panelGrid columns="2">
-                                <h:outputText value="#{item.prix}" />
-                                <h:commandButton value="Supprimer" actionListener="#{panier.remove(item.jeu)}" />
-                            </h:panelGrid>
-                        </ui:repeat>
-                        <f:facet name="footer" >
-                            <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
-                            <p:commandButton value="Valider mes achats" update="growlPanier"
+                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { location.reload(); }" />
+                            <p:commandButton value="S'inscrire" update="growl"
+                                             action="signUp?faces-redirect=true"
                                              />
                         </f:facet>  
 
@@ -98,11 +71,77 @@
                     </h:panelGrid>
                 </p:dialog>
             </h:form>
+            <h:form id="panierDisplay" >
+                <p:dialog id="panierId" header="Panier" widgetVar="panierPopup" 
+                          resizable="false" closeOnEscape="true" 
+                          hideEffect="fade" position="center,top" >
+                    <c:choose>
+                        <c:when test="#{panier.emptyOrNot == true}">
+                            <h:outputText value="Aucun item dans le panier"/>
+                        </c:when>
+                        <c:otherwise>
+                            <table>
+                                <tr>
+                                    <th><h:outputText value="Nom" /></th>
+                                    <th><h:outputText value="Editeur" /> </th>
+                                    <th><h:outputText value="Prix Unitaire" /> </th>
+                                    <th><h:outputText value="Nombre" /> </th>
+                                    <th> <h:outputText value="Prix" /> </th>
+                                </tr>
+                                <ui:repeat value="#{panier.game}" var="item">
+                                    <h:form id="gameRow" onkeypress="return false;">
+                                        <tr><td><h:outputText value="#{item.nom}" /></td>
+                                            <td> <h:outputText value="#{item.editeur}" /></td>
+                                            <c:choose>
+                                                <c:when test="#{item.prixNull}">
+                                                    <td><h:outputText value="N/D" /></td>
+                                                    <td><h:outputText value="N/D" /></td>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <td><h:outputText value="#{item.prixUnit}" /></td>
+                                                    <td><p:inputText onchange="#{panier.Update(item)}" value="#{item.nombre}"  maxlength="3"/></td>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                            <td> <c:choose>
+                                                    <c:when test="#{item.prixNull}">
+                                                        <h:outputText value="Gratuit" />
+                                                    </c:when>
+                                                    <c:otherwise>
+                                                        <h:outputText value="#{item.prix}" /> 
+                                                    </c:otherwise>
+                                                </c:choose></td>
+                                            <td><p:commandButton value="Supprimer" actionListener="#{panier.remove(item.jeu)}"/> <!--update=":panierDisplay:panierId"--> 
+                                            </td></tr>
+                                    </h:form>
+                                </ui:repeat>
+                                <tr><td colspan="0"><h:outputText value="#{panier.prix}" /></td></tr>
+                            </table>
+                            <f:facet name="footer" >
+                                <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
+                                <p:commandButton value="Valider mes achats" update="growlPanier" 
+                                                 />
+                            </f:facet>
+
+                        </c:otherwise>
+                    </c:choose>
+                </p:dialog>
+            </h:form>
+
             <h:form id="searchBar">
-                <p:autoComplete id="searchField" value="#{helloBean.name}"
-                                queryDelay="1000" completeMethod="#{helloBean.auto}"
-                                required="true" requiredMessage="Veuillez entrer " 
-                                placeholder="Recherche... "/> 
+                #{rechercheBean.searchTerm = null}
+                #{rechercheBean.setNomsJeux()}
+                <p:growl id="growlSearch" sticky="false" showDetail="true" autoUpdate="true" life="2500" /> 
+                <p:autoComplete id="searchField" value="#{rechercheBean.searchTerm}" 
+                                completeMethod="#{rechercheBean.completion}" placeholder="Recherche... "
+                                required="true" requiredMessage="Veuillez entrer les termes à rechercher"
+                                disabled="false" />
+                <p:commandButton disabled="false" 
+                                 value="Rechercher" action="gamesList?faces-redirect=true" style="display:none;" 
+                                 update="growlSearch">
+                    <f:param name="search" value="#{rechercheBean.searchTerm}" />
+                </p:commandButton>
+
 
             </h:form>
 

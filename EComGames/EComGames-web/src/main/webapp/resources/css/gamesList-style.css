@@ -9,13 +9,17 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 */
 
 /*
-partie balise
+partie class
 */
 #gamelistTable{
     margin-right: auto;
     margin-left: auto;
     border-collapse:  collapse;
     border : 2px solid black;
+}
+
+.desc{
+    font-size: small;
 }
 
 #gamelistTable th {
@@ -61,6 +65,7 @@ partie id
 #multiselect{
     float : left;
     display: inline-block;
+    margin-left: 2%;
 }
 
 #multiselect h2 {
@@ -91,7 +96,6 @@ partie id
     position : relative;
     border-style: solid;
     border-width: 3px;
- //   background-color : #E6E2AF;
 }
 
 #multiselect {
@@ -99,5 +103,4 @@ partie id
 }
 #publisher, #price {
     clear: left;
-    
 }

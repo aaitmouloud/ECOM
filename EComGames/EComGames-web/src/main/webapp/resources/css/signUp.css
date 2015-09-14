@@ -1,0 +1,40 @@
+/*
+Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+- Pas d’Utilisation Commerciale. 
+- Partage dans les Mêmes Conditions 4.0 International.
+*/
+/* 
+    Created on : 14 sept. 2015, 10:40:17
+    Author     : cedric
+*/
+
+/*
+partie balise
+*/
+
+/*
+partie class
+*/
+.signUp{
+    display: block;
+    width: 250px;
+    float: left;
+}
+
+.inputSignUp{
+    margin-bottom: 5px;
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+}
+/*
+partie Id
+*/
+#signUpTitle{
+    text-align: center;
+}
+
+#submitSignUp{
+    margin-left: 70%;
+    margin-bottom: 20px;
+}
