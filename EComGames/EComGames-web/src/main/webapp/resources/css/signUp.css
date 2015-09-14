@@ -32,6 +32,8 @@ partie Id
 */
 #signUpTitle{
     text-align: center;
+    margin-bottom: 30px;
+    padding-top: 30px;
 }
 
 #submitSignUp{
