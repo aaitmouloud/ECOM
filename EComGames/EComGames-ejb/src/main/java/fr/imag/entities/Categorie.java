@@ -23,7 +23,7 @@ import javax.persistence.NamedQuery;
 
 /**
  *
- * @author min
+ * @author aaitmouloud
  */
 @Entity
 @NamedQueries({

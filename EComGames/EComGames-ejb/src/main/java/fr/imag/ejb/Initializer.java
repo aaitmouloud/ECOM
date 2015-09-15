@@ -13,7 +13,6 @@ import fr.imag.entities.Jeu;
 import fr.imag.entities.PrixJeu;
 import fr.imag.entities.Utilisateur;
 import java.util.Calendar;
-import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -64,7 +63,7 @@ public class Initializer {
         Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
         jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
         jeu2.addCategorie(new Categorie("Jeu de plateforme"));
-        PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 0D);
+        PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 45D);
         Cle cle4 = new Cle(jeu2);
         Cle cle5 = new Cle(jeu2);
         em.persist(jeu2);
