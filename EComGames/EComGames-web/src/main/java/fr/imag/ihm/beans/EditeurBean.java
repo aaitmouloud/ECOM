@@ -19,7 +19,7 @@ import javax.faces.bean.ManagedBean;
  */
 @ManagedBean(name = "editeurBean")
 @ApplicationScoped
-public class editeurBean implements Serializable {
+public class EditeurBean implements Serializable {
     
     @EJB
     IntRemoteEditeurDAO editeurDao;
