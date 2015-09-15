@@ -9,10 +9,8 @@
         <h:outputStylesheet name="common-style.css" library="css" />
         <link rel="stylesheet" type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu:regular" />
         <title><ui:insert name="title">Nom par défaut -- À changer</ui:insert></title>
-        <h:outputStylesheet name="game-style.css" library="css" />
-	<h:outputStylesheet name="gamesList-style.css" library="css" />
-	<h:outputStylesheet name="signUp.css" library="css" />
-	<h:outputStylesheet name="index-style.css" library="css" />
+        <h:outputStylesheet name="common-style.css" library="css" />
+        <ui:insert name="cssFiles"></ui:insert>
     </h:head>
 
     <h:body>
@@ -20,7 +18,9 @@
             <ui:include src="/template/common/commonHeader.xhtml" />
         </header>
         <section id="content">
-            <ui:insert name="content" ></ui:insert>
+            <div id="ecompage">
+                <ui:insert name="content" ></ui:insert>
+            </div>
         </section>
         <footer>
             <ui:include src="/template/common/commonFooter.xhtml" />

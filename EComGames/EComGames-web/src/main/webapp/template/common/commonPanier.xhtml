@@ -1,0 +1,70 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"    
+      xmlns:f="http://xmlns.jcp.org/jsf/core"    
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <h:outputStylesheet name="panier.css" library="css" />
+    </h:head>
+    <h:body>
+        <div id="panier">
+            <h:form id="panierDisplay" >
+                <h2 class="center">Panier</h2>
+                <c:choose>
+                    <c:when test="#{panier.emptyOrNot == true}">
+                        <h:outputText value="Aucun item dans le panier"/>
+                    </c:when>
+                    <c:otherwise>
+                        <table>
+                            <tr>
+                                <th><h:outputText value="Nom" /></th>
+                                <th><h:outputText value="Editeur" /> </th>
+                                <th><h:outputText value="Prix Unitaire" /> </th>
+                                <th><h:outputText value="Nombre" /> </th>
+                                <th> <h:outputText value="Prix" /> </th>
+                            </tr>
+                            <ui:repeat value="#{panier.game}" var="item">
+                                <h:form id="gameRow" onkeypress="return false;">
+                                    <tr><td><h:outputText value="#{item.nom}" /></td>
+                                        <td> <h:outputText value="#{item.editeur}" /></td>
+                                        <c:choose>
+                                            <c:when test="#{item.prixNull}">
+                                                <td><h:outputText value="N/D" /></td>
+                                                <td><h:outputText value="N/D" /></td>
+                                            </c:when>
+                                            <c:otherwise>
+                                                <td><h:outputText value="#{item.prixUnit}" /></td>
+                                                <td><p:inputText onchange="#{panier.Update(item)}" value="#{item.nombre}"  maxlength="3"/></td>
+                                            </c:otherwise>
+                                        </c:choose>
+
+                                        <td> <c:choose>
+                                                <c:when test="#{item.prixNull}">
+                                                    <h:outputText value="Gratuit" />
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <h:outputText value="#{item.prix}" /> 
+                                                </c:otherwise>
+                                            </c:choose></td>
+                                        <td><p:commandButton value="Supprimer" actionListener="#{panier.remove(item.jeu)}"/> <!--update=":panierDisplay:panierId"--> 
+                                        </td></tr>
+                                </h:form>
+                            </ui:repeat>
+                            <tr><td colspan="0"><h:outputText value="#{panier.prix}" /></td></tr>
+                        </table>
+                        <f:facet name="footer" >
+                            <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
+                            <p:commandButton value="Valider mes achats" update="growlPanier" 
+                                             />
+                        </f:facet>
+
+                    </c:otherwise>
+                </c:choose>
+            </h:form>
+        </div>
+    </h:body>
+</html>
+
