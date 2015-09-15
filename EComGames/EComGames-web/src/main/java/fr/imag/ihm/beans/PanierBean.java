@@ -63,7 +63,7 @@ public class PanierBean implements Serializable {
             if (gameC.containsKey(j.getId())) {
                 ItemBean i = gameC.get(j.getId());
                 
-                int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
+                int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
                 if (i.getNombre()+1 > nbCleDispo) {
                     i.setNombre(nbCleDispo);message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant.");
                 }else{
@@ -98,16 +98,16 @@ public class PanierBean implements Serializable {
 
     public void updatePanier(ItemBean i) {
         FacesMessage message;
-        if (gameC.containsKey(i.getJeu().getId())) {
-            int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
+        if (gameC.containsKey(i.getId())) {
+            int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
             if (i.getNombre() > nbCleDispo) {
                 i.setNombre(nbCleDispo);
                 message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la mise à jour:", "Le nombre de jeu disponible est insufisant");
             } else {
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "");
             }
-            gameC.remove(i.getJeu().getId());
-            gameC.put(i.getJeu().getId(), i);
+            gameC.remove(i.getId());
+            gameC.put(i.getId(), i);
         } else {
             message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Jeux Introuvable:", "Le jeu " + i.getNom() + " n'a pas été trouvé dans le panier.");
         }

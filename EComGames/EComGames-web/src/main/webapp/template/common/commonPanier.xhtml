@@ -11,59 +11,44 @@
     </h:head>
     <h:body>
         <div id="panier">
-            <h:form id="panierDisplay" >
-                <h2 class="center">Panier</h2>
-                <c:choose>
-                    <c:when test="#{panier.emptyOrNot == true}">
-                        <h:outputText value="Aucun item dans le panier"/>
-                    </c:when>
-                    <c:otherwise>
-                        <table>
-                            <tr>
-                                <th><h:outputText value="Nom" /></th>
-                                <th><h:outputText value="Editeur" /> </th>
-                                <th><h:outputText value="Prix Unitaire" /> </th>
-                                <th><h:outputText value="Nombre" /> </th>
-                                <th> <h:outputText value="Prix" /> </th>
-                            </tr>
-                            <ui:repeat value="#{panier.game}" var="item">
-                                <h:form id="gameRow" onkeypress="return false;">
-                                    <tr><td><h:outputText value="#{item.nom}" /></td>
-                                        <td> <h:outputText value="#{item.editeur}" /></td>
-                                        <c:choose>
-                                            <c:when test="#{item.prixNull}">
-                                                <td><h:outputText value="N/D" /></td>
-                                                <td><h:outputText value="N/D" /></td>
-                                            </c:when>
-                                            <c:otherwise>
-                                                <td><h:outputText value="#{item.prixUnit}" /></td>
-                                                <td><p:inputText onchange="#{panier.updatePanier(item)}" value="#{item.nombre}"  maxlength="3"/></td>
-                                            </c:otherwise>
-                                        </c:choose>
 
-                                        <td> <c:choose>
-                                                <c:when test="#{item.prixNull}">
-                                                    <h:outputText value="Gratuit" />
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <h:outputText value="#{item.prix}" /> 
-                                                </c:otherwise>
-                                            </c:choose></td>
-                                        <td><p:commandButton value="Supprimer" actionListener="#{panier.removeGame(item.jeu)}"/> <!--update=":panierDisplay:panierId"--> 
-                                        </td></tr>
+            <h2 class="center">Panier</h2>
+            <c:choose>
+                <c:when test="#{panier.emptyOrNot == true}">
+                    <h:outputText value="Aucun item dans le panier"/>
+                </c:when>
+                <c:otherwise>
+                    <table>
+                        <ui:repeat value="#{panier.game}" var="item" varStatus="loop" >
+                            <tr>
+                                <h:form>
+                                    <td><h:outputText value="#{item.nom}" /></td>
+                                    <td>
+                                        <h:panelGrid columns="1">
+                                            <h:outputText value="#{item.prixUnit}" />
+                                            <h:inputText value="#{item.nombre}" onblur="updatePrix();" class="panierPrix" />
+                                            <h:outputText value="#{item.prix}" styleClass="toUpdate" 
+                                                          id="prix_jeu_#{loop.index}" />
+                                            <p:remoteCommand name="updatePrix" update="@(.toUpdate)" /> 
+                                        </h:panelGrid>
+                                    </td>
                                 </h:form>
-                            </ui:repeat>
-                            <tr><td colspan="0"><h:outputText value="#{panier.prix}" /></td></tr>
-                        </table>
-                        <f:facet name="footer" >
-                            <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
+                            </tr>
+                        </ui:repeat>
+                    </table>
+
+
+                    <f:facet name="footer" >
+                        <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
+                        <h:form id="panierValidate" >
                             <p:commandButton value="Valider mes achats" update="growlPanier" 
                                              />
-                        </f:facet>
+                        </h:form>
+                    </f:facet>
 
-                    </c:otherwise>
-                </c:choose>
-            </h:form>
+                </c:otherwise>
+            </c:choose>
+
         </div>
     </h:body>
 </html>

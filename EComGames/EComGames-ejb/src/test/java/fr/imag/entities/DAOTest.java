@@ -215,7 +215,7 @@ public class DAOTest {
             Collection<Cle> rcl = clDAO.findAll();
             assertTrue("La fonction FindAll de clDAO est fausse ",j.getCles().size() == 3);
             
-            rcl = clDAO.findAvailableCle(j);
+            rcl = clDAO.findAvailableCle(j.getId());
             assertTrue("Le nombre de cle dispo de clDAO est faux " + rcl, rcl.size() == 2);
             
             Collection<Editeur> re = eDAO.findAll();

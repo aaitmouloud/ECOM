@@ -19,7 +19,6 @@
 
 #multiselect{
     display: inline-block;
-    margin-left: 2%;
 }
 
 #multiselect h2 {
@@ -34,4 +33,5 @@
 
 #menu {
     vertical-align: top;
+  //  padding-left: 10%;
 }

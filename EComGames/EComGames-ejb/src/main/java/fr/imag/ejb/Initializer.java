@@ -14,7 +14,6 @@ import fr.imag.entities.Plateforme;
 import fr.imag.entities.PrixJeu;
 import fr.imag.entities.Utilisateur;
 import java.util.Calendar;
-import java.util.Collection;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
