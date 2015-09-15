@@ -8,6 +8,9 @@
     <h:body>
 	
     	<ui:composition template="template/common/commonLayout.xhtml">
+            <ui:define name="cssFiles">
+                <h:outputStylesheet name="signUp.css" library="css" />
+            </ui:define>
 	    <ui:define name="content">
 		<h1 id="signUpTitle">Formulaire d'inscription</h1>
 		<form method="post">
