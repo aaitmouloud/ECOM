@@ -6,11 +6,7 @@
 package fr.imag.dao.remote;
 
 import fr.imag.dao.IntDAO;
-import fr.imag.entities.Categorie;
-import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
-import fr.imag.entities.Plateforme;
-import fr.imag.entities.PrixJeu;
 import java.util.Collection;
 import javax.ejb.Remote;
 
@@ -24,4 +20,6 @@ public interface IntRemoteJeuDAO extends IntDAO<Jeu> {
     public Collection<Jeu> Search(Collection<String> cc,
             Collection<String> ce, Collection<String> cp,
             double min, double max);
+    
+    public Jeu findById(String id);
 }

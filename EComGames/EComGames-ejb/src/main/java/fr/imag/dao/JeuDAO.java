@@ -7,14 +7,9 @@ package fr.imag.dao;
 
 import fr.imag.dao.local.IntLocalJeuDAO;
 import fr.imag.dao.remote.IntRemoteJeuDAO;
-import fr.imag.entities.Categorie;
-import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
-import fr.imag.entities.Plateforme;
-import fr.imag.entities.PrixJeu;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -98,6 +93,16 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
 
         } catch (Exception ex) {
             throw new RuntimeException("Erreur lors de l'éxécution de la requete: " + ex.toString());
+        }
+    }
+
+    @Override
+    public Jeu findById(String id) {
+        try {
+            Jeu j = em.find(Jeu.class, id);
+            return j;
+        } catch (Exception e) {
+            throw (new RuntimeException(e));
         }
     }
 

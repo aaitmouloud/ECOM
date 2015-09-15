@@ -14,6 +14,7 @@ import java.util.Collection;
 import java.util.Collections;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -36,14 +37,16 @@ public class CleDAO extends AbstractDAO implements IntLocalCleDAO, IntRemoteCleD
     
     @Override
     public Collection<Cle> findAvailableCle(Jeu j){
+        TypedQuery<Cle> query = null;
         ArrayList<Cle> ccd = new ArrayList<>();
         try {
-            TypedQuery<Cle> query = em.createNamedQuery("GetAvailableCleByJeu", Cle.class);
+             query = em.createNamedQuery("GetAvailableCleByJeu", Cle.class);
             query.setParameter("id", j.getId());
+            //throw new RuntimeException(query.toString());
             return query.getResultList();
 
         } catch (Exception e) {
-            return Collections.EMPTY_LIST;
+            throw new RuntimeException(e.getMessage());
         }
     }
 

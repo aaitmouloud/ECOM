@@ -6,6 +6,7 @@
 package fr.imag.ihm.beans;
 
 import fr.imag.dao.remote.IntRemoteCleDAO;
+import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.entities.Jeu;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -30,11 +31,18 @@ public class PanierBean implements Serializable {
 
     @EJB
     private IntRemoteCleDAO cleDao;
-    private Map<Jeu, ItemBean> gameC;
+    
+    @EJB 
+     private IntRemoteJeuDAO jeuDAO;
+    private Map<String, ItemBean> gameC;
     
     @PostConstruct
     public void init() {
         gameC = new HashMap<>();
+        Jeu j = jeuDAO.findAll().iterator().next();
+        if (j != null){
+             gameC.put(j.getId(), new ItemBean(j));
+        }
     }
     
     public boolean isEmptyOrNot(){
@@ -43,65 +51,65 @@ public class PanierBean implements Serializable {
     
     public void addGame(Jeu j,int nb) {
         addGame(j);
-        ItemBean ib = gameC.get(j);
+        ItemBean ib = gameC.get(j.getId());
         ib.setNombre(nb);
-        update(ib);
+        updatePanier(ib);
     }
 
     public void addGame(Jeu j) {
         FacesMessage message;
         try {
 
-            if (gameC.containsKey(j)) {
-                ItemBean i = gameC.get(j);
+            if (gameC.containsKey(j.getId())) {
+                ItemBean i = gameC.get(j.getId());
                 
                 int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
                 if (i.getNombre()+1 > nbCleDispo) {
-                    i.setNombre(nbCleDispo);message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant.");
+                    i.setNombre(nbCleDispo);message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant.");
                 }else{
                     i.setNombre(i.getNombre() + 1);
-                    gameC.remove(j);
-                    gameC.put(j, i);
+                    gameC.remove(j.getId());
+                    gameC.put(j.getId(), i);
                     message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "Un nouvel exemplaire de " + j.getNom() + " a été ajouté au panier.");
 
                 }
                
             } else {
-                gameC.put(j, new ItemBean(j));
+                gameC.put(j.getId(), new ItemBean(j));
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Ajouté:", "Le jeu " + j.getNom() + " a été ajouté au panier.");
             }
         } catch (Exception e) {
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de l'ajout", "Le jeu " + j.getNom() + " n'a pas pu être ajouté au panier.");
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de l'ajout", "Le jeu " + j.getNom() + " n'a pas pu être ajouté au panier.");
         }
 
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void remove(Jeu j) {
+    public void removeGame(Jeu j) {
         FacesMessage message;
-        if (gameC.containsKey(j)) {
-            gameC.remove(j);
+        if (gameC.containsKey(j.getId())) {
+            gameC.remove(j.getId());
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Supprimé:", "Le jeu " + j.getNom() + " a été supprimé du panier.");
         } else {
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Introuvable:", "Le jeu " + j.getNom() + " n'a pas été trouvé dans le panier.");
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Jeux Introuvable:", "Le jeu " + j.getNom() + " n'a pas été trouvé dans le panier.");
         }
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void update(ItemBean i) {
+    public void updatePanier(ItemBean i) {
         FacesMessage message;
-        if (gameC.containsKey(i.getJeu())) {
+        if (gameC.containsKey(i.getJeu().getId())) {
             int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
             if (i.getNombre() > nbCleDispo) {
                 i.setNombre(nbCleDispo);
-                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Erreur lors de la mise à jour:", "Le nombre de jeu disponible est insufisant");
+                message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la mise à jour:", "Le nombre de jeu disponible est insufisant");
             } else {
                 message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "");
             }
-            gameC.remove(i.getJeu());
-            gameC.put(i.getJeu(), i);
+            gameC.remove(i.getJeu().getId());
+            gameC.put(i.getJeu().getId(), i);
         } else {
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Introuvable:", "Le jeu " + i.getNom() + " n'a pas été trouvé dans le panier.");
+            message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Jeux Introuvable:", "Le jeu " + i.getNom() + " n'a pas été trouvé dans le panier.");
         }
 
         FacesContext.getCurrentInstance().addMessage(null, message);
