@@ -1,0 +1,32 @@
+/*
+Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+- Pas d’Utilisation Commerciale. 
+- Partage dans les Mêmes Conditions 4.0 International.
+*/
+/* 
+    Created on : 14 sept. 2015, 16:05:29
+    Author     : cedric
+*/
+
+/*
+Partie Class
+*/
+
+
+/*
+Partie id
+*/
+#carousel{
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+#carousel-img{
+    width : 100%;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 0;
+    padding-top: 20px;
+}

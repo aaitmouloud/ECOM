@@ -28,7 +28,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name="GetCategorieByJeuId", query="SELECT j.categories FROM Jeu j WHERE j.id = :id"),
-    @NamedQuery(name="GetAllCategorie", query="SELECT c FROM Categorie c")
+    @NamedQuery(name="GetAllCategorie", query="SELECT c FROM Categorie c ORDER BY c.nom")
 })
 public class Categorie implements Serializable {
     private static final long serialVersionUID = 1L;
