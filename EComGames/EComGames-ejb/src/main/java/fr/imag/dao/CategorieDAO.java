@@ -31,5 +31,5 @@ public class CategorieDAO extends AbstractDAO implements IntLocalCategorieDAO, I
         }catch (Exception e){
             return Collections.EMPTY_LIST;
         }
-    }    
+    }
 }
