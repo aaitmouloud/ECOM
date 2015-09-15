@@ -120,7 +120,6 @@ partie id
 
 #game{
     margin-right: auto;
-    margin-left: auto;
     width: 70%;
     min-height: 670px;
     border-left-style: solid;
@@ -141,6 +140,11 @@ partie id
     display: flex;
 }
 #ajouterpanierBox{
+    width: 20px;
+    text-align: center;
+}
+
+.ajouterpanierBox{
     width: 20px;
     text-align: center;
 }
