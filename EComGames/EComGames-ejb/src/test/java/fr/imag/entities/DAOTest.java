@@ -93,7 +93,7 @@ public class DAOTest {
         }
     }
     
-    //@Test
+    @Test
     public void testDAO() {
          EntityTransaction tx = null;
         try {
@@ -123,6 +123,8 @@ public class DAOTest {
             Achat achat = new Achat();
             Categorie categorie = new Categorie("Test");
             Cle cle = new Cle();
+            Cle cle2 = new Cle();
+            Cle cle3 = new Cle();
             Editeur editeur = new Editeur("Sega Games");
             Plateforme plateforme = new Plateforme("GameCube");
             PrixJeu prixjeu = new PrixJeu(jeu, Calendar.getInstance(),null, 60.0);
@@ -131,6 +133,8 @@ public class DAOTest {
             jeu.setEditeur(editeur);
             jeu.addCategorie(categorie);
             jeu.addCle(cle);
+            jeu.addCle(cle2);
+            jeu.addCle(cle3);
             jeu.addPlateforme(plateforme);
             
             cle.setAchat(achat);
@@ -170,10 +174,10 @@ public class DAOTest {
            
             
             TypedQuery<Cle> qcl = em.createQuery("select c from Cle c", Cle.class);
-            Cle cl = qcl.getSingleResult();
+            Collection<Cle> cl = qcl.getResultList();
             
-            assertFalse("La cle n'est pas présente", cl == null);
-            assertFalse("La cle en base est différente " + cl, !cl.equals(cle));
+            assertFalse("La cle n'est pas présente", cl.size() == 0);
+            //assertFalse("La cle en base est différente " + cl, !cl.equals(cle));
             
             TypedQuery<Editeur> qe = em.createQuery("select e from Editeur e", Editeur.class);
             Editeur e = qe.getSingleResult();
@@ -209,7 +213,10 @@ public class DAOTest {
             assertTrue("La fonction FindAll de Categorie est fausse ", !rc.isEmpty());
             
             Collection<Cle> rcl = clDAO.findAll();
-            assertTrue("La fonction FindAll de clDAO est fausse ", !rcl.isEmpty());
+            assertTrue("La fonction FindAll de clDAO est fausse ",j.getCles().size() == 3);
+            
+            rcl = clDAO.findAvailableCle(j);
+            assertTrue("Le nombre de cle dispo de clDAO est faux " + rcl, rcl.size() == 2);
             
             Collection<Editeur> re = eDAO.findAll();
             assertTrue("La fonction FindAll de Editeur est fausse ", !re.isEmpty());
