@@ -8,6 +8,7 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
     Author     : cedric
 */
 
+
 /*
 partie class
 */
@@ -16,6 +17,16 @@ partie class
     margin-left: auto;
     border-collapse:  collapse;
     border : 2px solid black;
+}
+
+#contentGameList {
+    text-align: center;
+}
+
+#contentGameList div {
+    display: inline-block;
+    text-align: left;
+    margin-right: 5px;
 }
 
 .desc{
@@ -54,33 +65,16 @@ partie class
 /*
 partie class
 */
-.center{
-    text-align: center;
-}
+
 
 /*
 partie id
 */
 
-#multiselect{
-    float : left;
-    display: inline-block;
-    margin-left: 2%;
-}
-
-#multiselect h2 {
-    margin: 0px;
-}
-
-#multiselect .center {
-    border-bottom: 2px solid black;
-    background-color: black;
-    color: white;
-}
 #gameList{
     margin-right: auto;
     margin-left: auto;
-    width: 50%;
+    width: 60%;
     min-height: 670px;
     border-left-style: solid;
     border-right-style: solid;

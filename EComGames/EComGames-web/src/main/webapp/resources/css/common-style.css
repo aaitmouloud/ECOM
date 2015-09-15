@@ -91,3 +91,7 @@ body header {
 input[type=text] {
     font: inherit;
 }
+
+.center{
+    text-align: center;
+}

@@ -12,6 +12,7 @@
     <h:body>
         <div id="panier">
             <h:form id="panierDisplay" >
+                <h2 class="center">Panier</h2>
                 <c:choose>
                     <c:when test="#{panier.emptyOrNot == true}">
                         <h:outputText value="Aucun item dans le panier"/>
