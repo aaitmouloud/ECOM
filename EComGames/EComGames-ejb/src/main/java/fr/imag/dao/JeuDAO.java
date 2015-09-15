@@ -88,7 +88,7 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
           if (p != null && !p.isEmpty()) {
                 tquery.setParameter("plats", p);
            }
-            
+            //throw new RuntimeException(query.toString());
             return tquery.getResultList();
 
         } catch (Exception ex) {

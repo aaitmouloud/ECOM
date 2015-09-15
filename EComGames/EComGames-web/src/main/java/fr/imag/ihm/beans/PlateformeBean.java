@@ -5,20 +5,19 @@
  */
 package fr.imag.ihm.beans;
 
-import fr.imag.entities.Editeur;
+import fr.imag.entities.Plateforme;
 
 /**
  *
- * @author cedric
+ * @author seb
  */
-public class EditeurBean {
-    
-    private Editeur e;
+public class PlateformeBean {
+    private Plateforme p;
     private Boolean checked;
     
 
-    public EditeurBean (Editeur e){
-       this.e = e;
+    public PlateformeBean (Plateforme p){
+       this.p = p;
        checked = false;
     }
     
@@ -26,15 +25,15 @@ public class EditeurBean {
         return this.checked;
     }
     
-    public void checkEditeur(){
+    public void checkPlateforme(){
         this.checked = !this.checked;
     }
     
     public String getName(){
-        return this.e.getNom();
+        return this.p.getNom();
     }
     
     public Long getId(){
-        return this.e.getId();
-    } 
+        return this.p.getId();
+    }
 }

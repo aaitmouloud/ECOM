@@ -14,16 +14,24 @@
                 <div id="genre">
                     <h2 class="center">Catégorie</h2>
                     <form>
-                        <ui:repeat value="#{categorieBean.allCategorie}" var="categorie">   
-                            <input type="checkbox" name="#{categorie.nom}" value="#{categorie.id}"> #{categorie.nom}</input><br/>
+                        <ui:repeat value="#{aSearchBean.categorie}" var="categorie">   
+                            <input onchange="refreshGameList()" type="checkbox" name="#{categorie.name}" value="#{categorie.id}" checked="#{categorie.checked}" >#{categorie.name}#{categorie.checked}</input><br/>
                         </ui:repeat>
                     </form>
                 </div>
                 <div id="publisher">
                     <h2 class="center">Editeur</h2>
                     <form>
-                        <ui:repeat value="#{editeurBean.allEditeur}" var="editeur"> 
-                            <input type="checkbox" name="#{editeur.nom}" value="#{editeur.id}"> #{editeur.nom}</input><br/>
+                        <ui:repeat value="#{aSearchBean.editeur}" var="editeur"> 
+                            <input onchange="#{editeur.checkEditeur()}" type="checkbox" name="#{editeur.name}" value="#{editeur.id}" checked="#{editeur.checked}"> #{editeur.name}</input><br/>
+                        </ui:repeat>
+                    </form>			    
+                </div>
+                <div id="plateforme">
+                    <h2 class="center">Plateforme</h2>
+                    <form>
+                        <ui:repeat value="#{aSearchBean.plateforme}" var="plateforme"> 
+                            <input onchange="#{plateforme.checkPlateforme()}" type="checkbox" name="#{plateforme.name}" value="#{plateforme.id}" checked="#{plateforme.checked}"> #{plateforme.name}</input><br/>
                         </ui:repeat>
                     </form>			    
                 </div>
@@ -31,11 +39,11 @@
                     <h2 class="center">Prix</h2>
                     <h:form style="text-align: center">
                         <h:panelGrid columns="1" style="margin-bottom: 10px;width: 85%;margin-left:15px;margin-right:15px">
-                            <h:outputText id="displayRange" value="Entre 0€ et 100€" />
-                            <p:slider for="txt6,txt7" display="displayRange" style="width: 100%" range="true" displayTemplate="Entre {min}€ et {max}€" />
+                            <h:outputText id="displayRange" value="Entre 0€ et #{aSearchBean.max}€" />
+                            <p:slider for="txt6,txt7" display="displayRange" style="width: 100%" range="true" displayTemplate="Entre {min}€ et {max}€" maxValue="#{aSearchBean.prixMax}" minValue="0" />
                         </h:panelGrid>
-                        <h:inputHidden id="txt6" value="0" />
-                        <h:inputHidden id="txt7" value="100" />
+                        <h:inputHidden id="txt6" value="#{aSearchBean.min}" />
+                        <h:inputHidden id="txt7" value="#{aSearchBean.max}" />
                     </h:form>		    
                 </div>
             </div>

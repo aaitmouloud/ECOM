@@ -15,12 +15,11 @@
                 <div id="multiselect">
                     <div id="genre">
                         <h2 class="center">Catégorie</h2>
-                        <form>
-                            <input type="checkbox" name="Action" value="1"> Action</input><br/>
-                            <input type="checkbox" name="Aventure" value="2"> Aventure</input><br/>
-                            <input type="checkbox" name="FPS" value="3"> FPS</input><br/>
-                            <input type="checkbox" name="STR" value="4"> STR</input><br/>
-                        </form>
+                        <ui:repeat value="#{ASearchBean.categorie}" var="cat">
+                            <h:form>
+                                <input type="checkbox" name="#{cat}" value="#{cat}" checked="#{ASearchBean.isChecked(cat)}" > #{cat}</input><br/>
+                            </h:form>
+                        </ui:repeat>
                     </div>
 
                     <div id="publisher">

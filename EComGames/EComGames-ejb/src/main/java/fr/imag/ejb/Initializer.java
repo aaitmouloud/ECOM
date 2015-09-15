@@ -10,6 +10,7 @@ import fr.imag.entities.Categorie;
 import fr.imag.entities.Cle;
 import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
+import fr.imag.entities.Plateforme;
 import fr.imag.entities.PrixJeu;
 import fr.imag.entities.Utilisateur;
 import java.util.Calendar;
@@ -45,7 +46,10 @@ public class Initializer {
         Cle cle = new Cle(jeu);
         Cle cle2 = new Cle(jeu);
         Cle cle3 = new Cle(jeu);
+        Plateforme p = new Plateforme("Playstation 3");
+        Plateforme p2 = new Plateforme("PC");
         jeu.setEditeur(editeur);
+        jeu.addPlateforme(p);
         
         PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
         PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), Calendar.getInstance(), 77D);
@@ -64,6 +68,8 @@ public class Initializer {
         Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
         jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
         jeu2.addCategorie(new Categorie("Jeu de plateforme"));
+        jeu2.addPlateforme(p);
+        jeu2.addPlateforme(p2);
         PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 0D);
         Cle cle4 = new Cle(jeu2);
         Cle cle5 = new Cle(jeu2);
