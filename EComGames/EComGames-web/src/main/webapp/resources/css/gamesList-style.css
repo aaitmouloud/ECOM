@@ -21,10 +21,10 @@ partie class
 
 #contentGameList {
     text-align: center;
+    display: flex;
 }
 
 #contentGameList div {
-    display: inline-block;
     text-align: left;
     margin-right: 5px;
 }
@@ -79,6 +79,7 @@ partie id
     border-left-style: solid;
     border-right-style: solid;
     border-width: 3px;
+    padding: 0 8%;
     //  background-color : #A0A0A0  ;
 }
 
