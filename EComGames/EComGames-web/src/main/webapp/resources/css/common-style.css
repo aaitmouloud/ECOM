@@ -65,8 +65,9 @@ body header {
 }
 
 #usrMenu .header_link:hover {
-    color: #4e4e4e;
-    font-weight: bold;
+    color: black;
+    background-color: #ADD8E6;
+    //font-weight: bold;
 
 }
 

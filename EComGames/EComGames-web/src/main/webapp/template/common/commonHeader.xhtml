@@ -16,13 +16,11 @@
 
                 <c:choose>
                     <c:when test="#{loggedUserBean.unlogged}">
-                        <h:outputLink value="javascript:void(0)" 
-                                      onclick="PF('loginDlg').show()" 
-                                      title="Connexion"
-                                      styleClass="header_link"
-                                      id="loginLink">
-                            Se connecter
-                        </h:outputLink>
+                        <p:commandLink value="Se connecter" 
+                                       onclick="PF('loginDlg').show()" 
+                                       title="Connexion"
+                                       styleClass="header_link"
+                                       id="loginLink" />
                     </c:when>
                     <c:otherwise>
                         <div class="header_link">
@@ -52,10 +50,10 @@
 
                     <h:panelGrid columns="2" cellpadding="5" footerClass="loginPopupFooter">
                         <h:outputLabel for="login" value="Login:" />
-                        <p:inputText id="login" value="#{loginBean.login}" required="true" label="username" />
+                        <p:inputText id="login" value="#{loginBean.login}" label="username" />
 
                         <h:outputLabel for="motDePasse" value="Mot de passe: " />
-                        <p:password id="motDePasse" value="#{loginBean.password}" required="true" label="password" />
+                        <p:password id="motDePasse" value="#{loginBean.password}" label="password" />
 
 
                         <f:facet name="footer" >
@@ -63,7 +61,10 @@
                             <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
                             <p:commandButton value="Se connecter" update="growl"
                                              actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"
-                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { updateEverything(); }" />
+                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { location.reload(); }" />
+                            <p:commandButton value="S'inscrire" update="growl"
+                                             action="signUp?faces-redirect=true"
+                                             />
                         </f:facet>  
 
 
@@ -104,7 +105,7 @@
                                             </c:otherwise>
                                         </c:choose>
 
-                                               <td> <c:choose>
+                                            <td> <c:choose>
                                                     <c:when test="#{item.prixNull}">
                                                         <h:outputText value="Gratuit" />
                                                     </c:when>
@@ -128,11 +129,21 @@
                     </c:choose>
                 </p:dialog>
             </h:form>
+
             <h:form id="searchBar">
-                <p:autoComplete id="searchField" value="#{helloBean.name}"
-                                queryDelay="1000" completeMethod="#{helloBean.auto}"
-                                required="true" requiredMessage="Veuillez entrer " 
-                                placeholder="Recherche... "/> 
+                #{rechercheBean.searchTerm = null}
+                #{rechercheBean.setNomsJeux()}
+                <p:growl id="growlSearch" sticky="false" showDetail="true" autoUpdate="true" life="2500" /> 
+                <p:autoComplete id="searchField" value="#{rechercheBean.searchTerm}" 
+                                completeMethod="#{rechercheBean.completion}" placeholder="Recherche... "
+                                required="true" requiredMessage="Veuillez entrer les termes à rechercher"
+                                disabled="false" />
+                <p:commandButton disabled="false" 
+                                 value="Rechercher" action="gamesList?faces-redirect=true" style="display:none;" 
+                                 update="growlSearch">
+                    <f:param name="search" value="#{rechercheBean.searchTerm}" />
+                </p:commandButton>
+
 
             </h:form>
 

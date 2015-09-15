@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package fr.imag.business.Local;
+package fr.imag.business.local;
 
 import fr.imag.business.JeuManager;
 import fr.imag.entities.Jeu;

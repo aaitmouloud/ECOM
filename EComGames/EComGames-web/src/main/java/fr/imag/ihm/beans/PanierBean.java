@@ -45,7 +45,7 @@ public class PanierBean implements Serializable {
         addGame(j);
         ItemBean ib = gameC.get(j);
         ib.setNombre(nb);
-        Update(ib);
+        update(ib);
     }
 
     public void addGame(Jeu j) {
@@ -88,7 +88,7 @@ public class PanierBean implements Serializable {
         FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
-    public void Update(ItemBean i) {
+    public void update(ItemBean i) {
         FacesMessage message;
         if (gameC.containsKey(i.getJeu())) {
             int nbCleDispo = cleDao.findAvailableCle(i.getJeu()).size();
