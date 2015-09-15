@@ -17,11 +17,14 @@ partie class
     margin-left: auto;
     border-collapse:  collapse;
     border : 2px solid black;
+    min-width: 750px;
 }
 
 #contentGameList {
-    text-align: center;
     display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
 }
 
 #contentGameList div {
@@ -72,14 +75,11 @@ partie id
 */
 
 #gameList{
-    margin-right: auto;
-    margin-left: auto;
-    width: 60%;
     min-height: 670px;
     border-left-style: solid;
     border-right-style: solid;
     border-width: 3px;
-    padding: 0 8%;
+    padding: 0 10px;
     //  background-color : #A0A0A0  ;
 }
 

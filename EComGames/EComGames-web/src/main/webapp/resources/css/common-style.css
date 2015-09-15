@@ -25,7 +25,8 @@ body {
     width: 100%;
 }
 #ecompage {
-    width: 70%;
+    width: 90%;
+    margin: auto;
 }
 
 .ui-dialog-titlebar, button {
