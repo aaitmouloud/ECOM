@@ -1,0 +1,18 @@
+
+
+#genre, #publisher, #price{
+
+    margin-top: 20px;
+    width: 200px;
+    float: left;
+    position : relative;
+    border-style: solid;
+    border-width: 3px;
+}
+
+#multiselect {
+    margin-left: 250px;
+}
+#publisher, #price {
+    clear: left;
+}
