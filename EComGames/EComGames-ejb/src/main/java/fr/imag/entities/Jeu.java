@@ -6,6 +6,7 @@
 package fr.imag.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -244,7 +245,7 @@ public class Jeu implements Serializable {
      * @return
      */
     public Collection<Plateforme> getPlateformes() {
-        return new HashSet<>(plateformes);
+        return new ArrayList<>(plateformes);
     }
 
     public boolean removePlateforme(Plateforme p) {
@@ -283,7 +284,7 @@ public class Jeu implements Serializable {
      * @return
      */
     public Collection<Categorie> getCategories() {
-        return new HashSet<>(categories);
+        return new ArrayList<>(categories);
     }
 
     /**
