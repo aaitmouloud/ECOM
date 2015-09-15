@@ -9,58 +9,59 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 */
 
 
-.clearfix {
-    overflow: auto;
-}
-
-#test{
-      color: #ffffff;
-      background: #000000;
-}
-header {
-    padding: 0px;
-    margin: 0px;
-    width: 100%;
-    height: 150px;
+body header {
+    height: 120px;
     background-color: black;
+    width: 100%;
+    padding:10px 0px 5px 0px;
 }
 
 #webSiteName {
-    color: #ffffff;
-    float: left;
-    margin-left: 10%;
+    color: white;
+    float: left;   
+    margin: 10px 0 0 60px;
+}
+
+#usrMenu, #searchBar {
+    position: relative;
+    float: right;
+    margin-top: 10px;
+    margin-right: 10px;
+    display: inline-block;
+    color: black;
+    background-color: inherit;
+    border:0px solid white;
+    display: flex;
+    height: 28px;
+}
+
+#searchBar {
+    clear: right;
     margin-top: 50px;
 }
 
-#usrMenu {
-    float:  right;
-    margin-right: 100px;
+#usrMenu .header_link {
+    border:0px solid black;
+    background:white;
+    color:black;
+    margin:2px;
+    padding: 3px;
+    font-weight: normal;
+    font-size: 1.0em;
+    text-align:center;
+    text-decoration: none;
+
 }
 
-#ursUl {
-    margin-top: 0px;
+#usrMenu .header_link:hover {
+    color: black;
+    background-color: #ADD8E6;
+    //font-weight: bold;
+
 }
 
-
-.whiteButton {
-   width: 100px;
-   height: 60 px;
-   background-color: #ffffff;
-   text-align: center;
-  -webkit-border-radius: 0;
-  -moz-border-radius: 0;
-  border-radius: 0px;
-  color: #000000;
-  font-size: 15px;
-  background: #ffffff;
-  padding: 1px 10px 1px 10px;
-  text-decoration: none;
-  display:  inline-block;
-}
-
-.whiteButton:hover {
-  background: #b0b0b0;
-  text-decoration: none;
+.loginPopupFooter{
+    text-align: center;
 }
 
 
