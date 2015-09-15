@@ -75,7 +75,6 @@
                 <p:dialog id="panierId" header="Panier" widgetVar="panierPopup" 
                           resizable="false" closeOnEscape="true" 
                           hideEffect="fade" position="center,top" >
-                    <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" />
                     <c:choose>
                         <c:when test="#{panier.emptyOrNot == true}">
                             <h:outputText value="Aucun item dans le panier"/>
@@ -90,7 +89,7 @@
                                     <th> <h:outputText value="Prix" /> </th>
                                 </tr>
                                 <ui:repeat value="#{panier.game}" var="item">
-                                    <h:form id="gameRow" onkeypress="if (event.keyCode == 13){ return false;}">
+                                    <h:form id="gameRow" onkeypress="if (event.keyCode === 13){ return false;}">
                                      
                                     <tr><td><h:outputText value="#{item.nom}" /></td>
                                         <td> <h:outputText value="#{item.editeur}" /></td>
@@ -101,7 +100,7 @@
                                             </c:when>
                                             <c:otherwise>
                                                 <td><h:outputText value="#{item.prixUnit}" /></td>
-                                                <td><p:inputText onchange="#{panier.Update(item)}" value="#{item.nombre}"  maxlength="3"/></td>
+                                                <td><p:inputText onchange="#{panier.updatePanier(item)}" value="#{item.nombre}"  size="3" maxlength="3"/></td>
                                             </c:otherwise>
                                         </c:choose>
 
@@ -113,14 +112,14 @@
                                                         <h:outputText value="#{item.prix}" /> 
                                                     </c:otherwise>
                                                 </c:choose></td>
-                                        <td><p:commandButton value="Supprimer" actionListener="#{panier.remove(item.jeu)}" update=":panierDisplay:growlPanier" /> 
+                                        <td><p:commandButton value="Supprimer" actionListener="#{panier.removeGame(item.jeu)}" update=":panierDisplay:panierId" /> 
                      </td></tr>
                                     </h:form>
                                 </ui:repeat>
                                 <tr><td colspan="0"><h:outputText value="#{panier.prix}" /></td></tr>
                                 </table>
                                 <f:facet name="footer" >
-                                    <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
+                                    <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" />
                                     <p:commandButton value="Valider mes achats" update=":panierDisplay:growlPanier" 
                                                      />
                                 </f:facet>
