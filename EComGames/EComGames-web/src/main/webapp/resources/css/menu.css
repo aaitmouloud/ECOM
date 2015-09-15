@@ -10,16 +10,12 @@
     border-width: 3px;
 }
 
-#multiselect {
-    margin-left: 250px;
-}
 #publisher, #price {
     clear: left;
 }
 
 #multiselect{
     display: inline-block;
-    margin-left: 2%;
 }
 
 #multiselect h2 {
@@ -34,4 +30,5 @@
 
 #menu {
     vertical-align: top;
+  //  padding-left: 10%;
 }
