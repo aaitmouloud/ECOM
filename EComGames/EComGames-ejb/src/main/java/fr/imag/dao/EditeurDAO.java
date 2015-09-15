@@ -32,5 +32,5 @@ public class EditeurDAO extends AbstractDAO implements IntLocalEditeurDAO, IntRe
             return Collections.EMPTY_LIST;
         }
     }
-
+    
 }
