@@ -8,14 +8,16 @@ package fr.imag.ihm.beans;
 import fr.imag.entities.Jeu;
 import java.io.Serializable;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author seb
  */
+@ManagedBean(name = "itemBean")
+@SessionScoped
 public class ItemBean implements Serializable{
-    private Jeu j;
+    final private Jeu j;
     private int nb;
     
     public ItemBean(Jeu j){
@@ -23,9 +25,10 @@ public class ItemBean implements Serializable{
         this.nb = 1;
     }
     
-    public Jeu getJeu(){
-        return j;
+    public String getId(){
+        return j.getId();
     }
+
     
    
     public String getNom(){
@@ -55,10 +58,9 @@ public class ItemBean implements Serializable{
     
     public int getNombre(){
         return nb;
-        
     }
     
-    public void setNombre(int nb){
+    public void setNombre(int nb) {
         if (nb >= 1 ){
             this.nb = nb;
         }
@@ -66,6 +68,9 @@ public class ItemBean implements Serializable{
     
     public double getPrix(){
         return (double)nb * getPrixUnit();
+    }
+    
+    public void handleEvent() {
     }
     
 }

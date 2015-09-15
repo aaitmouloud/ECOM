@@ -23,11 +23,10 @@ import javax.persistence.NamedQuery;
 
 /**
  *
- * @author min
+ * @author aaitmouloud
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="GetCategorieByJeuId", query="SELECT j.categories FROM Jeu j WHERE j.id = :id"),
     @NamedQuery(name="GetAllCategorie", query="SELECT c FROM Categorie c ORDER BY c.nom")
 })
 public class Categorie implements Serializable {
