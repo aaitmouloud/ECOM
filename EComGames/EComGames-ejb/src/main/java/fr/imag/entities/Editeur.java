@@ -31,7 +31,7 @@ import javax.persistence.OneToMany;
 @Entity
 @NamedQueries({
     @NamedQuery(name="GetEditeurByJeuId", query="SELECT j.editeur FROM Jeu j WHERE j.id = :id"),
-    @NamedQuery(name="GetAllEditeur", query="SELECT e FROM Editeur e")
+    @NamedQuery(name="GetAllEditeur", query="SELECT e FROM Editeur e ORDER BY e.nom")
 })
 public class Editeur implements Serializable {
 

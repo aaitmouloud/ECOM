@@ -2,31 +2,30 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
       xmlns:p="http://primefaces.org/ui">
     <h:head>
         <h:outputStylesheet name="menu.css" library="css" />
     </h:head>
     <h:body>
+
         <div id="menu">
             <div id="multiselect">
                 <div id="genre">
                     <h2 class="center">Catégorie</h2>
                     <form>
-                        <input type="checkbox" name="Action" value="1"> Action</input><br/>
-                        <input type="checkbox" name="Aventure" value="2"> Aventure</input><br/>
-                        <input type="checkbox" name="FPS" value="3"> FPS</input><br/>
-                        <input type="checkbox" name="STR" value="4"> STR</input><br/>
+                        <ui:repeat value="#{categorieBean.allCategorie}" var="categorie">   
+                            <input type="checkbox" name="#{categorie.nom}" value="#{categorie.id}"> #{categorie.nom}</input><br/>
+                        </ui:repeat>
                     </form>
                 </div>
-
                 <div id="publisher">
                     <h2 class="center">Editeur</h2>
                     <form>
-                        <input type="checkbox" name="Activision" value="1"> Activision</input><br/>
-                        <input type="checkbox" name="Blizzard" value="2"> Blizzard</input><br/>
-                        <input type="checkbox" name="EA" value="3"> EA</input><br/>
-                        <input type="checkbox" name="Valve" value="4"> Valve</input><br/>
-                    </form>		    
+                        <ui:repeat value="#{editeurBean.allEditeur}" var="editeur"> 
+                            <input type="checkbox" name="#{editeur.nom}" value="#{editeur.id}"> #{editeur.nom}</input><br/>
+                        </ui:repeat>
+                    </form>			    
                 </div>
                 <div id="price">
                     <h2 class="center">Prix</h2>
