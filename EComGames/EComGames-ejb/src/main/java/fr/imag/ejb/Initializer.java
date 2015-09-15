@@ -23,8 +23,7 @@ import javax.persistence.PersistenceContext;
 import org.apache.log4j.Logger;
 
 /**
- * EJB Singleton qui remplit la BD au démarrage.
- * A enelever en prod
+ * EJB Singleton qui remplit la BD au démarrage. A enelever en prod
  *
  * @author aaitmouloud
  */
@@ -32,12 +31,12 @@ import org.apache.log4j.Logger;
 @LocalBean
 @Startup
 public class Initializer {
-
+    
     final static private Logger LOGGER = Logger.getLogger(Initializer.class);
-
+    
     @PersistenceContext(unitName = "EComGamesPU")
     private EntityManager em;
-
+    
     @PostConstruct
     void init() {
         LOGGER.info("Initialisation des données.");
@@ -47,26 +46,27 @@ public class Initializer {
         Cle cle2 = new Cle(jeu);
         Cle cle3 = new Cle(jeu);
         jeu.setEditeur(editeur);
-
+        
         PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
         PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), Calendar.getInstance(), 77D);
         em.persist(jeu);
-
+        
         Utilisateur user = new Utilisateur("toto", "toto", Calendar.getInstance(), "bla@bla.bel");
         em.persist(user);
-
+        
         user.setEmail("blabla@car.com");
         em.merge(user);
-
+        
         Achat achat = new Achat(user, Calendar.getInstance(), cle);
-        em.persist(achat);
-
+        achat.setNote((short) 5);
+        achat.setCommentaire("Je peux trop le faire!");
+        
         Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
         jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
         jeu2.addCategorie(new Categorie("Jeu de plateforme"));
         PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 0D);
-        Cle cle4 =new Cle(jeu2);
-        Cle cle5 =new Cle(jeu2);
+        Cle cle4 = new Cle(jeu2);
+        Cle cle5 = new Cle(jeu2);
         em.persist(jeu2);
         LOGGER.info("Fin de l'initialisation des données.");
     }
