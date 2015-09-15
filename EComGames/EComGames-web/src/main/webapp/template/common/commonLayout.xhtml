@@ -12,7 +12,8 @@
         <h:outputStylesheet name="game-style.css" library="css" />
 	<h:outputStylesheet name="gamesList-style.css" library="css" />
 	<h:outputStylesheet name="signUp.css" library="css" />
-	<h:outputStylesheet name="index-style.css" library="css" />
+        <h:outputStylesheet name="panier.css" library="css" />
+	<!--<h:outputStylesheet name="index-style.css" library="css" />-->
     </h:head>
 
     <h:body>
@@ -20,7 +21,9 @@
             <ui:include src="/template/common/commonHeader.xhtml" />
         </header>
         <section id="content">
-            <ui:insert name="content" ></ui:insert>
+            <div id="ecompage">
+                <ui:insert name="content" ></ui:insert>
+            </div>
         </section>
         <footer>
             <ui:include src="/template/common/commonFooter.xhtml" />

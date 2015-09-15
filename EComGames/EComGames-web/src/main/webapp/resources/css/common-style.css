@@ -19,6 +19,9 @@ body {
     margin: 0px;
     width: 100%;
 }
+ecompage {
+    width: 70%;
+}
 
 body header {
     height: 120px;

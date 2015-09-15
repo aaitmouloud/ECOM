@@ -10,41 +10,8 @@
     <h:body>
 
         <ui:composition template="template/common/commonLayout.xhtml">
-
             <ui:define name="content">
-                <div id="multiselect">
-                    <div id="genre">
-                        <h2 class="center">Catégorie</h2>
-                        <form>
-                            <input type="checkbox" name="Action" value="1"> Action</input><br/>
-                            <input type="checkbox" name="Aventure" value="2"> Aventure</input><br/>
-                            <input type="checkbox" name="FPS" value="3"> FPS</input><br/>
-                            <input type="checkbox" name="STR" value="4"> STR</input><br/>
-                        </form>
-                    </div>
-
-                    <div id="publisher">
-                        <h2 class="center">Editeur</h2>
-                        <form>
-                            <input type="checkbox" name="Activision" value="1"> Activision</input><br/>
-                            <input type="checkbox" name="Blizzard" value="2"> Blizzard</input><br/>
-                            <input type="checkbox" name="EA" value="3"> EA</input><br/>
-                            <input type="checkbox" name="Valve" value="4"> Valve</input><br/>
-                        </form>		    
-                    </div>
-                    <div id="price">
-                        <h2 class="center">Prix</h2>
-                        <h:form style="text-align: center">
-                            <h:panelGrid columns="1" style="margin-bottom: 10px;width: 85%;margin-left:15px;margin-right:15px">
-                                <h:outputText id="displayRange" value="Entre 0€ et 100€" />
-                                <p:slider for="txt6,txt7" display="displayRange" style="width: 100%" range="true" displayTemplate="Entre {min}€ et {max}€" />
-                            </h:panelGrid>
-                            <h:inputHidden id="txt6" value="0" />
-                            <h:inputHidden id="txt7" value="100" />
-                        </h:form>		    
-                    </div>
-
-                </div>
+                <ui:include src="/template/common/commonMenu.xhtml" />
                 <h:outputScript library="js" name="gamelist.js" />
 		<div id="gameList">
 		    <h1 id="jeuTitle" class="center">Jeux</h1>
@@ -58,7 +25,7 @@
                                     <td>#{jeu.annee}</td>
                                     <td>*****</td>
                                     <td>#{jeu.currentPrix.prix}€</td>  
-                                    <td><p:commandLink value="Ajouter au panier" action="#{panier.addGame(jeu)}" update=":panierDisplay:panierId"  /></td>
+                                    <td><p:commandLink value="Ajouter au panier" action="#{panier.addGame(jeu)}"  /></td> <!--update=":panierDisplay:panierId"-->
 
                                 </tr>
                             </h:form>
@@ -66,6 +33,7 @@
                     </table>
 
                 </div>
+                <ui:include src="/template/common/commonPanier.xhtml" />
             </ui:define>
 
         </ui:composition>
