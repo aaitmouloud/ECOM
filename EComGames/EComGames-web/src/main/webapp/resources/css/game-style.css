@@ -11,6 +11,17 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 /*
 partie balise
 */
+#contentGame {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+#contentGame div {
+    margin-right: 5px;
+    text-align: left;
+}
 
 
 .image{
