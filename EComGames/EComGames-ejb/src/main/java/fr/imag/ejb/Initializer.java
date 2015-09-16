@@ -41,15 +41,15 @@ public class Initializer {
     void init() {
         LOGGER.info("Initialisation des données.");
         Editeur editeur = new Editeur("Sega Games", LOGGER.getAllAppenders() + " C'est plus fort que toi", null);
-        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");
-        Cle cle = new Cle(jeu);
-        Cle cle2 = new Cle(jeu);
-        Cle cle3 = new Cle(jeu);
-        jeu.setEditeur(editeur);
+//        Jeu jeu = new Jeu("Legend of Zelda", "Link sauve Zelda", 1990, 3, "ftp://");
+//        Cle cle = new Cle(jeu);
+//        Cle cle2 = new Cle(jeu);
+//        Cle cle3 = new Cle(jeu);
+//        jeu.setEditeur(editeur);
         
-        PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
-        PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), Calendar.getInstance(), 77D);
-        em.persist(jeu);
+//        PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null, 25D);
+//        PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), Calendar.getInstance(), 77D);
+//        em.persist(jeu);
         
         Utilisateur user = new Utilisateur("toto", "toto", Calendar.getInstance(), "bla@bla.bel");
         em.persist(user);
@@ -57,17 +57,17 @@ public class Initializer {
         user.setEmail("blabla@car.com");
         em.merge(user);
         
-        Achat achat = new Achat(user, Calendar.getInstance(), cle);
-        achat.setNote((short) 5);
-        achat.setCommentaire("Je peux trop le faire!");
+//        Achat achat = new Achat(user, Calendar.getInstance(), cle);
+//        achat.setNote((short) 5);
+//        achat.setCommentaire("Je peux trop le faire!");
         
-        Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
-        jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
-        jeu2.addCategorie(new Categorie("Jeu de plateforme"));
-        PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 0D);
-        Cle cle4 = new Cle(jeu2);
-        Cle cle5 = new Cle(jeu2);
-        em.persist(jeu2);
+//        Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
+//        jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
+//        jeu2.addCategorie(new Categorie("Jeu de plateforme"));
+//        PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 0D);
+//        Cle cle4 = new Cle(jeu2);
+//        Cle cle5 = new Cle(jeu2);
+//        em.persist(jeu2);
         LOGGER.info("Fin de l'initialisation des données.");
     }
 }

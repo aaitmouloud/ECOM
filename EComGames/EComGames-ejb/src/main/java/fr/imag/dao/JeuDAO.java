@@ -10,6 +10,7 @@ import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.entities.Jeu;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 
@@ -103,6 +104,17 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
             return j;
         } catch (Exception e) {
             throw (new RuntimeException(e));
+        }
+    }
+    
+    @Override
+    public Collection<Jeu> findXJeuxOrderByDate(int nbJeux){
+        try {
+            TypedQuery<Jeu> query = em.createNamedQuery("GetXJeuxOrderByDate", Jeu.class);
+            query.setMaxResults(nbJeux);
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.EMPTY_LIST;
         }
     }
 
