@@ -18,12 +18,12 @@
                     <h:outputText value="Aucun item dans le panier"/>
                 </c:when>
                 <c:otherwise>
-                    <table>
+                    <table id="panierTable">
                         <ui:repeat value="#{panier.game}" var="item" varStatus="loop" >
                             <tr>
                                 <h:form>
-                                    <td><h:outputText value="#{item.nom}" /></td>
-                                    <td>
+                                    <td class="bodered"><h:outputText value="#{item.nom}" /></td>
+                                    <td class="bodered">
                                         <h:panelGrid columns="1">
                                             <h:outputText value="#{item.prixUnit}" />
                                             <h:inputText value="#{item.nombre}" onblur="updatePrix();" class="panierPrix" />

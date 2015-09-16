@@ -10,9 +10,6 @@
     border-width: 3px;
 }
 
-#multiselect {
-    margin-left: 250px;
-}
 #publisher, #price, #plateforme{
     clear: left;
 }
