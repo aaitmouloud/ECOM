@@ -7,6 +7,8 @@ package fr.imag.business;
 
 import fr.imag.business.local.JeuManagerLocal;
 import fr.imag.business.remote.JeuManagerRemote;
+import fr.imag.dao.remote.IntRemoteAchatDAO;
+import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.dao.remote.IntRemotePrixJeuDAO;
 import fr.imag.entities.Achat;
 import fr.imag.entities.Cle;
@@ -29,34 +31,30 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     @EJB
     IntRemotePrixJeuDAO prixJeuDAO;
     
+    @EJB
+    IntRemoteAchatDAO achatDAO;
+    
     private CompareJeu cj;
-    
-    public static enum Element{
-        Note,
-        Defaut,
-        BestSell,
-        Editeur,
-        Annee,
-        Prix,
-    };
-    
-    public static enum Sens{
-        Croissant,
-        Decroissant,
-    }; 
+    private Element e;
+    private Sens s;
     
     public JeuManager(){
         cj = new CompareJeu(this);
     }
     
+    
+    
     @Override
-    public Collection<Jeu> orderBy(Collection<Jeu> cjd, Element e, Sens s){
+    public Collection<Jeu> orderBy(Collection<Jeu> cjd){
         ArrayList<Jeu> lj = new ArrayList<>(cjd);
         Iterator<Jeu> i = cjd.iterator();
      
         cj.setElement(e);
         cj.setSens(s);
         Collections.sort(lj, cj);
+        if (lj.isEmpty()){
+            return cjd;
+        }
         return lj;
     }
 
@@ -65,16 +63,23 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
         float result = 0;
         int nb = 0;
         Collection<Cle> cc = j.getCles();
+        if (cc == null){
+            return -1;
+        }
         Iterator<Cle> ic = cc.iterator();
-        while (ic.hasNext()){
+       while (ic.hasNext()){
             Cle c = ic.next();
-            Achat a = c.getAchat();
+            Achat a = achatDAO.findAchatByCle(c.getCle());
             if (a != null){
                 result += a.getNote();
                 nb++;
             }
         }
-        return result/nb;
+        if (nb == 0){
+            return -1;
+       }else{
+            return result/nb;
+        }
     }
 
     @Override
@@ -104,6 +109,18 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
         }
         return null;
     }
+
+    @Override
+    public void setElement(Element e) {
+        this.e = e;
+    }
+
+    @Override
+    public void setSens(Sens s) {
+        this.s = s;
+    }
+
+
     
     
     

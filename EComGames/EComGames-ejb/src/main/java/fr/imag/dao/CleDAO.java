@@ -49,5 +49,20 @@ public class CleDAO extends AbstractDAO implements IntLocalCleDAO, IntRemoteCleD
             throw new RuntimeException(e.getMessage());
         }
     }
+    
+    @Override
+    public Collection<Cle> findClebyJeu(String jeuId){
+        TypedQuery<Cle> query = null;
+        ArrayList<Cle> ccd = new ArrayList<>();
+        try {
+             query = em.createNamedQuery("GetCleByJeuId", Cle.class);
+            query.setParameter("id", jeuId);
+            //throw new RuntimeException(query.toString());
+            return query.getResultList();
+
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
 
 }

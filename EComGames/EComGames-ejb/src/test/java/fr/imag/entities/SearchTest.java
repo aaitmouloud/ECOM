@@ -210,36 +210,36 @@ public class SearchTest {
             assertTrue("Aucun jeu trouvé dans la base", !cj.isEmpty());
     
             
-            cj = jM.orderBy(cj, JeuManager.Element.Note, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Note Croissante est vide ",!cj.isEmpty());
-            Jeu top = cj.iterator().next();
-            assertTrue("Le tri par Note Croissante est faux", top.equals(jeu));
-            
-            cj = jM.orderBy(cj, JeuManager.Element.Annee, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Année Croissante est vide ", !cj.isEmpty());
-            top = cj.iterator().next();
-            assertTrue("Le tri par Année Croissante est faux", top.equals(jeu2));
-            
-            cj = jM.orderBy(cj, JeuManager.Element.BestSell, JeuManager.Sens.Croissant);
-            assertTrue("La collection par MeilleurVente Croissante est vide ", !cj.isEmpty());
-            top = cj.iterator().next();
-            assertTrue("Le tri par MeilleurVente Croissante est faux", top.equals(jeu));
-            
-            cj = jM.orderBy(cj, JeuManager.Element.Editeur, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Editeur Croissant est vide ", !cj.isEmpty());
-            top = cj.iterator().next();
-            assertTrue("Le tri par Editeur Croissant est faux", top.equals(jeu2));
-            
-             cj = jM.orderBy(cj, JeuManager.Element.Prix, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Prix Croissant est vide ", !cj.isEmpty());
-            top = cj.iterator().next();
-            assertTrue("Le tri par Prix Croissant est faux", top.equals(jeu2));
-            
-             cj = jM.orderBy(cj, JeuManager.Element.Defaut, JeuManager.Sens.Croissant);
-            assertTrue("La collection par Defaut Croissante est vide ", !cj.isEmpty());
-            top = cj.iterator().next();
-            assertTrue("Le tri par Defaut Croissante est faux", top.equals(jeu2));
-            
+//            cj = jM.orderBy(cj, JeuManager.Element.Note, JeuManager.Sens.Croissant);
+//            assertTrue("La collection par Note Croissante est vide ",!cj.isEmpty());
+//            Jeu top = cj.iterator().next();
+//            assertTrue("Le tri par Note Croissante est faux", top.equals(jeu));
+//            
+//            cj = jM.orderBy(cj, JeuManager.Element.Annee, JeuManager.Sens.Croissant);
+//            assertTrue("La collection par Année Croissante est vide ", !cj.isEmpty());
+//            top = cj.iterator().next();
+//            assertTrue("Le tri par Année Croissante est faux", top.equals(jeu2));
+//            
+//            cj = jM.orderBy(cj, JeuManager.Element.BestSell, JeuManager.Sens.Croissant);
+//            assertTrue("La collection par MeilleurVente Croissante est vide ", !cj.isEmpty());
+//            top = cj.iterator().next();
+//            assertTrue("Le tri par MeilleurVente Croissante est faux", top.equals(jeu));
+//            
+//            cj = jM.orderBy(cj, JeuManager.Element.Editeur, JeuManager.Sens.Croissant);
+//            assertTrue("La collection par Editeur Croissant est vide ", !cj.isEmpty());
+//            top = cj.iterator().next();
+//            assertTrue("Le tri par Editeur Croissant est faux", top.equals(jeu2));
+//            
+//             cj = jM.orderBy(cj, JeuManager.Element.Prix, JeuManager.Sens.Croissant);
+//            assertTrue("La collection par Prix Croissant est vide ", !cj.isEmpty());
+//            top = cj.iterator().next();
+//            assertTrue("Le tri par Prix Croissant est faux", top.equals(jeu2));
+//            
+//             cj = jM.orderBy(cj, JeuManager.Element.Defaut, JeuManager.Sens.Croissant);
+//            assertTrue("La collection par Defaut Croissante est vide ", !cj.isEmpty());
+//            top = cj.iterator().next();
+//            assertTrue("Le tri par Defaut Croissante est faux", top.equals(jeu2));
+//            
             
             
             ArrayList<String> ac = new ArrayList<>();

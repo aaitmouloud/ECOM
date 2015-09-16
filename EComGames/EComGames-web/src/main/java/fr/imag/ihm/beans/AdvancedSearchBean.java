@@ -5,6 +5,9 @@
  */
 package fr.imag.ihm.beans;
 
+import fr.imag.business.remote.JeuManagerRemote;
+import fr.imag.business.remote.JeuManagerRemote.Element;
+import fr.imag.business.remote.JeuManagerRemote.Sens;
 import fr.imag.dao.remote.IntRemoteCategorieDAO;
 import fr.imag.dao.remote.IntRemoteEditeurDAO;
 import fr.imag.dao.remote.IntRemoteJeuDAO;
@@ -25,11 +28,8 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
-import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 /**
@@ -39,33 +39,39 @@ import javax.faces.event.ActionEvent;
 @ManagedBean(name = "aSearchBean")
 @SessionScoped
 public class AdvancedSearchBean implements Serializable {
-    private Map<Long,CategorieBean> cat;
-    private Map<Long,EditeurBean> edit;
-    private Map<Long,PlateformeBean> plat;
+
+    private Map<Long, CategorieBean> cat;
+    private Map<Long, EditeurBean> edit;
+    private Map<Long, PlateformeBean> plat;
     private Collection<Jeu> cjeu;
     private int prixMin;
     private int prixMax;
     private String searchTerm;
-    
+    private Element e;
+    private Sens s;
+
     @EJB
     private IntRemoteCategorieDAO catDAO;
-    
+
     @EJB
     private IntRemoteEditeurDAO editDAO;
-    
+
     @EJB
     private IntRemotePlateformeDAO platDAO;
-    
+
     @EJB
     private IntRemotePrixJeuDAO prixDAO;
-     
+
     @EJB
     private IntRemoteJeuDAO jeuDAO;
-   
-  
-    
+
+    @EJB
+    private JeuManagerRemote jeuMan;
+
     @PostConstruct
     public void init() {
+        this.e = Element.Defaut;
+        this.s = Sens.Decroissant;
         this.searchTerm = null;
         cjeu = null;
         cat = new HashMap<>();
@@ -75,131 +81,144 @@ public class AdvancedSearchBean implements Serializable {
         getAllEditeur();
         getAllPlateforme();
         getPrix();
-        
+
     }
 
     private void getAllCategorie() {
         Collection<Categorie> cc = catDAO.findAll();
         Iterator<Categorie> i = cc.iterator();
-        while (i.hasNext()){
+        while (i.hasNext()) {
             Categorie c = i.next();
             cat.put(c.getId(), new CategorieBean(c));
         }
     }
 
     private void getAllEditeur() {
-       Collection<Editeur> ce = editDAO.findAll();
-       Iterator<Editeur> i = ce.iterator();
-        while (i.hasNext()){
+        Collection<Editeur> ce = editDAO.findAll();
+        Iterator<Editeur> i = ce.iterator();
+        while (i.hasNext()) {
             Editeur e = i.next();
             edit.put(e.getId(), new EditeurBean(e));
         }
     }
 
     private void getAllPlateforme() {
-        Collection<Plateforme> cp = platDAO.findAll();  
+        Collection<Plateforme> cp = platDAO.findAll();
         Iterator<Plateforme> i = cp.iterator();
-        while (i.hasNext()){
+        while (i.hasNext()) {
             Plateforme p = i.next();
             plat.put(p.getId(), new PlateformeBean(p));
         }
     }
-    
-    public Collection<CategorieBean> getCategorie(){
+
+    public Collection<CategorieBean> getCategorie() {
         return new ArrayList<>(cat.values());
     }
-    
-    public Collection<EditeurBean> getEditeur(){
+
+    public Collection<EditeurBean> getEditeur() {
         return new ArrayList<>(edit.values());
     }
-     
-    public Collection<PlateformeBean> getPlateforme(){
+
+    public Collection<PlateformeBean> getPlateforme() {
         return new ArrayList<>(plat.values());
     }
-    
-    public int getPrixMax(){
+
+    public int getPrixMax() {
         return prixDAO.getMaxPrix().getPrix().intValue();
     }
-    
 
     private void getPrix() {
         prixMin = 0;
         prixMax = getPrixMax();
     }
-   
-   public int getMinValue(){
-       return this.prixMin;
-   }
-   
-   public void setMinValue(int value){
-       this.prixMin = value;
-   }
-   
-   public int getMaxValue(){
-       return this.prixMax;
-   }
-   
-   public void setMaxValue(int value){
-       this.prixMax = value;
-   }
-   
-   private Collection<String> getStringCategorie(){
-       Collection<CategorieBean> cc = getCategorie();
-       ArrayList<String> s = new ArrayList<>();
-       Iterator<CategorieBean> i = cc.iterator();
-       while (i.hasNext()){
-           CategorieBean cb = i.next();
-           if (cb.getValue()){
-               s.add(cb.getName());
-           }
-       }
-       return s;
-   }
-   
-   private Collection<String> getStringPlateforme(){
-       Collection<PlateformeBean> cp = getPlateforme();
-       ArrayList<String> s = new ArrayList<>();
-       Iterator<PlateformeBean> i = cp.iterator();
-       while (i.hasNext()){
-           PlateformeBean pb = i.next();
-           if (pb.getValue()){
-               s.add(pb.getName());
-           }
-       }
-       return s;
-   }
-   
-   private Collection<String> getStringEditeur(){
-       Collection<EditeurBean> ce = getEditeur();
-       ArrayList<String> s = new ArrayList<>();
-       Iterator<EditeurBean> i = ce.iterator();
-       while (i.hasNext()){
-           EditeurBean eb = i.next();
-           if (eb.getValue()){
-               s.add(eb.getName());
-           }
-       }
-       return s;
-   }
-   public Collection<Jeu> getCachedJeu(){
-       return cjeu;
-   }
-   
-   public Collection<Jeu> getSearchResult(){
-       cjeu = jeuDAO.Search(getStringCategorie(), getStringEditeur(), getStringPlateforme(), prixMin, prixMax);
-       if (this.isSearching()){
-           return getSearchGame(cjeu);
+
+    public int getMinValue() {
+        return this.prixMin;
+    }
+
+    public void setMinValue(int value) {
+        this.prixMin = value;
+    }
+
+    public int getMaxValue() {
+        return this.prixMax;
+    }
+
+    public void setMaxValue(int value) {
+        this.prixMax = value;
+    }
+    
+    public String Note(Jeu j){
+       Float note = jeuMan.getAverageNote(j);
+       if (note < 0){
+           return "N/D";
        }else{
-           return cjeu;
+           return note.toString()+"/5";
        }
-      
-       
-   }
-   
+    }
+    
+     public int nbSell(Jeu j){
+        return jeuMan.getNbSell(j);
+    }
+
+    private Collection<String> getStringCategorie() {
+        Collection<CategorieBean> cc = getCategorie();
+        ArrayList<String> s = new ArrayList<>();
+        Iterator<CategorieBean> i = cc.iterator();
+        while (i.hasNext()) {
+            CategorieBean cb = i.next();
+            if (cb.getValue()) {
+                s.add(cb.getName());
+            }
+        }
+        return s;
+    }
+
+    private Collection<String> getStringPlateforme() {
+        Collection<PlateformeBean> cp = getPlateforme();
+        ArrayList<String> s = new ArrayList<>();
+        Iterator<PlateformeBean> i = cp.iterator();
+        while (i.hasNext()) {
+            PlateformeBean pb = i.next();
+            if (pb.getValue()) {
+                s.add(pb.getName());
+            }
+        }
+        return s;
+    }
+
+    private Collection<String> getStringEditeur() {
+        Collection<EditeurBean> ce = getEditeur();
+        ArrayList<String> s = new ArrayList<>();
+        Iterator<EditeurBean> i = ce.iterator();
+        while (i.hasNext()) {
+            EditeurBean eb = i.next();
+            if (eb.getValue()) {
+                s.add(eb.getName());
+            }
+        }
+        return s;
+    }
+
+    public Collection<Jeu> getCachedJeu() {
+        return cjeu;
+    }
+
+    public Collection<Jeu> getSearchResult() {
+        cjeu = jeuDAO.Search(getStringCategorie(), getStringEditeur(), getStringPlateforme(), prixMin, prixMax);
+        if (this.isSearching()) {
+            cjeu = getSearchGame(cjeu);
+        }
+        jeuMan.setElement(e);
+        jeuMan.setSens(s);
+        return jeuMan.orderBy(cjeu);
+
+    }
+
     public Collection<Jeu> getSearchGame(Collection<Jeu> cjeu) {
         HashSet<Jeu> toReturn = new HashSet<>();
         List<String> queryParts = Arrays.asList(searchTerm.split((" ")));
- 
+
         for (Jeu jeu : cjeu) {
             for (String term : queryParts) {
                 if (jeu.getNom().toLowerCase().contains(term.toLowerCase())) {
@@ -214,22 +233,74 @@ public class AdvancedSearchBean implements Serializable {
     public boolean isSearching() {
         return (searchTerm != null && !searchTerm.isEmpty());
     }
-    
-    public void updateSearchTerm(ActionEvent event){
-        String s = (String)event.getComponent().getAttributes().get("search");
-        if (s != null && !s.isEmpty()){
+
+    public void updateSearchTerm(ActionEvent event) {
+        String s = (String) event.getComponent().getAttributes().get("search");
+        if (s != null && !s.isEmpty()) {
             this.init();
             this.searchTerm = s;
-        }else{
+        } else {
             this.searchTerm = null;
-        }  
+        }
     }
-    
-    public String getSearchTerm(){
+
+    public String getSearchTerm() {
         return this.searchTerm;
     }
-    
-    public void removeSearchTerm(){
+
+    public void removeSearchTerm() {
         this.searchTerm = null;
+    }
+    
+    public void orderByNom(){
+        if (this.e == Element.Defaut){
+            if (this.s == Sens.Croissant){
+                this.s = Sens.Decroissant;
+            } else {
+                this.s = Sens.Croissant;
+            }
+        }else{
+            this.e = Element.Defaut;
+            this.s = Sens.Croissant;
+        }
+    }
+    
+    public void orderByAnnee(){
+        if (this.e == Element.Annee){
+            if (this.s == Sens.Croissant){
+                this.s = Sens.Decroissant;
+            } else {
+                this.s = Sens.Croissant;
+            }
+        }else{
+            this.e = Element.Annee;
+            this.s = Sens.Croissant;
+        }
+    }
+    
+    public void orderByPrix(){
+        if (this.e == Element.Prix){
+            if (this.s == Sens.Croissant){
+                this.s = Sens.Decroissant;
+            } else {
+                this.s = Sens.Croissant;
+            }
+        }else{
+            this.e = Element.Prix;
+            this.s = Sens.Croissant;
+        }
+    }
+    
+    public void orderByNote(){
+        if (this.e == Element.Note){
+            if (this.s == Sens.Croissant){
+                this.s = Sens.Decroissant;
+            } else {
+                this.s = Sens.Croissant;
+            }
+        }else{
+            this.e = Element.Note;
+            this.s = Sens.Croissant;
+        }
     }
 }

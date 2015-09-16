@@ -27,19 +27,18 @@
                             </c:if>
                              <table id="gameListTable">
                             
-                            <tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th><th></th></tr>
+                                 <tr><th>Jaquette</th><th><p:commandLink styleClass="orderLink" value="Nom" action="#{aSearchBean.orderByNom()}" update="@form" /></th><th><p:commandLink styleClass="orderLink" value="Annee" action="#{aSearchBean.orderByAnnee()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Note" action="#{aSearchBean.orderByNote()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Prix" action="#{aSearchBean.orderByPrix()}" update="@form"/></th><th></th></tr>
                             <ui:repeat id="formListGame" value="#{aSearchBean.searchResult}" var="jeu">               
-                                    <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
-                                        <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
-                                        <td>#{jeu.nom}<br/></td>
-                                        <td>#{jeu.annee}</td>
-                                        <td>*****</td>
-                                        <td>#{jeu.currentPrix.prix}€</td>  
-                                        <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
+                                <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
+                                            <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
+                                            <td>#{jeu.nom}<br/></td>
+                                            <td>#{jeu.annee}</td>
+                                            <td><p:outputLabel value="#{aSearchBean.Note(jeu)}"></p:outputLabel></td>
+                                            <td>#{jeu.currentPrix.prix}€</td>
+                                            <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
                                             </p:commandButton>
                                         </td> 
-
                                     </tr>
                             </ui:repeat>
                             

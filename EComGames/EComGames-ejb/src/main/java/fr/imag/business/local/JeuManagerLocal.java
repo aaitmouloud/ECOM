@@ -16,7 +16,7 @@ import javax.ejb.Local;
  */
 @Local
 public interface JeuManagerLocal {
-    Collection<Jeu> orderBy(Collection<Jeu> cjd, JeuManager.Element e, JeuManager.Sens s);
+    Collection<Jeu> orderBy(Collection<Jeu> cjd);
     public float getAverageNote(Jeu j);
     public int getNbSell(Jeu j);
     public Double getPrix(Jeu j);

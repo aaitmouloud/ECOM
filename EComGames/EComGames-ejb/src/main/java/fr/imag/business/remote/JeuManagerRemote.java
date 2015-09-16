@@ -5,7 +5,6 @@
  */
 package fr.imag.business.remote;
 
-import fr.imag.business.JeuManager;
 import fr.imag.entities.Jeu;
 import java.util.Collection;
 import javax.ejb.Remote;
@@ -16,8 +15,23 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface JeuManagerRemote {
-    Collection<Jeu> orderBy(Collection<Jeu> cjd, JeuManager.Element e, JeuManager.Sens s);
+     public static enum Element{
+        Note,
+        Defaut,
+        BestSell,
+        Editeur,
+        Annee,
+        Prix,
+    };
+    
+    public static enum Sens{
+        Croissant,
+        Decroissant,
+    }; 
+    Collection<Jeu> orderBy(Collection<Jeu> cjd);
     public float getAverageNote(Jeu j);
     public int getNbSell(Jeu j);
     public Double getPrix(Jeu j);
+    public void setElement(Element e);
+    public void setSens(Sens s);
 }
