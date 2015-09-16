@@ -34,14 +34,16 @@
                                     <a href="?panier=1"> <div id="ajouterButton">Ajouter au panier
                                         </div></a>
                                 </div>
+                                <h:form>
                                 <p id='information'><b>Titre:</b> #{gameDetailBean.jeu.nom}<br/>
                                     <b>Catégorie:</b><ui:repeat value="#{gameDetailBean.jeu.categories}" var="categorieJeu"> #{categorieJeu.nom}</ui:repeat><br/>
                                     <b>Editeur:</b> #{gameDetailBean.jeu.editeur.nom}<br/>
                                     <b>Date de parution:</b> #{gameDetailBean.jeu.annee}<br/>
-                                    <b>Note:</b> *****<br/>
-                                    <b>Nombre de vente:</b> 666<br/>
+                                    <b>Note:</b> <p:outputLabel value="#{aSearchBean.note(gameDetailBean.jeu)}"></p:outputLabel><br/>
+                                    <b>Nombre de vente:</b> <p:outputLabel value="#{aSearchBean.nbSell(gameDetailBean.jeu)}"></p:outputLabel><br/>
                                     <b>Prix :</b> #{gameDetailBean.jeu.currentPrix.prix.toString().replace('.', ',')} €
                                 </p>
+                                </h:form>
                             </div>
                         </div>
 
@@ -54,9 +56,10 @@
 
                         <div id="comments">
                             <h2 class='sectionTitle'>Commentaires</h2>
-                            <p><b>Cédric:</b> <i>Putain j'y arrive pas c'est trop dur!</i><br/>
-                                <b>Loïc:</b> <i>@Cédric: Noob --'</i>
+                            <ui:repeat value="#{gameDetailBean.getAchat(gameDetailBean.jeu)}" var="achat" >
+                                <p><b>#{achat.utilisateur.nom}</b> <i>#{achat.commentaire}</i><br/>
                             </p>
+                            </ui:repeat>
                         </div>
                     </div>
                     <ui:include src="/template/common/commonPanier.xhtml" />

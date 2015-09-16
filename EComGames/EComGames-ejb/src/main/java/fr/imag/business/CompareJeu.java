@@ -46,7 +46,7 @@ public class CompareJeu implements Comparator<Jeu> {
             case Note :
                 nb = ((Float) jm.getAverageNote(t1)).compareTo((Float) jm.getAverageNote(t2)); break;
             case BestSell: 
-                nb = ((Integer) jm.getNbSell(t1)).compareTo((Integer) jm.getNbSell(t2)); break;
+                nb = ((Integer) jm.getNbSell(t1).size()).compareTo((Integer) jm.getNbSell(t2).size()); break;
             case Editeur:
                 nb = t1.getEditeur().getNom().compareTo(t2.getEditeur().getNom()); break;
             case Annee:

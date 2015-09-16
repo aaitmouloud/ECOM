@@ -33,7 +33,7 @@
                                             <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
                                             <td>#{jeu.nom}<br/></td>
                                             <td>#{jeu.annee}</td>
-                                            <td><p:outputLabel value="#{aSearchBean.Note(jeu)}"></p:outputLabel></td>
+                                            <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>
                                             <td>#{jeu.currentPrix.prix}€</td>
                                             <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
