@@ -32,6 +32,19 @@ partie balise
     margin: 0px;
 }
 
+#contentGame {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+#contentGame div {
+    text-align: left;
+    margin-right: 5px;
+}
+
+
 p{
     text-align: justify;
 }
@@ -107,7 +120,6 @@ partie id
 
 #game{
     margin-right: auto;
-    margin-left: auto;
     width: 70%;
     min-height: 670px;
     border-left-style: solid;
@@ -128,6 +140,11 @@ partie id
     display: flex;
 }
 #ajouterpanierBox{
+    width: 20px;
+    text-align: center;
+}
+
+.ajouterpanierBox{
     width: 20px;
     text-align: center;
 }
