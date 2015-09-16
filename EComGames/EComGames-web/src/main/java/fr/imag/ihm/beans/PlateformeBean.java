@@ -5,26 +5,19 @@
  */
 package fr.imag.ihm.beans;
 
-import fr.imag.dao.remote.IntRemoteCategorieDAO;
-import fr.imag.entities.Categorie;
-import java.io.Serializable;
-import java.util.Collection;
-import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
+import fr.imag.entities.Plateforme;
 
 /**
  *
- * @author cedric
+ * @author seb
  */
-
-public class CategorieBean {
-    private Categorie c;
+public class PlateformeBean {
+    private Plateforme p;
     private Boolean checked;
     
 
-    public CategorieBean (Categorie c){
-       this.c = c;
+    public PlateformeBean (Plateforme p){
+       this.p = p;
        checked = false;
     }
     
@@ -36,15 +29,11 @@ public class CategorieBean {
         this.checked = value;
     }
     
-    public void checkCategorie(){
-        this.checked = !this.checked;
-    }
-    
     public String getName(){
-        return this.c.getNom();
+        return this.p.getNom();
     }
     
     public Long getId(){
-        return this.c.getId();
+        return this.p.getId();
     }
 }

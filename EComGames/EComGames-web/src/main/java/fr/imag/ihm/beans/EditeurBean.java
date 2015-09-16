@@ -5,26 +5,36 @@
  */
 package fr.imag.ihm.beans;
 
-import fr.imag.dao.remote.IntRemoteEditeurDAO;
 import fr.imag.entities.Editeur;
-import java.io.Serializable;
-import java.util.Collection;
-import javax.ejb.EJB;
-import javax.faces.bean.ApplicationScoped;
-import javax.faces.bean.ManagedBean;
 
 /**
  *
  * @author cedric
  */
-@ManagedBean(name = "editeurBean")
-@ApplicationScoped
-public class EditeurBean implements Serializable {
+public class EditeurBean {
     
-    @EJB
-    IntRemoteEditeurDAO editeurDao;
+    private Editeur e;
+    private Boolean checked;
+    
 
-    public Collection<Editeur> getAllEditeur() {
-        return editeurDao.findAll();
-    }   
+    public EditeurBean (Editeur e){
+       this.e = e;
+       checked = false;
+    }
+    
+    public boolean getValue(){
+        return this.checked;
+    }
+    
+    public void setValue(boolean value){
+        this.checked = value;
+    }
+    
+    public String getName(){
+        return this.e.getNom();
+    }
+    
+    public Long getId(){
+        return this.e.getId();
+    } 
 }

@@ -27,6 +27,9 @@ partie class
     margin-right: auto;
     margin-left: auto;
 }
+.inputSignUp input{
+    width: 200px;
+}
 /*
 partie Id
 */
@@ -36,7 +39,12 @@ partie Id
     padding-top: 30px;
 }
 
-#submitSignUp{
-    margin-left: 70%;
-    margin-bottom: 20px;
+.submitSignUp input{
+    width: 100px;
+}
+.unSubmitSignUp input {
+    width: 100px;
+}
+#buttonSignup {
+    text-align: center;
 }

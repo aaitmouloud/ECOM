@@ -16,8 +16,10 @@ import java.util.HashSet;
 import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import org.apache.log4j.Logger;
 
 /**
@@ -30,14 +32,17 @@ public class RechercheBean implements Serializable {
 
     @EJB
     IntRemoteJeuDAO jeuDao;
-
+    
+    
     private String searchTerm;
     private Collection<String> nomsJeux;
 
     @PostConstruct
     public void setNomsJeux() {
+       
         if (nomsJeux == null) {
             Logger.getLogger(RechercheBean.class).debug("Invoking @PostConstruct of RechercheBean");
+            
             Collection<Jeu> jeux = jeuDao.findAll();
 
             if (jeux == null || jeux.isEmpty()) {
@@ -54,6 +59,7 @@ public class RechercheBean implements Serializable {
 
     public void setSearchTerm(String searchTerm) {
         this.searchTerm = searchTerm;
+  
     }
 
     public String getSearchTerm() {
@@ -74,5 +80,7 @@ public class RechercheBean implements Serializable {
 
         return new ArrayList<>(toReturn);
     }
+    
+    
 
 }

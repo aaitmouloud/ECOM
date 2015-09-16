@@ -1,6 +1,6 @@
 
 
-#genre, #publisher, #price{
+#genre, #publisher, #price, #plateforme{
 
     margin-top: 20px;
     width: 200px;
@@ -10,7 +10,7 @@
     border-width: 3px;
 }
 
-#publisher, #price {
+#publisher, #price, #plateforme{
     clear: left;
 }
 

@@ -7,8 +7,6 @@ package fr.imag.business;
 
 import fr.imag.business.local.JeuManagerLocal;
 import fr.imag.business.remote.JeuManagerRemote;
-import fr.imag.dao.remote.IntRemoteAchatDAO;
-import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.dao.remote.IntRemotePrixJeuDAO;
 import fr.imag.entities.Achat;
 import fr.imag.entities.Cle;

@@ -10,9 +10,9 @@
         <h:outputStylesheet name="header-style.css" library="css" />
     </h:head>
     <h:body>
-        <div id="webSiteName">
+        <a href="index.jsf"><div id="webSiteName">
             <h1>EComGames</h1>
-        </div>
+            </div></a>
         <h:form id="usrMenu">
 
             <c:choose>
@@ -80,11 +80,13 @@
                             completeMethod="#{rechercheBean.completion}" placeholder="Recherche... "
                             required="true" requiredMessage="Veuillez entrer les termes à rechercher"
                             disabled="false" />
-            <p:commandButton disabled="false" 
+            <h:commandButton disabled="false" 
                              value="Rechercher" action="gamesList?faces-redirect=true" style="display:none;" 
-                             update="growlSearch">
-                <f:param name="search" value="#{rechercheBean.searchTerm}" />
-            </p:commandButton>
+                             actionListener="#{aSearchBean.updateSearchTerm}">
+                <f:attribute name="search" value="#{rechercheBean.searchTerm}" />
+            </h:commandButton>
+
+
         </h:form>
     </h:body>
 </html>
