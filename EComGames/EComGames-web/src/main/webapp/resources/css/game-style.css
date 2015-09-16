@@ -149,6 +149,7 @@ partie id
     text-align: center;
 }
 #ajouterButton{
+    margin-left: 17px;
        width: 150px;
    background-color: #000000;
    text-align: center;
@@ -168,4 +169,7 @@ partie id
       background: #ADD8E6;
   text-decoration: none;
   color: black;
+}
+#ajouterpanierBox input {
+    width: 20px !important;
 }
