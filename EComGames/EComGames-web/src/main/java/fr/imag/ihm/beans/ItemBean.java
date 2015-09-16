@@ -7,15 +7,11 @@ package fr.imag.ihm.beans;
 
 import fr.imag.entities.Jeu;
 import java.io.Serializable;
-import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
 
 /**
  *
  * @author seb
  */
-@ManagedBean(name = "itemBean")
-@SessionScoped
 public class ItemBean implements Serializable{
     final private Jeu j;
     private int nb;
