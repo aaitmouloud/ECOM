@@ -114,20 +114,20 @@ public class AdvancedSearchBean implements Serializable {
         prixMax = getPrixMax();
     }
    
-   public int getMin(){
+   public int getMinValue(){
        return this.prixMin;
    }
    
-   public void setMin(int min){
-       this.prixMin = min;
+   public void setMinValue(int value){
+       this.prixMin = value;
    }
    
-   public int getMax(){
+   public int getMaxValue(){
        return this.prixMax;
    }
    
-   public void setMax(int max){
-       this.prixMax = max;
+   public void setMaxValue(int value){
+       this.prixMax = value;
    }
    
    private Collection<String> getStringCategorie(){
@@ -136,7 +136,7 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<CategorieBean> i = cc.iterator();
        while (i.hasNext()){
            CategorieBean cb = i.next();
-           if (cb.isChecked()){
+           if (cb.getValue()){
                s.add(cb.getName());
            }
        }
@@ -149,7 +149,7 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<PlateformeBean> i = cp.iterator();
        while (i.hasNext()){
            PlateformeBean pb = i.next();
-           if (pb.isChecked()){
+           if (pb.getValue()){
                s.add(pb.getName());
            }
        }
@@ -162,7 +162,7 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<EditeurBean> i = ce.iterator();
        while (i.hasNext()){
            EditeurBean eb = i.next();
-           if (eb.isChecked()){
+           if (eb.getValue()){
                s.add(eb.getName());
            }
        }
