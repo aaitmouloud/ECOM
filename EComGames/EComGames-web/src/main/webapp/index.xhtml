@@ -4,48 +4,44 @@
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"      
       >
     <h:body>
 
         <ui:composition template="template/common/commonLayout.xhtml">
             <ui:define name="cssFiles">
-                <!--<h:outputStylesheet name="index-style.css" library="css" />-->
+                <h:outputStylesheet name="index-style.css" library="css" />
             </ui:define>
             <ui:define name="content">
-                <div id="multiselect">
-                    <div id="genre">
-                        <h2 class="center">Catégorie</h2>
-                        <ui:repeat value="#{ASearchBean.categorie}" var="cat">
-                            <h:form>
-                                <input type="checkbox" name="#{cat}" value="#{cat}" checked="#{ASearchBean.isChecked(cat)}" > #{cat}</input><br/>
-                            </h:form>
+                <div id="global">
+<!--                    <p:carousel numVisible="1" effect="easeInStrong" headerText="Tabs" style="margin-bottom:0">
+                            <p:tab title="A l'affiche">
+                            <ui:repeat value="#{gameBean.findXJeux(1)}" var="jeu">
+                                <h:panelGrid columns="2" cellpadding="10">
+                                    <p:graphicImage name="#{jeu.image}"/>
+                                    <h:outputText value="#{jeu.description}" style="width: 50%"/>
+                                </h:panelGrid>
+                            </ui:repeat>
+                            </p:tab>
+                    </p:carousel>-->
+
+                    <div id="carousel">
+                        <img id="carousel-img" src="resources/images/game.jpg"/>
+                    </div>
+                </div>
+
+                <div id="gamePresentation">
+                    <h1 id="titleLastGame">Les nouveautés</h1><br/>
+                    <a href="gamesList.jsf" id="linkList">Tous les jeux</a>
+                    <h:panelGrid columns="4" id='panelGrid'>                 
+                        <ui:repeat value="#{gameBean.findXJeux(16)}" var="jeu">
+                            <h:panelGroup class="zoneImage"><a href="game.jsf?id=#{jeu.id}"><div class="jeuImage" style="background-image:url(#{jeu.image})"></div></a></h:panelGroup> 
                         </ui:repeat>
-                    </div>
-
-                    <div id="publisher">
-                        <h2 class="center">Editeur</h2>
-                        <form>
-                            <input type="checkbox" name="Activision" value="1"> Activision</input><br/>
-                            <input type="checkbox" name="Blizzard" value="2"> Blizzard</input><br/>
-                            <input type="checkbox" name="EA" value="3"> EA</input><br/>
-                            <input type="checkbox" name="Valve" value="4"> Valve</input><br/>
-                        </form>		    
-                    </div>
-                </div>
-
-                <div id="carousel">
-                    <img id="carousel-img" src="resources/images/game.jpg"/>
-                </div>
-
-                <div>
-
-                </div>
+                    </h:panelGrid>
+                </div>   
             </ui:define>
-
         </ui:composition>
-
     </h:body>
-
 </html>
 
 

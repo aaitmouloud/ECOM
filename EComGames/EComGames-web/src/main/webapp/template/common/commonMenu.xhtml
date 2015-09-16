@@ -42,22 +42,23 @@
                 </div>
                 <div id="price">
                     <h2 class="center">Prix</h2>
-                    <h:form style="text-align: center">
-                        <p:remoteCommand   update="@(.prixUpdate) @(txt6) @(txt7)" name="processPrix"/>
+                    <h:form style="text-align: center" styleClass="prixUpdate" >
+                       
                         
                             <h:panelGrid   columns="1" style="margin-bottom: 10px;width: 85%;margin-left:15px;margin-right:15px" >
-                            <h:outputText styleClass="prixUpdate" id="displayRange" value="Entre #{aSearchBean.minValue}€ et #{aSearchBean.maxValue}€" />
-                            <p:slider styleClass="prixUpdate" onSlideEnd="processprix();refreshGameList()" for="txt6,txt7" display="displayRange" style="width: 100%" range="true" displayTemplate="Entre {min}€ et {max}€" maxValue="#{aSearchBean.prixMax}" minValue="0" />
-                            
+                            <h:outputText id="displayRange" value="Entre #{aSearchBean.minValue}€ et #{aSearchBean.maxValue}€" />
+                            <p:slider  for="txt6,txt7" display="displayRange" style="width: 100%" range="true" displayTemplate="Entre {min}€ et {max}€" maxValue="#{aSearchBean.prixMax}" minValue="0" >
+                                <p:ajax event="slideEnd" process="@(txt6) @(txt7)" oncomplete="refreshGameList()"></p:ajax>
+                            </p:slider>
+                            <h:inputHidden id="txt6" value="#{aSearchBean.minValue}" />
+                            <h:inputHidden id="txt7" value="#{aSearchBean.maxValue}" />
                         </h:panelGrid>
-                        <h:inputHidden id="txt6" value="#{aSearchBean.minValue}" />
-                        <h:inputHidden id="txt7" value="#{aSearchBean.maxValue}" />
-        	
+       
                     </h:form>
                 </div>
                 <div id="reinit">
                     <h:form>
-                        <p:commandButton value="Reinitialiser les filtres" action="#{aSearchBean.init()}" update="@(.CategorieUpdate) @(.EditeurUpdate) @(.PlatUpdate)" oncomplete="refreshGameList()" /> 
+                        <p:commandButton value="Reinitialiser les filtres" action="#{aSearchBean.init()}" update="@(.CategorieUpdate) @(.EditeurUpdate) @(.PlatUpdate) @(.prixUpdate)" oncomplete="refreshGameList()" /> 
                     </h:form>
                 </div>
             </div>

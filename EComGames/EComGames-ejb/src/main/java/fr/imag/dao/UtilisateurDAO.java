@@ -45,4 +45,23 @@ public class UtilisateurDAO extends AbstractDAO implements IntLocalUtilisateurDA
         }
 
     }
+    
+    @Override
+    public boolean createUser(Utilisateur u){
+         try {
+            TypedQuery<Utilisateur> query = em.createNamedQuery("GetUserByUsername", Utilisateur.class);
+
+            query.setParameter("login", u.getNom());
+             query.setParameter("email", u.getEmail());
+            Utilisateur user = query.getSingleResult(); 
+            if (user != null){
+                return false;
+            }else{
+                em.persist(u);
+                return true;
+            }
+        } catch (Exception ex) {
+            return false;
+        }
+    }
 }

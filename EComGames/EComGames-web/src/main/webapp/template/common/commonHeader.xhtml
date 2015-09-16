@@ -25,7 +25,11 @@
                 </c:when>
                 <c:otherwise>
                     <div class="header_link">
+         
+                    <h:commandLink action="monCompte?faces-redirect=true" >
                         Bienvenue <span style="font-weight:bold;">#{loggedUserBean.username}</span> (#{loggedUserBean.email})
+                    </h:commandLink>
+   
                     </div>
                     <p:commandLink
                         value="Se déconnecter"
@@ -35,15 +39,6 @@
                         />
                 </c:otherwise>
             </c:choose>
-
-            <h:outputLink value="javascript:void(0)" 
-                          onclick="PF('panierPopup').show()" 
-                          title="Panier"
-                          styleClass="header_link"
-                          id="panierLink">
-                Panier
-            </h:outputLink>
-            <a href="?Compte=true" class="header_link">Compte</a>
 
             <p:dialog header="Se connecter à EComGames" widgetVar="loginDlg" 
                       resizable="false" closeOnEscape="true" 
@@ -88,9 +83,6 @@
 
 
         </h:form>
-
-
-
     </h:body>
 </html>
 

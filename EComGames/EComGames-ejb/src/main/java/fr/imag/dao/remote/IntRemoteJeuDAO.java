@@ -22,4 +22,5 @@ public interface IntRemoteJeuDAO extends IntDAO<Jeu> {
             double min, double max);
     
     public Jeu findById(String id);
+    public Collection<Jeu> findXJeuxOrderByDate(int nbJeux);
 }

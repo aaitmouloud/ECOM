@@ -21,16 +21,17 @@
                         <h1 id="jeuTitle" class="center">Jeux</h1>
                          <h:form>
                              <p:remoteCommand process="@this" update="@form" name="refreshGameList"></p:remoteCommand>
-                        <table id="gameListTable">
-                            <c:if test="#{aSearchBean.searching}">
+                             <c:if test="#{aSearchBean.searching}">
                                 <p:commandButton value="supprimer" action="#{aSearchBean.removeSearchTerm}" update="@form"></p:commandButton>
                                 <h:outputText value="Résultat de la recherche: #{aSearchBean.searchTerm}"></h:outputText>
                             </c:if>
+                             <table id="gameListTable">
+                            
                             <tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th><th></th></tr>
                             <ui:repeat id="formListGame" value="#{aSearchBean.searchResult}" var="jeu">               
                                     <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
-                                        <td><h:outputText rendered="#{empty jeu.image}" value="Aucune image." /></td>
-                                        <td>#{jeu.nom}<br/>#{jeu.description}</td>
+                                        <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
+                                        <td>#{jeu.nom}<br/></td>
                                         <td>#{jeu.annee}</td>
                                         <td>*****</td>
                                         <td>#{jeu.currentPrix.prix}€</td>  
