@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
 
         <ui:composition template="template/common/commonLayout.xhtml">
@@ -21,7 +22,10 @@
                          <h:form>
                              <p:remoteCommand process="@this" update="@form" name="refreshGameList"></p:remoteCommand>
                         <table id="gameListTable">
-                           
+                            <c:if test="#{aSearchBean.searching}">
+                                <p:commandButton value="supprimer" action="#{aSearchBean.removeSearchTerm}" update="@form"></p:commandButton>
+                                <h:outputText value="Résultat de la recherche: #{aSearchBean.searchTerm}"></h:outputText>
+                            </c:if>
                             <tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th><th></th></tr>
                             <ui:repeat id="formListGame" value="#{aSearchBean.searchResult}" var="jeu">               
                                     <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>

@@ -69,7 +69,7 @@ public class Initializer {
         jeu2.addCategorie(new Categorie("Jeu de plateforme"));
         jeu2.addPlateforme(p);
         jeu2.addPlateforme(p2);
-        PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 0D);
+        PrixJeu prixJeu3 = new PrixJeu(jeu2, Calendar.getInstance(), null, 45D);
         Cle cle4 = new Cle(jeu2);
         Cle cle5 = new Cle(jeu2);
         em.persist(jeu2);
