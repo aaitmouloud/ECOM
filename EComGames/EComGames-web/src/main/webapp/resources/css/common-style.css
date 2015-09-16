@@ -26,6 +26,7 @@ body {
 }
 
 .ui-dialog-titlebar, button {
+    background:black -moz-linear-gradient(top, rgba(255,255,255,0.3) 0%, rgba(229,229,229,0) 100%) !important;
     background:black -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.3)), to(rgba(255,255,255,0))) !important;
     color:white !important;
 }

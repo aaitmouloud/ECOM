@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:p="http://primefaces.org/ui"    
-      xmlns:f="http://xmlns.jcp.org/jsf/core"    
+      xmlns:p="http://primefaces.org/ui"        
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:head>
         <h:outputStylesheet name="panier.css" library="css" />
@@ -18,33 +17,32 @@
                     <h:outputText value="Aucun item dans le panier"/>
                 </c:when>
                 <c:otherwise>
-                    <table id="panierTable">
-                        <ui:repeat value="#{panier.game}" var="item" varStatus="loop" >
-                            <tr>
-                                <h:form>
-                                    <td class="bodered"><h:outputText value="#{item.nom}" /></td>
-                                    <td class="bodered">
-                                        <h:panelGrid columns="1">
-                                            <h:outputText value="#{item.prixUnit}" />
-                                            <h:inputText value="#{item.nombre}" onblur="updatePrix();" class="panierPrix" />
-                                            <h:outputText value="#{item.prix}" styleClass="toUpdate" 
-                                                          id="prix_jeu_#{loop.index}" />
-                                            <p:remoteCommand name="updatePrix" update="@(.toUpdate)" /> 
-                                        </h:panelGrid>
-                                    </td>
-                                </h:form>
-                            </tr>
-                        </ui:repeat>
-                    </table>
+                    <ui:repeat value="#{panier.game}" var="item" varStatus="loop" >
+                        <h:form id="panierTable">
+                            <h:panelGrid columns="3">
+                                <h:outputText value="#{item.nom}" />
 
+                                <h:panelGrid columns="1">
+                                    <h:outputText value="#{item.prixUnit}" />
+                                    <h:inputText value="#{item.nombre}" onblur="updatePrix();
+                                            updatePrixPanier();"
+                                                 class="panierPrix" />
+                                    <h:outputText value="#{item.prix}" styleClass="toUpdate" 
+                                                  id="prix_jeu_#{loop.index}" />
+                                    <p:remoteCommand name="updatePrix" process="@form" update="@(.toUpdate)" /> 
 
-                    <f:facet name="footer" >
-                        <p:growl id="growlPanier" sticky="false" showDetail="true" autoUpdate="true" life="1200" /> 
-                        <h:form id="panierValidate" >
-                            <p:commandButton value="Valider mes achats" update="growlPanier" 
-                                             />
+                                </h:panelGrid>
+                                
+                                
+                            </h:panelGrid>
                         </h:form>
-                    </f:facet>
+
+                    </ui:repeat>
+
+                    <h:form id="prixPanierForm">
+                        <h:outputText value="#{panier.prix}"  id="prixPanier" />
+                        <p:remoteCommand name="updatePrixPanier" process="@form" update="prixPanier" />                   
+                    </h:form>
 
                 </c:otherwise>
             </c:choose>
