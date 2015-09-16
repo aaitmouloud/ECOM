@@ -19,11 +19,11 @@
                     <div id="gameList">
                         <h1 id="jeuTitle" class="center">Jeux</h1>
                          <h:form>
-                        <p:remoteCommand update="formListGame" name="refreshGameList"></p:remoteCommand>
+                             <p:remoteCommand process="@this" update="formListGame" name="refreshGameList"></p:remoteCommand>
                         <table id="gameListTable">
                            
                             <tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th><th></th></tr>
-                            <ui:repeat id="formListGame" value="#{gameBean.allJeux}" var="jeu">   
+                            <ui:repeat id="formListGame" value="#{aSearchBean.searchResult}" var="jeu">   
                                 <h:form>
                                     <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
                                         <td><h:outputText rendered="#{empty jeu.image}" value="Aucune image." /></td>
