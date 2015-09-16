@@ -16,10 +16,10 @@
             <ui:define name="content">
                 <div id="contentGameList" >
                     <ui:include src="/template/common/commonMenu.xhtml" />
-                    <h:outputScript library="js" name="gamelist.js" />
                     <div id="gameList">
                         <h1 id="jeuTitle" class="center">Jeux</h1>
                          <h:form>
+                             <h:outputScript library="js" name="gamelist.js" />
                              <p:remoteCommand process="@this" update="@form" name="refreshGameList"></p:remoteCommand>
                              <c:if test="#{aSearchBean.searching}">
                                 <p:commandButton value="supprimer" action="#{aSearchBean.removeSearchTerm}" update="@form"></p:commandButton>
