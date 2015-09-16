@@ -12,6 +12,18 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 Partie Class
 */
 
+.zoneImage{
+    width: 23%;
+    height: 150px;
+    margin-right: 10px;
+    margin-top: 10px;
+    display: inline-block;
+}
+
+.jeuImage{
+    background-size: cover;
+    height: 150px;
+}
 
 /*
 Partie id
@@ -30,3 +42,29 @@ Partie id
     margin-top: 0;
     padding-top: 20px;
 }
+
+#global{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+#gamePresentation{
+    margin-top: 20px;
+    width: 70%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#titleLastGame{
+    text-align: center;
+}
+
+#panelGrid{
+    width: 100%;
+}
+
+#linkList{
+    margin-left: 78%;
+}
+

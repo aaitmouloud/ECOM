@@ -22,12 +22,12 @@ public class EditeurBean {
        checked = false;
     }
     
-    public boolean isChecked(){
+    public boolean getValue(){
         return this.checked;
     }
     
-    public void checkEditeur(){
-        this.checked = !this.checked;
+    public void setValue(boolean value){
+        this.checked = value;
     }
     
     public String getName(){

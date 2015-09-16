@@ -21,12 +21,12 @@ public class PlateformeBean {
        checked = false;
     }
     
-    public boolean isChecked(){
+    public boolean getValue(){
         return this.checked;
     }
     
-    public void checkPlateforme(){
-        this.checked = !this.checked;
+    public void setValue(boolean value){
+        this.checked = value;
     }
     
     public String getName(){

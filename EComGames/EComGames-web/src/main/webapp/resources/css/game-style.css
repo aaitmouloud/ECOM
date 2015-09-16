@@ -32,6 +32,19 @@ partie balise
     margin: 0px;
 }
 
+#contentGame {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
+}
+
+#contentGame div {
+    text-align: left;
+    margin-right: 5px;
+}
+
+
 p{
     text-align: justify;
 }
@@ -107,7 +120,6 @@ partie id
 
 #game{
     margin-right: auto;
-    margin-left: auto;
     width: 70%;
     min-height: 670px;
     border-left-style: solid;
@@ -131,7 +143,13 @@ partie id
     width: 20px;
     text-align: center;
 }
+
+.ajouterpanierBox{
+    width: 20px;
+    text-align: center;
+}
 #ajouterButton{
+    margin-left: 17px;
        width: 150px;
    background-color: #000000;
    text-align: center;
@@ -151,4 +169,7 @@ partie id
       background: #ADD8E6;
   text-decoration: none;
   color: black;
+}
+#ajouterpanierBox input {
+    width: 20px !important;
 }

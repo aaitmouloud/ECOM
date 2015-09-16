@@ -12,7 +12,7 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 /*
 partie class
 */
-#gamelistTable{
+#gameListTable{
     margin-right: auto;
     margin-left: auto;
     border-collapse:  collapse;
@@ -36,13 +36,13 @@ partie class
     font-size: small;
 }
 
-#gamelistTable th {
+#gameListTable th {
     background-color: black ;
     color: white;
 }
 
 
-#gamelistTable th,#gamelistTable td{
+#gameListTable th,#gamelistTable td{
     padding-right: 20px;
     padding-left: 20px;
     padding-top: 20px;
@@ -50,10 +50,10 @@ partie class
     margin: 0px;
 
 }
-#gamelistTable td {
+#gameListTable td {
     border-bottom: 2px solid black;
 }
-#gamelistTable tr:hover {
+#gameListTable tr:hover {
     background-color: #ADD8E6 ;
 }
 
@@ -81,6 +81,11 @@ partie id
     border-width: 3px;
     padding: 0 10px;
     //  background-color : #A0A0A0  ;
+}
+
+.jaquetteJeu{
+    background-size: cover;
+    height: 50px;
 }
 
 

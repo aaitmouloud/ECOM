@@ -30,15 +30,16 @@ public class CategorieBean {
        checked = false;
     }
     
-    public boolean isValue(){
+    public boolean getValue(){
         return this.checked;
     }
     
-    public void setValue(Boolean b){
-        FacesMessage message;
-        this.checked = b;
-        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Test checkbox", "value = "+this.checked);
-        FacesContext.getCurrentInstance().addMessage(null, message);
+    public void setValue(boolean value){
+        this.checked = value;
+    }
+    
+    public void checkCategorie(){
+        this.checked = !this.checked;
     }
     
     public String getName(){

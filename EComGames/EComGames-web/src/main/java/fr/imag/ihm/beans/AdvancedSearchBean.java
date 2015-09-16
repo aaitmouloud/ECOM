@@ -16,14 +16,21 @@ import fr.imag.entities.Jeu;
 import fr.imag.entities.Plateforme;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.el.ELContext;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 /**
  *
@@ -35,8 +42,10 @@ public class AdvancedSearchBean implements Serializable {
     private Map<Long,CategorieBean> cat;
     private Map<Long,EditeurBean> edit;
     private Map<Long,PlateformeBean> plat;
+    private Collection<Jeu> cjeu;
     private int prixMin;
     private int prixMax;
+    private String searchTerm;
     
     @EJB
     private IntRemoteCategorieDAO catDAO;
@@ -52,10 +61,13 @@ public class AdvancedSearchBean implements Serializable {
      
     @EJB
     private IntRemoteJeuDAO jeuDAO;
+   
+  
     
     @PostConstruct
     public void init() {
-        
+        this.searchTerm = null;
+        cjeu = null;
         cat = new HashMap<>();
         edit = new HashMap<>();
         plat = new HashMap<>();
@@ -108,26 +120,27 @@ public class AdvancedSearchBean implements Serializable {
     public int getPrixMax(){
         return prixDAO.getMaxPrix().getPrix().intValue();
     }
+    
 
     private void getPrix() {
         prixMin = 0;
         prixMax = getPrixMax();
     }
    
-   public int getMin(){
+   public int getMinValue(){
        return this.prixMin;
    }
    
-   public void setMin(int min){
-       this.prixMin = min;
+   public void setMinValue(int value){
+       this.prixMin = value;
    }
    
-   public int getMax(){
+   public int getMaxValue(){
        return this.prixMax;
    }
    
-   public void setMax(int max){
-       this.prixMax = max;
+   public void setMaxValue(int value){
+       this.prixMax = value;
    }
    
    private Collection<String> getStringCategorie(){
@@ -136,7 +149,7 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<CategorieBean> i = cc.iterator();
        while (i.hasNext()){
            CategorieBean cb = i.next();
-           if (cb.isValue()){
+           if (cb.getValue()){
                s.add(cb.getName());
            }
        }
@@ -149,7 +162,7 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<PlateformeBean> i = cp.iterator();
        while (i.hasNext()){
            PlateformeBean pb = i.next();
-           if (pb.isChecked()){
+           if (pb.getValue()){
                s.add(pb.getName());
            }
        }
@@ -162,17 +175,61 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<EditeurBean> i = ce.iterator();
        while (i.hasNext()){
            EditeurBean eb = i.next();
-           if (eb.isChecked()){
+           if (eb.getValue()){
                s.add(eb.getName());
            }
        }
        return s;
    }
+   public Collection<Jeu> getCachedJeu(){
+       return cjeu;
+   }
    
    public Collection<Jeu> getSearchResult(){
-       Collection<Jeu> j = jeuDAO.Search(getStringCategorie(), getStringEditeur(), getStringPlateforme(), prixMin, prixMax);
+       cjeu = jeuDAO.Search(getStringCategorie(), getStringEditeur(), getStringPlateforme(), prixMin, prixMax);
+       if (this.isSearching()){
+           return getSearchGame(cjeu);
+       }else{
+           return cjeu;
+       }
       
-       return j;
        
    }
+   
+    public Collection<Jeu> getSearchGame(Collection<Jeu> cjeu) {
+        HashSet<Jeu> toReturn = new HashSet<>();
+        List<String> queryParts = Arrays.asList(searchTerm.split((" ")));
+ 
+        for (Jeu jeu : cjeu) {
+            for (String term : queryParts) {
+                if (jeu.getNom().toLowerCase().contains(term.toLowerCase())) {
+                    toReturn.add(jeu);
+                }
+            }
+        }
+
+        return new ArrayList<>(toReturn);
+    }
+
+    public boolean isSearching() {
+        return (searchTerm != null && !searchTerm.isEmpty());
+    }
+    
+    public void updateSearchTerm(ActionEvent event){
+        String s = (String)event.getComponent().getAttributes().get("search");
+        if (s != null && !s.isEmpty()){
+            this.init();
+            this.searchTerm = s;
+        }else{
+            this.searchTerm = null;
+        }  
+    }
+    
+    public String getSearchTerm(){
+        return this.searchTerm;
+    }
+    
+    public void removeSearchTerm(){
+        this.searchTerm = null;
+    }
 }
