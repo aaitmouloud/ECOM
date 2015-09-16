@@ -3,7 +3,7 @@
 #genre, #publisher, #price, #plateforme{
 
     margin-top: 20px;
-    width: 200px;
+    width: 218px;
     float: left;
     position : relative;
     border-style: solid;
@@ -31,4 +31,7 @@
 #menu {
     vertical-align: top;
   //  padding-left: 10%;
+}
+#reinit {
+    margin-top: 400px;
 }
