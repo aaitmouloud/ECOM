@@ -111,3 +111,12 @@ partie id
     background: #EFEFEF -webkit-gradient(linear, left top, left bottom, from(rgba(255,255,255,0.8)), to(rgba(255,255,255,0))) !important;
     background: #EFEFEF -moz-linear-gradient(top, rgba(255,255,255,0.8), rgba(255,255,255,0)) !important;
 }
+
+.panierImage {
+    background: url('/EComGames-web/javax.faces.resource/images/cart.png.jsf') no-repeat 0 0px!important;
+    padding-left: 30px;
+    height: 25px !important;
+    width: 25px !important;
+    margin-top: -12px !important;
+
+}

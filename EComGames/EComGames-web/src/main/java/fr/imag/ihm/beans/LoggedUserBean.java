@@ -36,6 +36,7 @@ public class LoggedUserBean implements Serializable {
     @EJB
     private IntRemoteUtilisateurDAO userDao;
 
+    
     public void login(String login, String hashMdp) {
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -65,6 +66,13 @@ public class LoggedUserBean implements Serializable {
             return null;
         }
         return utilisateur.getNom();
+    }
+    
+    public Long getId() {
+        if (utilisateur == null) {
+            return null;
+        }
+        return utilisateur.getId();
     }
 
     public String getEmail() {

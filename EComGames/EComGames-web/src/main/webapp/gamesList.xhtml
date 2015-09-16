@@ -16,7 +16,6 @@
             <ui:define name="content">
                 <div id="contentGameList" >
                     <ui:include src="/template/common/commonMenu.xhtml" />
-                    
                     <div id="gameList">
                         <h1 id="jeuTitle" class="center">Jeux</h1>
                          <h:form>
@@ -36,7 +35,10 @@
                                             <td>#{jeu.annee}</td>
                                             <td><p:outputLabel value="#{aSearchBean.Note(jeu)}"></p:outputLabel></td>
                                             <td>#{jeu.currentPrix.prix}€</td>
-                                        <td><p:commandButton value="Ajouter au panier" action="#{panier.addGame(jeu)}"  /></td> <!--update=":panierDisplay:panierId"-->
+                                            <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
+                                                 image="panierImage" update="@(.panierDiv)">
+                                            </p:commandButton>
+                                        </td> 
                                     </tr>
                             </ui:repeat>
                             
