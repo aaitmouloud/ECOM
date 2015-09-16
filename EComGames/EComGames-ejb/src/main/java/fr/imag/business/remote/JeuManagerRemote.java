@@ -5,6 +5,7 @@
  */
 package fr.imag.business.remote;
 
+import fr.imag.entities.Achat;
 import fr.imag.entities.Jeu;
 import java.util.Collection;
 import javax.ejb.Remote;
@@ -30,7 +31,7 @@ public interface JeuManagerRemote {
     }; 
     Collection<Jeu> orderBy(Collection<Jeu> cjd);
     public float getAverageNote(Jeu j);
-    public int getNbSell(Jeu j);
+    public Collection<Achat> getNbSell(Jeu j);
     public Double getPrix(Jeu j);
     public void setElement(Element e);
     public void setSens(Sens s);

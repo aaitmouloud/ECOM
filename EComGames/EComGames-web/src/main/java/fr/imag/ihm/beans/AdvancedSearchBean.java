@@ -148,13 +148,13 @@ public class AdvancedSearchBean implements Serializable {
         this.prixMax = value;
     }
     
-    public String Note(Jeu j){
+    public String note(Jeu j){
        Float note = jeuMan.getAverageNote(j);
         return "0";
     }
     
-     public int nbSell(Jeu j){
-        return jeuMan.getNbSell(j);
+    public int nbSell(Jeu j){
+        return jeuMan.getNbSell(j).size();
     }
 
     private Collection<String> getStringCategorie() {

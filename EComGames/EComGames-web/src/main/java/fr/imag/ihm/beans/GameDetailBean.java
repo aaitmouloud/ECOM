@@ -5,9 +5,15 @@
  */
 package fr.imag.ihm.beans;
 
+import fr.imag.business.remote.JeuManagerRemote;
 import fr.imag.dao.remote.IntRemoteJeuDAO;
+import fr.imag.entities.Achat;
 import fr.imag.entities.Jeu;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Iterator;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
@@ -21,6 +27,9 @@ import javax.servlet.http.HttpServletRequest;
 @ManagedBean(name = "gameDetailBean")
 @ApplicationScoped
 public class GameDetailBean implements Serializable {
+
+    @EJB
+    private JeuManagerRemote jeuMan;
     
     @EJB
     IntRemoteJeuDAO jeuDao;
@@ -29,4 +38,19 @@ public class GameDetailBean implements Serializable {
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
         return jeuDao.findById(request.getParameter("id"));
     }
+    
+    public Collection<Achat> getAchat(Jeu jeu){
+
+        if (jeu == null){
+            return Collections.EMPTY_LIST;
+        }
+        
+        Collection<Achat> ca = jeuMan.getNbSell(jeu);
+        if (ca == null){
+            return Collections.EMPTY_LIST;
+        }
+        return ca;
+    }
+    
+    
 }
