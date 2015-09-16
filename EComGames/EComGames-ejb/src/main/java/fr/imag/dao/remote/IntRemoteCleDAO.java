@@ -7,7 +7,6 @@ package fr.imag.dao.remote;
 
 import fr.imag.dao.IntDAO;
 import fr.imag.entities.Cle;
-import fr.imag.entities.Jeu;
 import java.util.Collection;
 import javax.ejb.Remote;
 

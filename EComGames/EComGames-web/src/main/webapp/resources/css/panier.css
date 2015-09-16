@@ -1,5 +1,6 @@
 #panier{
     min-width: 200px;
+    max-width:200px;
     border-style: solid;
     border-width: 3px;
     margin-top: 20px;
@@ -16,7 +17,7 @@
 }
 
 .panierPrix {
-    width:20px;
+    width:50px;
 }
 #panierTable {
     width: 100%;
@@ -25,4 +26,61 @@
 
 #panierTable .bodered {
     border-bottom: 2px solid black;
+}
+
+.supprPanier {
+    display: table;
+    height: inherit;
+    width: inherit;
+    background: none !important;
+    border: none !important;
+    color: black !important;
+    font-size: 2.0em !important;
+    transition: color 0.1s ease;
+    box-shadow: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+}
+
+.supprPanier:hover {
+    color: red !important;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.supprPanier span {
+    width: inherit;
+    height: inherit;
+    padding: 0 !important;
+    vertical-align: middle;
+    display: table-cell !important;
+}
+
+.smallPanier {
+    color:#5D5D5D;
+    text-decoration: underline;
+    font-size: 60%;
+    display: block;
+    width: 100%;
+    text-align: right;
+}
+
+.panierPrixQte tr td:first-child {
+    padding-right: 5px;
+    text-align:right;
+}
+
+.panierTable {
+    width: 90%;
+    padding: 5%;
+}
+
+#prixPanierForm {
+    width:100%;
+    text-align:center;
+}
+
+.totalPanier {
+    font-weight: bold;
 }

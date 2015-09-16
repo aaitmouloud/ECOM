@@ -16,5 +16,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntRemoteAchatDAO extends IntDAO<Achat> {
-;
+    public boolean addAchat(Long userId, String jeuId, int count);
 }
