@@ -6,32 +6,80 @@
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
       xmlns:p="http://primefaces.org/ui"
-    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-          
-    
-    
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+
+    <h:body>
+
+        <ui:composition template="template/common/commonLayout.xhtml">
+            <ui:define name="cssFiles">
+                <h:outputStylesheet name="common-style.css" library="css" />
+            </ui:define>
+            <ui:define name="content">
+                <h:form>
+                <h:commandLink value="Revenir à l'index" action="index?faces-redirect=true" ></h:commandLink>
+                <c:choose>
+                    <c:when test="#{loggedUserBean.unlogged}">
+                        <h:outputText value="Vous n'êtes pas authentifié"/>
+                    </c:when>
+                    <c:otherwise>
+                        <h1 id="signUpTitle">Mes Informations</h1>
+                        <h:form>
+                            <div class="inputSignUp">
+                                <label class='signUp'>Pseudo:</label>
+                                <h:outputText value="#{loggedUserBean.username}"/>
+                            </div>
+                            <br/>
+                            <div class="inputSignUp">
+                                <label class='signUp'>Adresse e-mail:</label>
+                                <h:outputText   value="#{loggedUserBean.email}"/>
+                            </div>
+                            <br/>
+                            <div class="inputSignUp">
+                                <label class='signUp'>Date de naissance:</label>
+                                <h:outputText   value="#{loggedUserBean.dateN.time}"/>
+                            </div>
+                            <br/>
+                        </h:form>
+                        <h1 id="signUpTitle">Mes Achats</h1>
+                        <h:form>
+                            <c:choose>
+                                <c:when test="#{loggedUserBean.hasAchats}">
+                                    <table id="achatTable">
+                                        <tr><th>Date</th><th>Cle</th><th>Commentaire</th><th>Note</th></tr>
+                                        <ui:repeat value="#{loggedUserBean.achats}" var="achat">
+                                            <tr>
+                                                <td>
+                                                    <h:outputText value="#{achat.date.time}"></h:outputText>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{achat.cle.cle}"></h:outputText>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{achat.commentaire}"></h:outputText>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{achat.note}"></h:outputText>
+                                                </td>
+                                            </tr>
+                                        </ui:repeat>
+                                    </table>
+                                </c:when>
+                                <c:otherwise>
+                                    <h:outputText   value="Vous n'avez encore rien acheté"/>
+                                </c:otherwise>
+                            </c:choose>
+
+
+                        </h:form>
+                    </c:otherwise>
+                </c:choose>
+                </h:form>
+            </ui:define>
+
+
+
+        </ui:composition>
+    </h:body>
 </html>
-
-<h:body>
-
-    <ui:composition template="template/common/commonLayout.xhtml">
-        <!--<ui:define name="cssFiles">
-                <h:outputStylesheet name="compte-style.css" library="css" />
-            </ui:define>-->
-        <ui:define name="content">
-            <h1 id="signUpTitle">Formulaire d'inscription</h1>
-		<form method="post">
-		    <div class="inputSignUp"><label class='signUp'>Pseudo:</label><input type="text" name="pseudo"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Adresse e-mail:</label><input type="text" name="email"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Date de naissance:</label><input type="date" name="dateNaiss"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Mot de passe:</label><input type="password" name="passe"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Confirmation du mot de passe:</label><input type="password" name="passe2"/></div><br/>
-		    <input id="submitSignUp" type="submit" value="M'inscrire"/>
-		</form>
-  
-        </ui:define>
-        
-        
-        
-    </ui:composition>
-</h:body>

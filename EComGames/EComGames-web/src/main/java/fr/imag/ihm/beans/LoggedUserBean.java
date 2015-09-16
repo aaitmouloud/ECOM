@@ -6,10 +6,13 @@
 package fr.imag.ihm.beans;
 
 import fr.imag.dao.remote.IntRemoteUtilisateurDAO;
+import fr.imag.entities.Achat;
 import fr.imag.entities.Utilisateur;
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collection;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -76,6 +79,24 @@ public class LoggedUserBean implements Serializable {
             return null;
         }
         return utilisateur.getDateNaissance();
+    }
+    
+    public Collection<Achat> getAchats(){
+        if (utilisateur == null) {
+            return null;
+        } 
+        return new ArrayList<>(utilisateur.getAchats());
+    }
+    
+    public boolean isHasAchats(){
+        if (utilisateur == null) {
+            return false;
+        } 
+        Collection<Achat> ca = utilisateur.getAchats();
+        if (ca != null && !ca.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     public boolean isUnlogged() {
