@@ -19,12 +19,12 @@
                     <h:panelGrid columns="3" styleClass="panierTable">
                         <h:dataTable value="#{panier.game}" var="item" >
 
-                            <h:column>
+                            <h:column class="border">
                                 <h:form >
                                     <h:outputText value="#{item.nom}" />
                                 </h:form>
                             </h:column>
-                            <h:column>
+                            <h:column class="border">
                                 <h:form >
                                     <h:panelGrid columns="2" class="panierPrixQte">
 
@@ -40,11 +40,10 @@
                                         <h:outputText value="#{item.prix}" styleClass="toUpdate" 
                                                       id="prix_jeu_#{loop.index}" />
                                         <p:remoteCommand name="updatePrix" process="@form" update="@(.toUpdate)" /> 
-
                                     </h:panelGrid>
                                 </h:form>
                             </h:column>
-                            <h:column>
+                            <h:column class="border">
                                 <h:form>
                                     <p:commandButton class="supprPanier" action="#{panier.removeGame(item)}" 
                                                      value="✗" update="@(.panierDiv)"/>
@@ -68,7 +67,7 @@
                                          update="growl" />
                         <p:remoteCommand update="@(.panierDiv)" name="updatePanier" />
                     </h:form>
-
+                    
                 </c:otherwise>
             </c:choose>
 
