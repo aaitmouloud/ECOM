@@ -18,4 +18,5 @@ import javax.ejb.Remote;
 @Remote
 public interface IntRemoteCleDAO extends IntDAO<Cle> {
     public Collection<Cle> findAvailableCle(String jeuId);
+    public Collection<Cle> findClebyJeu(String jeuId);
 }

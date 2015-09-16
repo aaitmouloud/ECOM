@@ -32,5 +32,17 @@ public class AchatDAO extends AbstractDAO implements IntLocalAchatDAO, IntRemote
             return Collections.EMPTY_LIST;
         }
     }
+    
+    @Override
+    public Achat findAchatByCle(String cle) {
+        ArrayList<Achat> cad = new ArrayList<>();
+        try{
+             TypedQuery<Achat> query = em.createNamedQuery("GetAchatByCleId", Achat.class);
+             query.setParameter("id", cle);
+             return query.getSingleResult();
+        }catch (Exception e){
+            return null;
+        }
+    }
         
 }

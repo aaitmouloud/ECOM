@@ -16,5 +16,5 @@ import javax.ejb.Remote;
  */
 @Remote
 public interface IntRemoteAchatDAO extends IntDAO<Achat> {
-;
+    public Achat findAchatByCle(String cle);
 }

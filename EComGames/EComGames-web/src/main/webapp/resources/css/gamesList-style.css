@@ -90,6 +90,14 @@ partie id
 
 
 
+.orderLink{
+    text-decoration: none;
+    color: white;
+    
+}
+
+
+
 .ui-slider .ui-slider-range {
     background: #000000 !important;
     -moz-box-shadow: inset 0 2px 2px #5D5D5D !important;

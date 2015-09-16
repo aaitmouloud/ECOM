@@ -16,10 +16,11 @@
             <ui:define name="content">
                 <div id="contentGameList" >
                     <ui:include src="/template/common/commonMenu.xhtml" />
-                    <h:outputScript library="js" name="gamelist.js" />
+                    
                     <div id="gameList">
                         <h1 id="jeuTitle" class="center">Jeux</h1>
                          <h:form>
+                             <h:outputScript library="js" name="gamelist.js" />
                              <p:remoteCommand process="@this" update="@form" name="refreshGameList"></p:remoteCommand>
                              <c:if test="#{aSearchBean.searching}">
                                 <p:commandButton value="supprimer" action="#{aSearchBean.removeSearchTerm}" update="@form"></p:commandButton>
@@ -27,16 +28,15 @@
                             </c:if>
                              <table id="gameListTable">
                             
-                            <tr><th>Jaquette</th><th>Nom</th><th>Annee</th><th>Note</th><th>Prix</th><th></th></tr>
+                                 <tr><th>Jaquette</th><th><p:commandLink styleClass="orderLink" value="Nom" action="#{aSearchBean.orderByNom()}" update="@form" /></th><th><p:commandLink styleClass="orderLink" value="Annee" action="#{aSearchBean.orderByAnnee()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Note" action="#{aSearchBean.orderByNote()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Prix" action="#{aSearchBean.orderByPrix()}" update="@form"/></th><th></th></tr>
                             <ui:repeat id="formListGame" value="#{aSearchBean.searchResult}" var="jeu">               
-                                    <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
-                                        <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
-                                        <td>#{jeu.nom}<br/></td>
-                                        <td>#{jeu.annee}</td>
-                                        <td>*****</td>
-                                        <td>#{jeu.currentPrix.prix}€</td>  
+                                <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
+                                            <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
+                                            <td>#{jeu.nom}<br/></td>
+                                            <td>#{jeu.annee}</td>
+                                            <td><p:outputLabel value="#{aSearchBean.Note(jeu)}"></p:outputLabel></td>
+                                            <td>#{jeu.currentPrix.prix}€</td>
                                         <td><p:commandButton value="Ajouter au panier" action="#{panier.addGame(jeu)}"  /></td> <!--update=":panierDisplay:panierId"-->
-
                                     </tr>
                             </ui:repeat>
                             
