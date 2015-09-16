@@ -35,7 +35,10 @@
                                         <td>#{jeu.annee}</td>
                                         <td>*****</td>
                                         <td>#{jeu.currentPrix.prix}€</td>  
-                                        <td><p:commandButton value="Ajouter au panier" action="#{panier.addGame(jeu)}"  /></td> <!--update=":panierDisplay:panierId"-->
+                                        <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
+                                                 image="panierImage" update="@(.panierDiv)">
+                                            </p:commandButton>
+                                        </td> 
 
                                     </tr>
                             </ui:repeat>
