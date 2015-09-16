@@ -136,7 +136,7 @@ public class AdvancedSearchBean implements Serializable {
        Iterator<CategorieBean> i = cc.iterator();
        while (i.hasNext()){
            CategorieBean cb = i.next();
-           if (cb.isChecked()){
+           if (cb.isValue()){
                s.add(cb.getName());
            }
        }

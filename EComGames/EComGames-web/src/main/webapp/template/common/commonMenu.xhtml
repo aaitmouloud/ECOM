@@ -13,11 +13,14 @@
             <div id="multiselect">
                 <div id="genre">
                     <h2 class="center">Catégorie</h2>
-                    <form>
-                        <ui:repeat value="#{aSearchBean.categorie}" var="categorie">   
-                            <input onchange="refreshGameList()" type="checkbox" name="#{categorie.name}" value="#{categorie.id}" checked="#{categorie.checked}" >#{categorie.name}#{categorie.checked}</input><br/>
+                    <h:form>
+                        
+                        <ui:repeat value="#{aSearchBean.categorie}" var="categorie">
+                            <p:growl id="msg"/>
+                            <p:selectBooleanCheckbox onchange="#{categorie.setValue()}; refreshGameList();"   id="Categorie_#{categorie.id}" value="#{categorie.value}"  >#{categorie.name}#{categorie.value}</p:selectBooleanCheckbox><br/>
                         </ui:repeat>
-                    </form>
+                        
+                    </h:form>
                 </div>
                 <div id="publisher">
                     <h2 class="center">Editeur</h2>

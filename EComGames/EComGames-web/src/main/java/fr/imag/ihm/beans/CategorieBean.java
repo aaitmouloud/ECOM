@@ -10,8 +10,10 @@ import fr.imag.entities.Categorie;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 /**
  *
@@ -28,12 +30,15 @@ public class CategorieBean {
        checked = false;
     }
     
-    public boolean isChecked(){
+    public boolean isValue(){
         return this.checked;
     }
     
-    public void checkCategorie(){
-        this.checked = !this.checked;
+    public void setValue(Boolean b){
+        FacesMessage message;
+        this.checked = b;
+        message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Test checkbox", "value = "+this.checked);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
     
     public String getName(){
