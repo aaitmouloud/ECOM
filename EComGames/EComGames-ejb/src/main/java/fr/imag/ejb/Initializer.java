@@ -46,11 +46,13 @@ public class Initializer {
         Cle cle = new Cle(jeu);
         Cle cle2 = new Cle(jeu);
         Cle cle3 = new Cle(jeu);
+        PrixJeu prixJeu = new PrixJeu(jeu, Calendar.getInstance(), null,25D);
+        PrixJeu prixJeu2 = new PrixJeu(jeu, Calendar.getInstance(), Calendar.getInstance(), 100D);
         Plateforme p = new Plateforme("Playstation 3");
         Plateforme p2 = new Plateforme("PC");
         jeu.setEditeur(editeur);
         jeu.addPlateforme(p);
-        
+        em.persist(jeu);
         
         
         Utilisateur user = new Utilisateur("toto", "toto", Calendar.getInstance(), "bla@bla.bel");
@@ -61,6 +63,7 @@ public class Initializer {
 
         Achat a = new Achat(user, cle,Calendar.getInstance() , new Short("5"), "Ce jeu est trop bien");
         em.persist(a);
+        
         Jeu jeu2 = new Jeu("Mario Bros", "Mario sauve Peach", 1980, 3, "ftp://");
         jeu2.setEditeur(new Editeur("Nintendo", "Forever and ever after", null));
         jeu2.addCategorie(new Categorie("Jeu de plateforme"));
