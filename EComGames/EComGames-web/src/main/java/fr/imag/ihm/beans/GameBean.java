@@ -26,5 +26,9 @@ public class GameBean implements Serializable {
 
     public Collection<Jeu> getAllJeux() {
         return jeuDao.findAll();
-    }   
+    }
+    
+    public Collection<Jeu> findXJeux(int nbJeux){
+        return jeuDao.findXJeuxOrderByDate(nbJeux);
+    }
 }

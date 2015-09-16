@@ -39,6 +39,7 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "GetJeuByEditeurId", query = "SELECT e.jeux FROM Editeur e WHERE e.id = :id"),
     @NamedQuery(name = "GetJeuByCategorieId", query = "SELECT c.jeux FROM Categorie c WHERE c.id = :id"),
     @NamedQuery(name = "GetJeuByPlateformeId", query = "SELECT p.jeux FROM Plateforme p WHERE p.id = :id"),
+    @NamedQuery(name = "GetXJeuxOrderByDate", query = "SELECT j FROM Jeu j ORDER BY j.annee DESC"),
     @NamedQuery(name = "GetAllJeu", query = "SELECT j FROM Jeu j"),
 })
 public class Jeu implements Serializable {
@@ -51,7 +52,7 @@ public class Jeu implements Serializable {
     @Column(length = 100, nullable = false, updatable = false)
     private String nom;
 
-    @Column(nullable = true, length = 255, updatable = true)
+    @Column(nullable = true, length = 8192, updatable = true)
     private String description;
 
     @Column(nullable = false, updatable = false)
@@ -62,7 +63,7 @@ public class Jeu implements Serializable {
 
     @Column(nullable = true, updatable = true)
     @Lob
-    private byte[] image;
+    private String image;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinTable(joinColumns = {
@@ -111,7 +112,7 @@ public class Jeu implements Serializable {
      * @param cles
      * @param prix
      */
-    public Jeu(String nom, String description, int annee, int ageMin, byte[] image, Collection<Plateforme> plateformes, Collection<Categorie> categories, Editeur editeur, Collection<Cle> cles, Collection<PrixJeu> prix, String url) {
+    public Jeu(String nom, String description, int annee, int ageMin, String image, Collection<Plateforme> plateformes, Collection<Categorie> categories, Editeur editeur, Collection<Cle> cles, Collection<PrixJeu> prix, String url) {
         this();
         this.nom = nom;
         this.description = description;
@@ -228,7 +229,7 @@ public class Jeu implements Serializable {
      *
      * @return
      */
-    public byte[] getImage() {
+    public String getImage() {
         return image;
     }
 
@@ -236,7 +237,7 @@ public class Jeu implements Serializable {
      *
      * @param image
      */
-    public void setImage(byte[] image) {
+    public void setImage(String image) {
         this.image = image;
     }
 
@@ -432,7 +433,7 @@ public class Jeu implements Serializable {
         hash = 59 * hash + this.annee;
         hash = 59 * hash + Objects.hashCode(this.url);
         hash = 59 * hash + this.ageMin;
-        hash = 59 * hash + Arrays.hashCode(this.image);
+        hash = 59 * hash + Objects.hashCode(this.image);
         hash = 31 * hash + Objects.hashCode(this.cles);
         return hash;
     }
@@ -461,7 +462,7 @@ public class Jeu implements Serializable {
         if (this.ageMin != other.ageMin) {
             return false;
         }
-        if (!Arrays.equals(this.image, other.image)) {
+        if (!Objects.equals(this.image, other.image)) {
             return false;
         }
         if (!Objects.equals(this.plateformes, other.plateformes)) {

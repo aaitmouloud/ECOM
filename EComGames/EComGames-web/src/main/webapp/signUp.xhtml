@@ -1,31 +1,64 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
-"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"   
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
-      >
+
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
-	
-    	<ui:composition template="template/common/commonLayout.xhtml">
+        <ui:composition template="template/common/commonLayout.xhtml">
             <ui:define name="cssFiles">
                 <h:outputStylesheet name="signUp.css" library="css" />
             </ui:define>
-	    <ui:define name="content">
-		<h1 id="signUpTitle">Formulaire d'inscription</h1>
-		<form method="post">
-		    <div class="inputSignUp"><label class='signUp'>Pseudo:</label><input type="text" name="pseudo"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Adresse e-mail:</label><input type="text" name="email"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Date de naissance:</label><input type="date" name="dateNaiss"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Mot de passe:</label><input type="password" name="passe"/></div><br/>
-		    <div class="inputSignUp"><label class='signUp'>Confirmation du mot de passe:</label><input type="password" name="passe2"/></div><br/>
-		    <input id="submitSignUp" type="submit" value="M'inscrire"/>
-		</form>
-
+            <ui:define name="content">
+                <h1 id="signUpTitle">Formulaire d'inscription</h1>
+                <h:form>
+                    <div class="center"> 
+                        <label style="color:red;text-align: center">#{userInscriptionBean.error}
+                        </label>
+                    </div>
+                    <br/>
+                    <div class="inputSignUp">
+                        <label class='signUp'>Pseudo:</label>
+                        <h:inputText value="#{userInscriptionBean.nom}"/>
+                    </div>
+                    <br/>
+                    <div class="inputSignUp">
+                        <label class='signUp'>Adresse e-mail:</label>
+                        <h:inputText   value="#{userInscriptionBean.email}"/>
+                    </div>
+                    <br/>
+                    <div class="inputSignUp">
+                        <label class='signUp'>Date de naissance:</label>
+                        <h:inputText   value="#{userInscriptionBean.dateNaissance}"/>
+                    </div>
+                    <br/>
+                    <div class="inputSignUp">
+                        <label class='signUp'>Mot de passe:</label>
+                        <h:inputSecret  value="#{userInscriptionBean.password1}"/>
+                    </div>
+                    <br/>
+                    <div class="inputSignUp">
+                        <label class='signUp'>Confirmation du mot de passe:</label>
+                        <h:inputSecret   value="#{userInscriptionBean.password2}" />
+                    </div>
+                    <br/>
+                    <div id="buttonSignup" class="inline">
+                        <h:form>
+                            <p:commandButton value="Annuler" class="unSubmitSignUp" action="index?faces-redirect=true" />
+                            <p:commandButton value="S'incrire" class="submitSignUp" actionListener="#{userInscriptionBean.creatUser}" 
+                                             oncomplete="if (args.validationFailed || !args.register) { location.reload(); } else { PF('dlg2').show() }" />
+                        </h:form>
+                    </div>
+                    <p:dialog header="Modal Dialog" widgetVar="dlg2" modal="true" height="100">
+                        <h:outputText value="Votre compte a été enregistré." style="text-align: center; width: 100%" /> <br/><br/>
+                        <p:commandButton value="Revenir au magasin " onclick="document.location.href='index.jsf'" style="text-align: center; width: 100%" />
+                    </p:dialog>  
+                </h:form>
             </ui:define>
-            
-    	</ui:composition>
-    	
+        </ui:composition>
+
     </h:body>
 
 </html>

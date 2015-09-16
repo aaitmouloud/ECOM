@@ -83,6 +83,11 @@ partie id
     //  background-color : #A0A0A0  ;
 }
 
+.jaquetteJeu{
+    background-size: cover;
+    height: 50px;
+}
+
 
 
 .ui-slider .ui-slider-range {

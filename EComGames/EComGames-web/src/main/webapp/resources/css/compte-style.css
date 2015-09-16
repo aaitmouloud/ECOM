@@ -1,0 +1,50 @@
+/*
+Cette œuvre est mise à disposition selon les termes de la Licence Creative Commons Attribution.
+- Pas d’Utilisation Commerciale. 
+- Partage dans les Mêmes Conditions 4.0 International.
+*/
+/* 
+    Created on : 16 sept. 2015, 20:34:28
+    Author     : seb
+*/
+
+
+
+#achatTable th {
+    background-color: black ;
+    color: white;
+}
+
+
+#achatTable th,#achatTable td{
+    padding-right: 20px;
+    padding-left: 20px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin: 0px;
+
+}
+#achatTable td {
+    border-bottom: 2px solid black;
+}
+
+#achatTable {
+    margin-right: auto;
+    margin-left: auto;
+    border-collapse:  collapse;
+    border : 2px solid black;
+    min-width: 750px;
+}
+
+.compte{
+    display: block;
+    width: 250px;
+    float: left;
+}
+
+.outputCompte{
+    margin-bottom: 5px;
+    width: 40%;
+    margin-right: auto;
+    margin-left: auto;
+}

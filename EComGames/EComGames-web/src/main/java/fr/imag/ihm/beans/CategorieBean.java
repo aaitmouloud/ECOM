@@ -10,8 +10,10 @@ import fr.imag.entities.Categorie;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 
 /**
  *

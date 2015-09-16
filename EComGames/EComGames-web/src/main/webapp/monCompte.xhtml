@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"   
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+
+
+    <h:body>
+
+        <ui:composition template="template/common/commonLayout.xhtml">
+            <ui:define name="cssFiles">
+                <h:outputStylesheet name="compte-style.css" library="css" />
+            </ui:define>
+            <ui:define name="content">
+                <h:form>
+                <h:commandLink value="Revenir à l'index" action="index?faces-redirect=true" ></h:commandLink>
+                <c:choose>
+                    <c:when test="#{loggedUserBean.unlogged}">
+                        <div class="center"><h:outputText value="Vous n'êtes pas authentifié"/></div>
+                    </c:when>
+                    <c:otherwise>
+                        <div class="center">
+                        <h1 id="compteInfo">Mes Informations</h1></div>
+                        <h:form>
+                            <div class="outputCompte">
+                                <label class='compte'>Pseudo:</label>
+                                <h:outputText value="#{loggedUserBean.username}"/>
+                            </div>
+                            <br/>
+                            <div class="outputCompte">
+                                <label class='compte'>Adresse e-mail:</label>
+                                <h:outputText   value="#{loggedUserBean.email}"/>
+                            </div>
+                            <br/>
+                            <div class="outputCompte">
+                                <label class='compte'>Date de naissance:</label>
+                                <h:outputText   value="#{loggedUserBean.dateN.time}"/>
+                            </div>
+                            <br/>
+                        </h:form>
+                        <div class="center">
+                        <h1 id="compteAchat">Mes Achats</h1></div>
+                        <h:form>
+                            <c:choose>
+                                <c:when test="#{loggedUserBean.hasAchats}">
+                                    <table id="achatTable">
+                                        <tr><th>Date</th><th>Cle</th><th>Commentaire</th><th>Note</th></tr>
+                                        <ui:repeat value="#{loggedUserBean.achats}" var="achat">
+                                            <tr>
+                                                <td>
+                                                    <h:outputText value="#{achat.date.time}"></h:outputText>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{achat.cle.cle}"></h:outputText>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{achat.commentaire}"></h:outputText>
+                                                </td>
+                                                <td>
+                                                    <h:outputText value="#{achat.note}"></h:outputText>
+                                                </td>
+                                            </tr>
+                                        </ui:repeat>
+                                    </table>
+                                </c:when>
+                                <c:otherwise>
+                                    <div class="center">
+                                    <h:outputText   value="Vous n'avez encore rien acheté"/></div>
+                                </c:otherwise>
+                            </c:choose>
+
+
+                        </h:form>
+                    </c:otherwise>
+                </c:choose>
+                </h:form>
+            </ui:define>
+
+
+
+        </ui:composition>
+    </h:body>
+</html>
