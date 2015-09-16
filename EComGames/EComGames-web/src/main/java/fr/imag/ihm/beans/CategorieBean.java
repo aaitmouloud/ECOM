@@ -17,14 +17,30 @@ import javax.faces.bean.ManagedBean;
  *
  * @author cedric
  */
-@ManagedBean(name = "categorieBean")
-@ApplicationScoped
-public class CategorieBean implements Serializable {
-    
-    @EJB
-    IntRemoteCategorieDAO categorieDao;
 
-    public Collection<Categorie> getAllCategorie() {
-        return categorieDao.findAll();
-    }   
+public class CategorieBean {
+    private Categorie c;
+    private Boolean checked;
+    
+
+    public CategorieBean (Categorie c){
+       this.c = c;
+       checked = false;
+    }
+    
+    public boolean isChecked(){
+        return this.checked;
+    }
+    
+    public void checkCategorie(){
+        this.checked = !this.checked;
+    }
+    
+    public String getName(){
+        return this.c.getNom();
+    }
+    
+    public Long getId(){
+        return this.c.getId();
+    }
 }
