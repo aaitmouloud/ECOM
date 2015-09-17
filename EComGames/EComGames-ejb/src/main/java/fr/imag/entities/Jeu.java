@@ -7,7 +7,6 @@ package fr.imag.entities;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.HashSet;
@@ -41,6 +40,20 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "GetJeuByPlateformeId", query = "SELECT p.jeux FROM Plateforme p WHERE p.id = :id"),
     @NamedQuery(name = "GetXJeuxOrderByDate", query = "SELECT j FROM Jeu j ORDER BY j.annee DESC"),
     @NamedQuery(name = "GetAllJeu", query = "SELECT j FROM Jeu j"),
+    @NamedQuery(name = "GetXJeuxOrderByNoteMoyenne", query = 
+            "SELECT DISTINCT j FROM Jeu j "
+                    + "INNER JOIN j.cles c "
+                    + "INNER JOIN c.achat a "
+                    + "WHERE a.note IS NOT NULL "
+                    + "GROUP BY j.id "
+                    + "ORDER BY AVG(a.note) DESC"),
+     @NamedQuery(name = "GetJeuNotMoy", query = 
+            "SELECT AVG(a.note) FROM Jeu j "
+                    + "INNER JOIN j.cles c "
+                    + "INNER JOIN c.achat a "
+                    + "WHERE a.note IS NOT NULL "
+                    + "AND j.id = :jid"),
+        
 })
 public class Jeu implements Serializable {
 
@@ -402,11 +415,12 @@ public class Jeu implements Serializable {
     }
 
     public PrixJeu getCurrentPrix() {
-        if (this.prix == null || this.prix.isEmpty())
+        if (this.prix == null || this.prix.isEmpty()) {
             return null;
-        
+        }
+
         Calendar now = Calendar.getInstance();
-        
+
         for (PrixJeu pj : this.prix) {
 
             if (pj.getDateDebut().before(now)

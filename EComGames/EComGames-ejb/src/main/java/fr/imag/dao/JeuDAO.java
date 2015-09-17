@@ -5,13 +5,16 @@
  */
 package fr.imag.dao;
 
+import fr.imag.business.remote.JeuManagerRemote;
 import fr.imag.dao.local.IntLocalJeuDAO;
 import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.entities.Jeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 
 /**
@@ -21,12 +24,15 @@ import javax.persistence.TypedQuery;
 @Stateless
 public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuDAO {
 
+    @EJB
+    JeuManagerRemote jeuManager;
+
     @Override
     public Collection<Jeu> findAll() {
         try {
             TypedQuery<Jeu> query = em.createNamedQuery("GetAllJeu", Jeu.class);
             return query.getResultList();
-            
+
         } catch (Exception e) {
             throw (new RuntimeException(e));
         }
@@ -36,21 +42,20 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
     public Collection<Jeu> Search(Collection<String> c, Collection<String> e, Collection<String> p, double min, double max) {
         ArrayList<Jeu> cjd = new ArrayList<>();
         try {
-            
-            
+
             StringBuilder query = new StringBuilder("SELECT j FROM Jeu j");
-            
+
             if (e != null && !e.isEmpty()) {
                 query.append(" INNER JOIN j.editeur e");
             }
-            
+
             query.append(" INNER JOIN j.prix p");
             query.append(" WHERE");
             query.append(" p.dateFin IS NULL");
             query.append(" AND p.prix >= :prixMin");
             query.append(" AND p.prix <= :prixMax");
-            
-            if (c != null && !c.isEmpty()){
+
+            if (c != null && !c.isEmpty()) {
                 query.append(" AND (j.id IN");
                 query.append("(SELECT j2.id FROM Jeu j2");
                 query.append(" INNER JOIN j2.categories cc");
@@ -58,37 +63,34 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
                 query.append(" GROUP BY j2.id");
                 query.append(" HAVING (COUNT(DISTINCT cc.id) = :catsnb)))");
             }
-            
+
             if (e != null && !e.isEmpty()) {
                 query.append(" AND (e.nom IN :edits)");
             }
-            
+
             if (p != null && !p.isEmpty()) {
                 query.append(" AND (j.id IN");
                 query.append("(SELECT j3.id FROM Jeu j3");
                 query.append(" INNER JOIN j3.plateformes plat");
                 query.append(" WHERE plat.nom IN :plats))");
             }
-            
-            
+
             TypedQuery<Jeu> tquery = em.createQuery(query.toString(), Jeu.class);
 
-    
             tquery.setParameter("prixMin", min);
             tquery.setParameter("prixMax", max);
             if (c != null && !c.isEmpty()) {
                 tquery.setParameter("cats", c);
                 tquery.setParameter("catsnb", c.size());
             }
-            
 
-           if (e != null && !e.isEmpty()) {
-               tquery.setParameter("edits", e);
-           }
+            if (e != null && !e.isEmpty()) {
+                tquery.setParameter("edits", e);
+            }
 
-          if (p != null && !p.isEmpty()) {
+            if (p != null && !p.isEmpty()) {
                 tquery.setParameter("plats", p);
-           }
+            }
             //throw new RuntimeException(query.toString());
             return tquery.getResultList();
 
@@ -106,15 +108,38 @@ public class JeuDAO extends AbstractDAO implements IntLocalJeuDAO, IntRemoteJeuD
             throw (new RuntimeException(e));
         }
     }
-    
+
     @Override
-    public Collection<Jeu> findXJeuxOrderByDate(int nbJeux){
+    public Collection<Jeu> findXJeuxOrderByDate(int nbJeux) {
         try {
             TypedQuery<Jeu> query = em.createNamedQuery("GetXJeuxOrderByDate", Jeu.class);
             query.setMaxResults(nbJeux);
             return query.getResultList();
         } catch (Exception e) {
             return Collections.EMPTY_LIST;
+        }
+    }
+
+    @Override
+    public Collection<Jeu> findXJeuxOrderByNote(int nbJeux) {
+        try {
+            TypedQuery<Jeu> query = em.createNamedQuery("GetXJeuxOrderByNoteMoyenne", Jeu.class);
+            query.setMaxResults(nbJeux);
+            return query.getResultList();
+        } catch (Exception e) {
+            return Collections.EMPTY_LIST;
+        }
+    }
+
+    @Override
+    public Double getNoteMoy(String id) {
+        try {
+            Query query = em.createNamedQuery("GetJeuNotMoy");
+            
+            query.setParameter("jid", id);
+            return (Double)query.getSingleResult();
+        } catch (Exception e) {
+            return null;
         }
     }
 
