@@ -152,7 +152,11 @@ public class AdvancedSearchBean implements Serializable {
     
     public String note(Jeu j){
        Float note = jeuMan.getAverageNote(j);
-        return "0";
+        if (note == -1){
+            return "N/D";
+        }else{
+            return note.toString()+"/5";
+        }
     }
     
     public int nbSell(Jeu j){
