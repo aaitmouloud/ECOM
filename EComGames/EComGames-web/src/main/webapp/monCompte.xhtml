@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core"
+      xmlns:p="http://primefaces.org/ui">
 
 
 
@@ -17,80 +18,80 @@
             </ui:define>
             <ui:define name="content">
                 <h:form>
-                <h:commandLink value="Revenir à l'index" action="index?faces-redirect=true" ></h:commandLink>
-                <c:choose>
-                    <c:when test="#{loggedUserBean.unlogged}">
-                        <div class="center"><h:outputText value="Vous n'êtes pas authentifié"/></div>
-                    </c:when>
-                    <c:otherwise>
-                        <div class="center">
-                        <h1 id="compteInfo">Mes Informations</h1></div>
-                        <h:form>
-                            <div class="outputCompte">
-                                <label class='compte'>Pseudo:</label>
-                                <h:outputText value="#{loggedUserBean.username}"/>
-                            </div>
-                            <br/>
-                            <div class="outputCompte">
-                                <label class='compte'>Adresse e-mail:</label>
-                                <h:outputText   value="#{loggedUserBean.email}"/>
-                            </div>
-                            <br/>
-                            <div class="outputCompte">
-                                <label class='compte'>Date de naissance:</label>
-                                <h:outputText   value="#{loggedUserBean.dateNFormatted}"/>
-                            </div>
-                            <br/>
-                        </h:form>
-                        <div class="center">
-                        <h1 id="compteAchat">Mes Achats</h1></div>
-                        <h:form>
-                            <c:choose>
-                                <c:when test="#{loggedUserBean.hasAchats}">
-                                    <table id="achatTable">
-                                        <tr><th>Date</th><th>Jeu</th><th>Commentaire</th><th>Note</th></tr>
-                                        <ui:repeat value="#{loggedUserBean.achats}" var="achat">
-                                            <tr>
-                                                <td>
-                                                    <h:outputText value="#{loggedUserBean.formatDateTime(achat.date)}"></h:outputText>
-                                                </td>
-                                                <td>
-                                                    <h:outputText value="#{loggedUserBean.getNomJeu(achat.cle)}"></h:outputText>
-                                                </td>
-                                                <td>
-                                                    
-                                                    <h:form >
-                                                        <p:remoteCommand name="updateComment" update="@form"></p:remoteCommand>
-                                                    <c:choose>
-                                                        <c:when test="#{achat.commentaire == null}">  
-                                                            <h:form>
-                                                            <p:inputText styleClass="commentInput" value="#{achat.commentaire}" placeholder="Entrez un commentaire"></p:inputText>
-                                                            <p:commandButton value="Valider" update="@(.commentInput)" oncomplete="alert('#{achat.commentaire}');updateComment();" ></p:commandButton>
-                                                            </h:form>
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <h:outputText value="#{achat.commentaire}"></h:outputText>
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                    </h:form>
-                                                </td>
-                                                <td>
-                                                    <h:outputText value="#{aSearchBean.formatNote(achat.note)}"></h:outputText>
-                                                </td>
-                                            </tr>
-                                        </c:forEach>
-                                    </table>
-                                </c:when>
-                                <c:otherwise>
-                                    <div class="center">
-                                    <h:outputText   value="Vous n'avez encore rien acheté"/></div>
-                                </c:otherwise>
-                            </c:choose>
+                    <h:commandLink value="Revenir à l'index" action="index?faces-redirect=true" ></h:commandLink>
+                    <c:choose>
+                        <c:when test="#{loggedUserBean.unlogged}">
+                            <div class="center"><h:outputText value="Vous n'êtes pas authentifié"/></div>
+                        </c:when>
+                        <c:otherwise>
+                            <div class="center">
+                                <h1 id="compteInfo">Mes Informations</h1></div>
+                            <h:form>
+                                <div class="outputCompte">
+                                    <label class='compte'>Pseudo:</label>
+                                    <h:outputText value="#{loggedUserBean.username}"/>
+                                </div>
+                                <br/>
+                                <div class="outputCompte">
+                                    <label class='compte'>Adresse e-mail:</label>
+                                    <h:outputText   value="#{loggedUserBean.email}"/>
+                                </div>
+                                <br/>
+                                <div class="outputCompte">
+                                    <label class='compte'>Date de naissance:</label>
+                                    <h:outputText   value="#{loggedUserBean.dateNFormatted}"/>
+                                </div>
+                                <br/>
+                            </h:form>
+                            <div class="center">
+                                <h1 id="compteAchat">Mes Achats</h1></div>
+                            <h:form>
+                                <c:choose>
+                                    <c:when test="#{loggedUserBean.hasAchats}">
+                                        <table id="achatTable">
+                                            <tr><th>Date</th><th>Jeu</th><th>Commentaire</th><th>Note</th></tr>
+                                            <ui:repeat value="#{loggedUserBean.achats}" var="achat">
+                                                <tr>
+                                                    <td>
+                                                        <h:outputText value="#{loggedUserBean.formatDateTime(achat.date)}"></h:outputText>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{loggedUserBean.getNomJeu(achat.cle)}"></h:outputText>
+                                                    </td>
+                                                    <td>
+
+                                                        <h:form >
+                                                            <p:remoteCommand name="updateComment" update="@form" />
+                                                            <c:choose>
+                                                                <c:when test="#{achat.commentaire == null}">  
+                                                                    <h:form>
+                                                                        <p:inputText styleClass="commentInput" value="#{achat.commentaire}" placeholder="Entrez un commentaire"></p:inputText>
+                                                                        <p:commandButton value="Valider" update="@(.commentInput)" oncomplete="alert('#{achat.commentaire}');updateComment();" ></p:commandButton>
+                                                                    </h:form>
+                                                                </c:when>
+                                                                <c:otherwise>
+                                                                    <h:outputText value="#{achat.commentaire}"></h:outputText>
+                                                                </c:otherwise>
+                                                            </c:choose>
+                                                        </h:form>
+                                                    </td>
+                                                    <td>
+                                                        <h:outputText value="#{aSearchBean.formatNote(achat.note)}"></h:outputText>
+                                                    </td>
+                                                </tr>
+                                            </ui:repeat>
+                                        </table>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <div class="center">
+                                            <h:outputText   value="Vous n'avez encore rien acheté"/></div>
+                                    </c:otherwise>
+                                </c:choose>
 
 
-                        </h:form>
-                    </c:otherwise>
-                </c:choose>
+                            </h:form>
+                        </c:otherwise>
+                    </c:choose>
                 </h:form>
             </ui:define>
 

@@ -36,7 +36,7 @@ public class LoggedUserBean implements Serializable {
     private Utilisateur utilisateur = null;
     private Collection<Achat> a;
     private final static SimpleDateFormat DN_FORMAT = new SimpleDateFormat("d MMM YYYY");
-    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM YYYY hh:mm:ss");
+    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM YYYY HH:mm:ss");
 
 
     @EJB
@@ -110,7 +110,7 @@ public class LoggedUserBean implements Serializable {
         }
         refreshUser();
         a = utilisateur.getAchats();
-        return a;
+        return new ArrayList<>(a);
     }
 
     public boolean isHasAchats() {
