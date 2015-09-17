@@ -64,4 +64,10 @@ public class UtilisateurDAO extends AbstractDAO implements IntLocalUtilisateurDA
             return false;
         }
     }
+    
+    @Override
+    public Utilisateur updateUser(Utilisateur u){
+        return em.find(Utilisateur.class, u.getId());
+    }
+        
 }

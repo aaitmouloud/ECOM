@@ -61,11 +61,11 @@
 
                         <p:commandButton value="Finaliser commande" 
                                          actionListener="#{panier.validerAchats(loggedUserBean.id)}"
-                                         oncomplete="updateGrowl(); if (args.validationFailed || !args.loggedIn) { PF('loginDlg').show() } else { updatePanier(); } "
+                                         oncomplete=" updateGrowl(); if (args.validationFailed || !args.loggedIn) { PF('loginDlg').show() } else { updatePanier()}"
                                          />
                         <p:remoteCommand update="@(.panierDiv)" name="updatePanier" />
-                        <p:growl id="growlPan" showDetail="true" sticky="true" />  
-                        <p:remoteCommand update="growlPan" process="@this" name="updateGrowl" />
+                        <p:growl id="growlPan" showDetail="true" sticky="true"  autoUpdate="true" life="2500"/>  
+                        <p:remoteCommand update="@(growlPan)" process="@this" name="updateGrowl" />
                     </h:form>
 
                 </c:otherwise>

@@ -35,7 +35,7 @@
                         value="Se déconnecter"
                         action="#{loggedUserBean.logout()}"
                         styleClass="header_link"
-                        update="@all" 
+                        oncomplete="location.reload();" 
                         />
                 </c:otherwise>
             </c:choose>

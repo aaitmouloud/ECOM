@@ -32,6 +32,7 @@ import org.primefaces.context.RequestContext;
 public class LoggedUserBean implements Serializable {
 
     private Utilisateur utilisateur = null;
+    private Collection<Achat> a;
 
     @EJB
     private IntRemoteUtilisateurDAO userDao;
@@ -92,20 +93,33 @@ public class LoggedUserBean implements Serializable {
     public Collection<Achat> getAchats(){
         if (utilisateur == null) {
             return null;
-        } 
-        return new ArrayList<>(utilisateur.getAchats());
+        }
+        refreshUser();
+        a = utilisateur.getAchats();
+        return a;
     }
     
     public boolean isHasAchats(){
         if (utilisateur == null) {
             return false;
-        } 
-        Collection<Achat> ca = utilisateur.getAchats();
-        if (ca != null && !ca.isEmpty()){
+        }
+        
+        getAchats();
+        if (a != null && !a.isEmpty()){
             return true;
         }
         return false;
     }
+    
+    public void UpdateUser(){
+        userDao.refresh(utilisateur);
+    }
+    
+    public void refreshUser(){
+        this.utilisateur = userDao.updateUser(utilisateur);
+    }
+  
+    
 
     public boolean isUnlogged() {
         Logger.getLogger(LoggedUserBean.class).info(utilisateur + " est l'actuel (test si null)");

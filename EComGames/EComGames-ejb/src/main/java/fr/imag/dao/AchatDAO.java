@@ -67,9 +67,9 @@ public class AchatDAO extends AbstractDAO implements IntLocalAchatDAO, IntRemote
 
         Calendar now = Calendar.getInstance();
         for (Cle c : cles) {
-            u.addAchat(new Achat(u, now, c));
+            em.persist(new Achat(u, now, c));
         }
-        return true;
+         return true;
     }
 
     @Override

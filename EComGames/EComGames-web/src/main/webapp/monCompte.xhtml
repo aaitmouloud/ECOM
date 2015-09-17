@@ -50,7 +50,7 @@
                                 <c:when test="#{loggedUserBean.hasAchats}">
                                     <table id="achatTable">
                                         <tr><th>Date</th><th>Cle</th><th>Commentaire</th><th>Note</th></tr>
-                                        <ui:repeat value="#{loggedUserBean.achats}" var="achat">
+                                        <c:forEach items="#{loggedUserBean.achats}" var="achat">
                                             <tr>
                                                 <td>
                                                     <h:outputText value="#{achat.date.time}"></h:outputText>
@@ -59,13 +59,39 @@
                                                     <h:outputText value="#{achat.cle.cle}"></h:outputText>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{achat.commentaire}"></h:outputText>
+                                                    
+                                                    <h:form >
+                                                        <p:remoteCommand name="updateComment" update="@form"></p:remoteCommand>
+                                                    <c:choose>
+                                                        <c:when test="#{achat.commentaire == null}">  
+                                                            <h:form>
+                                                            <p:inputText styleClass="commentInput" value="#{achat.commentaire}" placeholder="Entrez un commentaire"></p:inputText>
+                                                            <p:commandButton value="Valider" update="@(.commentInput)" oncomplete="alert('#{achat.commentaire}');updateComment();" ></p:commandButton>
+                                                            </h:form>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <h:outputText value="#{achat.commentaire}"></h:outputText>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    </h:form>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{achat.note}"></h:outputText>
+                                                    
+                                                    <h:form >
+                                                        <c:choose>
+                                                        <c:when test="#{achat.note == null}">
+                                                            
+                                                            <p:inputText id="achat_note_#{achat.id}"  placeholder="Entrez une note"></p:inputText>
+                                                            <p:commandButton value="Valider" update="@form" ></p:commandButton>
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <h:outputText value="#{achat.note}"></h:outputText>
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                    </h:form>
                                                 </td>
                                             </tr>
-                                        </ui:repeat>
+                                        </c:forEach>
                                     </table>
                                 </c:when>
                                 <c:otherwise>

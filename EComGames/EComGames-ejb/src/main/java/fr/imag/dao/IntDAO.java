@@ -15,4 +15,5 @@ import java.util.Collection;
 public interface IntDAO<T> {
     public Collection<T> findAll();
     public <T> boolean create(T entity);
+    public <T> void refresh(T entity);
 }

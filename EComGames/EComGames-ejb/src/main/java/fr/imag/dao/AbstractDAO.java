@@ -21,6 +21,11 @@ abstract class AbstractDAO {
         return em.contains(entity);
     }
     
+     public <U> void refresh(U entity) {
+        em.refresh(entity);
+
+    }
+    
     public void setEntityManager(EntityManager em) {
         this.em = em;
     }

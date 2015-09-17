@@ -17,4 +17,5 @@ import javax.ejb.Remote;
 public interface IntRemoteUtilisateurDAO extends IntDAO<Utilisateur>{
     Utilisateur findFromLoginEtMdp(String login, String hashmdp);
     boolean createUser(Utilisateur u);
+    Utilisateur updateUser(Utilisateur u);
 }

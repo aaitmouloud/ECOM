@@ -34,19 +34,12 @@
                                         <td>#{jeu.nom}<br/></td>
                                         <td>#{jeu.annee}</td>
                                         <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>
-                                        <td>#{jeu.currentPrix.prix}</td>
+                                        <td>#{jeu.currentPrix.prix}€</td>
                                         <td>
-                                            <c:choose>
-                                                <c:when test="#{panier.getAvailableCle(jeu.id)>0}">
+                                           
                                                     <p:commandButton value="+" action="#{panier.addGame(jeu)}"
                                                                      image="panierImage" update="@(.panierDiv)" 
                                                                      styleClass="boutonListe"/>
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <p:commandButton disabled="true" value="N/D" 
-                                                                     styleClass="boutonListe"/>
-                                                </c:otherwise>
-                                            </c:choose>
                                         </td> 
                                     </tr>
                                 </c:forEach>
