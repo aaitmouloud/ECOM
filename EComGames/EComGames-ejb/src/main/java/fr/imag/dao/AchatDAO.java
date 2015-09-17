@@ -54,6 +54,10 @@ public class AchatDAO extends AbstractDAO implements IntLocalAchatDAO, IntRemote
             return false;
         }
 
+        if (u.getAge() < j.getAgeMin()) {
+            return false;
+        }
+
         Set<Cle> cles = new HashSet<>();
         Iterator<Cle> clesDuJeuIte = j.getCles().iterator();
 
@@ -68,17 +72,16 @@ public class AchatDAO extends AbstractDAO implements IntLocalAchatDAO, IntRemote
         return true;
     }
 
-    
     @Override
     public Achat findAchatByCle(String cle) {
         ArrayList<Achat> cad = new ArrayList<>();
-        try{
-             TypedQuery<Achat> query = em.createNamedQuery("GetAchatByCleId", Achat.class);
-             query.setParameter("id", cle);
-             return query.getSingleResult();
-        }catch (Exception e){
+        try {
+            TypedQuery<Achat> query = em.createNamedQuery("GetAchatByCleId", Achat.class);
+            query.setParameter("id", cle);
+            return query.getSingleResult();
+        } catch (Exception e) {
             return null;
         }
     }
-        
+
 }

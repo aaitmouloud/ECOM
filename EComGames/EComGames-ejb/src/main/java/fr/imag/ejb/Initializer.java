@@ -6,9 +6,14 @@
 package fr.imag.ejb;
 
 import fr.imag.entities.Categorie;
+import fr.imag.entities.Cle;
 import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
 import fr.imag.entities.Plateforme;
+import fr.imag.entities.Utilisateur;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
@@ -35,6 +40,18 @@ public class Initializer {
     @PostConstruct
     void init() {
         LOGGER.info("Initialisation des données.");
+
+        Calendar dn = Calendar.getInstance();
+        dn.set(Calendar.DAY_OF_MONTH, 20);
+        dn.set(Calendar.MONTH, 01);
+        dn.set(Calendar.YEAR, 1990);
+        Utilisateur u = new Utilisateur("toto", "toto", dn, "toto@gmail.com");
+        em.persist(u);
+
+        Calendar dn1 = Calendar.getInstance();
+        dn.set(Calendar.YEAR, 2011);
+        Utilisateur u1 = new Utilisateur("minor", "minor", dn1, "minor@gmail.com");
+        em.persist(u1);
 
         Editeur e1 = new Editeur("Valve");
         Editeur e2 = new Editeur("Blizzard");
@@ -110,33 +127,33 @@ public class Initializer {
         Jeu j11 = new Jeu("VVVVVV", "VVVVVV est un jeu vidéo de plates-formes/puzzle en 2D créé par Terry Cavanagh. Il est développé avec Adobe Flash et sort le 11 janvier 2010 sur Microsoft Windows et Mac OS X. Il est ensuite réécrit en C++ par Simon Roth en 2011 et est proposé dans la 3e édition du Humble Indie Bundle, une opération proposant à la vente une série de jeux vidéo indépendants à prix libre. Le portage en C++ permet la sortie, auparavant annulée, de VVVVVV sur Linux. Une version sort également sur le eShop de la Nintendo 3DS et un portage en binaire4 pour Open Pandora est en développement. Celui-ci aura besoin des fichiers des versions Microsoft Windows, Mac OS X ou Linux pour fonctionner. Le jeu propose dincarner Viridian, capitaine dun engin spatial, perdu dans une autre dimension à la recherche des membres de son équipe. Le joueur ne peut pas sauter, mais à la place inverser le sens de la gravité, ce qui permet au capitaine Viridian de marcher tantôt au sol, tantôt au plafond. Le style graphique est très influencé par celui du Commodore 64 ; de la même manière également, les musiques du jeu fonctionnent sur le principe du chiptune, cest-à-dire quelle sont réalisées directement par le hardware de la machine. Magnus Pålsson, qui les a composées, a sorti la bande originale du jeu sous le nom de PPPPPP.", 2012, 5, "http://urlj11");
         j11.setEditeur(e4);
         j11.addPlateforme(pc);
-        
+
         Jeu j12 = new Jeu("Minecraft", "Minecraft est un jeu vidéo indépendant de type « bac à sable » (construction complètement libre - sandbox en anglais) développé par le Suédois Markus Persson alias Notch, puis par le studio de développement Mojang. Ce jeu vidéo plonge le joueur dans un univers réaliste mais cubique : tout est composé de blocs en 3D pixelisés. La MineCon, un congrès en lhonneur de Minecraft, a célébré la sortie officielle du jeu le 19 novembre 20111. Minecraft est à lorigine développé pour être un jeu sur navigateur Web2, puis sur Windows, Mac et Linux (à laide de Java3). Un portage sur téléphone mobile existe également, Minecraft Pocket Édition, sorti sur les smartphones Android et sur les terminaux iOS4. Une version pour Xbox 360 est sortie le 11 mai 2012, développée par 4J Studios5. Lactuelle version de Minecraft sur Xbox 360 est la version 1.6.2. Une version Playstation 3 développée par Mojang est disponible depuis le 18 décembre 20136. La version PS4 est sortie le 4 septembre 2014 sur le PlayStation Store ; la version Xbox One a été publiée le lendemain7. À ses débuts, le jeu sappelait Cave Game, puis le nom définitif de Minecraft a été inventé lors dun échange sur IRC entre le développeur et des joueurs : après avoir été nommé Minecraft: Order of the Stone8 (en référence à un webcomic du nom de Order of the Stick)9, le nom fut finalement raccourci en Minecraft pour plus de simplicité. Le jeu vidéo est également décliné sous plusieurs formes dans lunivers des jeux physiques (réels) : papercraft (origami), produits dérivés (figurines, vêtements, peluches...) et boîtes de jeu Lego.", 2007, 5, "http://urlj12");
         j12.setEditeur(e1);
         j12.addPlateforme(pc);
         j12.addPlateforme(ps3);
         j12.addPlateforme(x360);
-        
+
         Jeu j13 = new Jeu("Skyrim", "The Elder Scrolls V: Skyrim, ou Skyrim, est un jeu vidéo de rôle et daction, développé par Bethesda Game Studios et édité par Bethesda Softworks, sorti le 11 novembre 2011. Cest le cinquième opus de la série de jeux The Elder Scrolls, il est précédé par Arena, Daggerfall, Morrowind et Oblivion. Le jeu met le joueur dans la peau dun nouveau venu dans la contrée de Bordeciel, alors déchirée par une guerre civile quune invasion de dragons belliqueux ne fait quempirer. Le personnage interprété savère en fait être le dernier « enfant de dragon », seule personne capable de se mesurer aux conflits qui ravagent le pays et de rétablir la paix. À cette trame principale sajoutent de nombreuses quêtes annexes qui invitent le joueur choisir entre plusieurs partis et à découvrir un monde ouvert inspiré de la culture nordique, mêlant vastes plaines, sommets enneigés et vallées boisées. Très grand succès critique et commercial, le jeu cumule en janvier 2014, un peu plus de deux ans après sa sortie, plus de 20 millions dunités écoulées.", 2003, 5, "http://urlj13");
         j13.setEditeur(e2);
         j13.addPlateforme(pc);
         j13.addPlateforme(ps3);
         j13.addPlateforme(x360);
-        
+
         Jeu j14 = new Jeu("WoW", "World of Warcraft (abrégé WoW) est un jeu vidéo de type MMORPG (jeu de rôle en ligne massivement multijoueur) développé par la société Blizzard Entertainment. Cest le 4e jeu de lunivers médiéval-fantastique Warcraft, introduit par Warcraft: Orcs and Humans en 1994. World of Warcraft prend place en Azeroth, près de quatre ans après les événements de la fin du jeu précédent, Warcraft III: The Frozen Throne1 Blizzard Entertainment annonce World of Warcraft le 2 septembre 20012. Le jeu est sorti en Amérique du Nord le 23 novembre 2004, pour les 10 ans de la franchise Warcraft. La première extension du jeu, The Burning Crusade, est sortie en janvier 20073. La deuxième extension, Wrath of the Lich King, est sortie en novembre 20084. La troisième, Cataclysm, est sortie en décembre 2010. La quatrième extension, Mists of Pandaria, est sortie en septembre 20125. La cinquième extension, Warlords of Draenor, est sortie le 13 novembre 20146. Une sixième extension, Legion, est annoncée. Depuis sa sortie, World of Warcraft est le plus populaire des MMORPG. Le jeu tient le Guinness World Record pour la plus grande popularité pour un MMORPG7,8,9,10. En avril 2008, World of Warcraft a été estimé comme rassemblant 62 % des joueurs de MMORPG11. Le 7 octobre 2010, Blizzard annonce que plus de 12 millions de joueurs ont un compte World of Warcraft actif12. Cest à partir de fin 2012 que World of Warcraft commencera à perdre continuellement un nombre croissant de joueurs. Au dernier trimestre 2012, Blizzard annonce le nombre de 9,6 millions d’abonnés à travers le monde, puis 7,7 millions pour le 2e trimestre 2013. World of Warcraft a fêté son 10e anniversaire en novembre 2014. Le mois suivant, à la suite de la sortie de lextension Warlords of Draenor, Blizzard annonce que World of Warcraft repasse le cap des 10 millions dabonnés.", 2010, 5, "http://urlj14");
         j14.setEditeur(e3);
         j14.addPlateforme(pc);
-        
+
         Jeu j15 = new Jeu("Warcraft III: Reign of Chaos", "Warcraft III: Reign of Chaos est un jeu vidéo de stratégie en temps réel (STR) développé par Blizzard Entertainment. Il sagit du troisième volet de la série Warcraft et du quatrième jeu de stratégie en temps réel développé par le studio après Warcraft: Orcs and Humans, Warcraft II: Tides of Darkness et StarCraft ayant connu de solides succès critiques et commerciaux. Les versions PC et Macintosh sont publiées en Amérique du Nord par Blizzard Entertainment le 3 juillet 2002, et en Europe par Sierra Entertainment le 5 juillet 2002. Le jeu se déroule dans le monde médiéval-fantastique dAzeroth plusieurs années après les événements de Warcraft II: Beyond the Dark Portal. En plus des humains et des orcs déjà présents dans les deux premiers opus de la série, Warcraft III permet au joueur de commander deux nouvelles factions, les elfes de la nuit et les morts-vivants. Le jeu se distingue de son prédécesseur par ses graphismes entièrement en trois dimensions mais également par lintroduction dun système de héros inspiré des jeux de rôle. À sa sortie, le jeu est très bien accueilli par la presse spécialisée, et il connaît rapidement un important succès commercial avec plus d’un million dexemplaires vendus un mois après parution et 3 millions dexemplaires vendus en moins dun an. Le jeu est récompensé à de nombreuses reprises l’année de sa sortie avec notamment six titres de meilleur jeu PC de l’année et de nombreux titres de meilleur jeu de stratégie de l’année décernés par des sites et des magazines spécialisés. Warcraft III bénéficie dune extension, intitulée Warcraft III: The Frozen Throne, publiée par Blizzard Entertainment le 1er juillet 2003. Comme le jeu original, celle-ci est bien accueillie par les critiques et rencontre rapidement un certain succès commercial avec plus d’un million dexemplaires vendus en moins de deux mois. Aucune suite na été annoncée à ce jour mais en 2004, Blizzard a publié un jeu de rôle en ligne massivement multijoueur intitulé World of Warcraft basé sur l’univers du jeu. Avec plus de onze millions dabonnés en 2011, celui-ci reste lun des jeux les plus célèbres dans le monde.", 2008, 5, "http://urlj15");
         j15.setEditeur(e4);
         j15.addPlateforme(pc);
-        
+
         Jeu j16 = new Jeu("Mario Bros", "Super Mario Bros est un jeu vidéo de plates-formes développé par Nintendo sorti en 1985 sur Nintendo Entertainment System. Il sagit du premier jeu de la série Super Mario. Le joueur y contrôle Mario et voyage à travers le Royaume Champignon afin de sauver la princesse Peach des griffes de Bowser, lantagoniste de Mario. Le jeu est jouable à deux joueurs, le premier contrôlant Mario et le second Luigi, le frère de ce dernier. Super Mario Bros. était le jeu le plus vendu de tous les temps avec plus de 40 millions de copies vendues dans le monde, jusquà ce quil soit battu par Wii Sports en 2009. En tant que jeu de lancement, Super Mario Bros. a été en partie à lorigine du succès de la Nintendo Entertainment System ainsi que de la fin du krach du jeu vidéo de 1983 aux États-Unis. Étant lun des plus grands succès réalisés par Shigeru Miyamoto et Takashi Tezuka, le jeu donnera lieu par la suite à de nombreuses suites et dérivés. À lui tout seul, Super Mario Bros. imposa un level design à tous les jeux qui lui succèderont. Ainsi, il popularise définitivement le défilement horizontal, les boss et sous-boss de fin de niveau, les raccourcis secrets, le fait de pouvoir recommencer le jeu avec une difficulté accrue. La musique du jeu, composée par Kōji Kondō, est reconnue mondialement ; elle est depuis devenue représentative des jeux vidéo en général.", 1980, 5, "http://urlj16");
         j16.setEditeur(e4);
         j16.addPlateforme(nes);
         j16.addPlateforme(arcade);
         j16.addPlateforme(gba);
-        
+
         Jeu j17 = new Jeu("Legend of Zelda", "The Legend of Zelda, sous-titré The Hyrule Fantasy (« La fantaisie dHyrule »), est un jeu vidéo daction-aventure édité et développé par Nintendo. Il est sorti en 1986 au Japon, sur Family Computer Disk System, et en 1987 aux États-Unis et en Europe, sur Nintendo Entertainment System. Il sest vendu à 6,5 millions dexemplaires3. Ce jeu créé par Shigeru Miyamoto est le premier opus de la série éponyme.", 1990, 5, "http://urlj17");
         j17.addPlateforme(nes);
         j17.addPlateforme(arcade);
@@ -211,6 +228,32 @@ public class Initializer {
         j16.addCategorie(c6);
         j17.addCategorie(c7);
         j17.addCategorie(c8);
+
+        List<Jeu> l = new ArrayList<>();
+        l.add(j1);
+        l.add(j2);
+        l.add(j3);
+        l.add(j4);
+        l.add(j5);
+        l.add(j6);
+        l.add(j7);
+        l.add(j8);
+        l.add(j9);
+        l.add(j10);
+        l.add(j11);
+        l.add(j12);
+        l.add(j13);
+        l.add(j14);
+        l.add(j15);
+        l.add(j16);
+        l.add(j17);
+
+        for (Jeu j : l) {
+            int rand = (int) (Math.random() * 10);
+            for (int i = 0; i < rand; i++) {
+                j.addCle(new Cle());
+            }
+        }
 
         em.persist(j1);
         em.persist(j2);

@@ -31,7 +31,7 @@ import javax.persistence.NamedQuery;
 @Entity
 @NamedQueries({
     @NamedQuery(name="GetPlateformeByJeuId", query="SELECT j.plateformes FROM Jeu j WHERE j.id = :id"),
-    @NamedQuery(name="GetAllPlateforme", query="SELECT p FROM Plateforme p")
+    @NamedQuery(name="GetAllPlateforme", query="SELECT p FROM Plateforme p ORDER BY p.nom")
 })
 public class Plateforme implements Serializable {
 
