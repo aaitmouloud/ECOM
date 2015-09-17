@@ -36,7 +36,7 @@
                   
                                         <h:panelGroup class="smallPanier" p:title="Total prix jeu">TJ: </h:panelGroup>
                                         <h:outputText value="#{item.prix}" styleClass="toUpdate" 
-                                                      id="prix_jeu_#{loop.index}" />
+                                                      id="prix_jeu" />
                                         <p:remoteCommand name="updatePrix" process="@form" update="@(.toUpdate)" /> 
                                     </h:panelGrid>
                                 </h:form>

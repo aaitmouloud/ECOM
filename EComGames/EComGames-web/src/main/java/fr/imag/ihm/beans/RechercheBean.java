@@ -41,7 +41,7 @@ public class RechercheBean implements Serializable {
     public void setNomsJeux() {
        
         if (nomsJeux == null) {
-            Logger.getLogger(RechercheBean.class).debug("Invoking @PostConstruct of RechercheBean");
+            
             
             Collection<Jeu> jeux = jeuDao.findAll();
 
@@ -53,7 +53,7 @@ public class RechercheBean implements Serializable {
             for (Jeu jeu : jeux) {
                 nomsJeux.add(jeu.getNom());
             }
-            Logger.getLogger(RechercheBean.class).debug("End Invoking @PostConstruct of RechercheBean " + nomsJeux);
+            
         }
     }
 
