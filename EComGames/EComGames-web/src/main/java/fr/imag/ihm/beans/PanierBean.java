@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
@@ -23,6 +24,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -43,14 +45,10 @@ public class PanierBean implements Serializable {
     @EJB
     private IntRemoteJeuDAO jeuDAO;
     private Map<String, PanierItem> gameC;
-
+    
     @PostConstruct
     public void init() {
         gameC = new HashMap<>();
-        Jeu j = jeuDAO.findAll().iterator().next();
-        if (j != null) {
-            gameC.put(j.getId(), new PanierItem(j));
-        }
     }
 
     public boolean isEmptyOrNot() {
@@ -66,25 +64,23 @@ public class PanierBean implements Serializable {
 
     public void addGame(Jeu j) {
         try {
-
+            PanierItem i;
             if (gameC.containsKey(j.getId())) {
-                PanierItem i = gameC.get(j.getId());
-
-                int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
-                if (i.getNombre() + 1 > nbCleDispo) {
-                    i.setNombre(nbCleDispo);
-                    FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant."));
-                } else {
-                    i.setNombre(i.getNombre() + 1);
-                    gameC.remove(j.getId());
-                    gameC.put(j.getId(), i);
-                    //message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "Un nouvel exemplaire de " + j.getNom() + " a été ajouté au panier.");
-
-                }
-
+                i = gameC.get(j.getId());
             } else {
-                gameC.put(j.getId(), new PanierItem(j));
-                //message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Jeux Ajouté:", "Le jeu " + j.getNom() + " a été ajouté au panier.");
+                i = new PanierItem(j);
+            }
+
+            int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
+            if (i.getNombre() + 1 > nbCleDispo) {
+                i.setNombre(nbCleDispo);
+                FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant."));
+            } else {
+                i.setNombre(i.getNombre() + 1);
+                gameC.remove(j.getId());
+                gameC.put(j.getId(), i);
+                //message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Panier Mis à jour:", "Un nouvel exemplaire de " + j.getNom() + " a été ajouté au panier.");
+
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de l'ajout", "Le jeu " + j.getNom() + " n'a pas pu être ajouté au panier."));
@@ -139,26 +135,37 @@ public class PanierBean implements Serializable {
 
     public void validerAchats(Long userId) {
         RequestContext context = RequestContext.getCurrentInstance();
+        FacesContext fContext = FacesContext.getCurrentInstance();
         boolean loggedIn;
-
+        FacesMessage message = null;
+        Logger.getLogger(PanierBean.class).debug("Valider achats pour " + userId);
         if (userId == null) {
             loggedIn = false;
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Connectez-vous!", "Vous devez vous connecter pour valider vos achats."));
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Connectez-vous!", "Vous devez vous connecter pour valider vos achats.");
         } else {
             Iterator<String> itemIte = gameC.keySet().iterator();
             PanierItem item;
             loggedIn = true;
-            while(itemIte.hasNext() && loggedIn) {
+            List<String> notValidatedItems = new ArrayList<>();
+            List<String> validatedItems = new ArrayList<>();
+
+            while (itemIte.hasNext()) {
                 item = gameC.get(itemIte.next());
                 if (achatDao.addAchat(userId, item.getId(), item.getNombre())) {
+                    validatedItems.add(item.getNom());
                     itemIte.remove();
                 } else {
-                    loggedIn = false;
+                    notValidatedItems.add(item.getNom());
+                }
+                if (!notValidatedItems.isEmpty()) {
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat non complet.", "Les jeux suivants ont été achetés: <br/>" + validatedItems.toString() + "<br/><br/>Les jeux suivants n'ont pas pu être achetés. <br/>" + notValidatedItems.toString());
+                } else {
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat terminé.", "Les jeux suivants ont été achetés: <br/>" + validatedItems.toString());
                 }
             }
-            
-        }
 
+        }
+        fContext.addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
     }
 

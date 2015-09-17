@@ -27,35 +27,32 @@ import javax.ejb.Stateless;
  */
 @Stateless
 public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
-    
+
     @EJB
     IntRemotePrixJeuDAO prixJeuDAO;
-    
+
     @EJB
     IntRemoteAchatDAO achatDAO;
 
-    
     private CompareJeu cj;
     private Element e;
     private Sens s;
-    
-    public JeuManager(){
+
+    public JeuManager() {
         cj = new CompareJeu(this);
     }
-    
-    
-    
+
     @Override
-    public Collection<Jeu> orderBy(Collection<Jeu> cjd){
-        if(cjd == null){
+    public Collection<Jeu> orderBy(Collection<Jeu> cjd) {
+        if (cjd == null) {
             return Collections.EMPTY_LIST;
         }
         ArrayList<Jeu> lj = new ArrayList<>(cjd);
-     
+
         cj.setElement(e);
         cj.setSens(s);
         Collections.sort(lj, cj);
-        if (lj.isEmpty()){
+        if (lj.isEmpty()) {
             return cjd;
         }
         return lj;
@@ -65,59 +62,63 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     public float getAverageNote(Jeu j) {
         float result = 0;
         int nb = 0;
-        if (j == null){
+        if (j == null) {
             return 0;
         }
-        Collection<Cle> cc =j.getCles();
-        if (cc == null){
+        Collection<Cle> cc = j.getCles();
+        if (cc == null) {
             return -1;
         }
         Iterator<Cle> ic = cc.iterator();
-       while (ic.hasNext()){
+        while (ic.hasNext()) {
             Cle c = ic.next();
             Achat a = achatDAO.findAchatByCle(c.getCle());
-            if (a != null){
-                result += a.getNote();
-                nb++;
+            if (a != null) {
+                Short note = a.getNote();
+                if (note != null) {
+                    result += note;
+                    nb++;
+                }
+                
             }
         }
-        if (nb == 0){
+        if (nb == 0) {
             return -1;
-       }else{
-            return result/nb;
+        } else {
+            return result / nb;
         }
     }
 
     @Override
     public Collection<Achat> getNbSell(Jeu j) {
-        if( j == null){
+        if (j == null) {
             return Collections.EMPTY_LIST;
         }
         ArrayList<Achat> aa = new ArrayList<>();
         Collection<Cle> cc = j.getCles();
-        
-        if (cc == null){
+
+        if (cc == null) {
             return Collections.EMPTY_LIST;
         }
         Iterator<Cle> ic = cc.iterator();
-        while (ic.hasNext()){
+        while (ic.hasNext()) {
             Cle c = ic.next();
             Achat a = achatDAO.findAchatByCle(c.getCle());
-            if (a != null){
+            if (a != null) {
                 aa.add(a);
             }
         }
         return aa;
     }
-    
+
     @Override
     public Double getPrix(Jeu j) {
         Collection<PrixJeu> cp = j.getPrix();
         Iterator<PrixJeu> i = cp.iterator();
-        while (i.hasNext()){
+        while (i.hasNext()) {
             PrixJeu p = i.next();
-            if (p.getDateFin() == null){
-                return  p.getPrix();
+            if (p.getDateFin() == null) {
+                return p.getPrix();
             }
         }
         return null;
@@ -133,9 +134,4 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
         this.s = s;
     }
 
-
-    
-    
-    
-    
 }

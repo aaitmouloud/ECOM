@@ -101,6 +101,15 @@ public class Utilisateur implements Serializable {
     public Utilisateur(String nom, String mdp, Calendar dateNaissance, String email) {
         this(nom, mdp, dateNaissance, email, null);
     }
+    
+    public int getAge() {
+	long ageInMillis = new Date().getTime() - getDateNaissance().getTime().getTime();
+
+	Calendar c = Calendar.getInstance();
+        c.setTime(new Date(ageInMillis));
+
+	return c.get(Calendar.YEAR);
+    }
 
     /**
      * Retourne l'identifiant de l'utilisateur.

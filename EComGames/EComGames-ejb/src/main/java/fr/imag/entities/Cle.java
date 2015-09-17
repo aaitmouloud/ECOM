@@ -26,10 +26,8 @@ import javax.persistence.OneToOne;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="GetCleByAchatId", query="SELECT a.cle FROM Achat a WHERE a.id = :id"),
-    @NamedQuery(name="GetCleByJeuId", query="SELECT j.cles FROM Jeu j WHERE j.id = :id"),
     @NamedQuery(name="GetAllCle", query="SELECT c FROM Cle c"),
-    @NamedQuery(name="GetAvailableCleByJeuId", query="SELECT c FROM Cle c INNER JOIN Jeu j WHERE j.id = :id and c.cle NOT IN (SELECT c.cle FROM Cle c INNER JOIN Jeu j WHERE j.id = :id AND c.achat IS NOT NULL)")
+    @NamedQuery(name="GetAvailableCleByJeuId", query="SELECT c FROM Jeu j INNER JOIN j.cles c LEFT JOIN c.achat a WHERE j.id = :id AND a IS NULL")
 })
 public class Cle implements Serializable {
 

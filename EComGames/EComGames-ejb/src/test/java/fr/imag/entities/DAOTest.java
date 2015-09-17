@@ -20,7 +20,6 @@ import java.sql.SQLException;
 import java.sql.SQLNonTransientConnectionException;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.persistence.EntityManager;
@@ -30,6 +29,7 @@ import javax.persistence.Persistence;
 import javax.persistence.TypedQuery;
 import org.apache.derby.impl.io.VFMemoryStorageFactory;
 import org.junit.After;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -229,6 +229,12 @@ public class DAOTest {
             
             Collection<Utilisateur> ru = uDAO.findAll();
             assertTrue("La fonction FindAll de Utilisateur est fausse ", !ru.isEmpty());
+            
+            j.addCle(new Cle());
+            j.addCle(new Cle());
+            j.addCle(new Cle());
+            em.persist(j);
+            assertEquals("Pas le bon nombre de clés", j.getCles().size()-1, clDAO.findAvailableCle(j.getId()).size());
             
             tx.commit();
             logger.info("Stop testDAO");

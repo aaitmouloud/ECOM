@@ -27,7 +27,7 @@ public class PanierItem implements Serializable {
 
     public PanierItem(Jeu j) {
         this.j = j;
-        this.nb = 1;
+        this.nb = 0;
     }
 
     public String getId() {
