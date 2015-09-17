@@ -7,23 +7,20 @@ package fr.imag.entities;
 
 import fr.imag.util.Util;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.Calendar;
 import java.util.Objects;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
 
 /**
  * Définit le prix d'un jeu à un moment paritculier
@@ -40,6 +37,7 @@ import javax.persistence.UniqueConstraint;
 public class PrixJeu implements Serializable {
 
     private static final long serialVersionUID = 1L;
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
@@ -115,6 +113,8 @@ public class PrixJeu implements Serializable {
     public Double getPrix() {
         return prix;
     }
+    
+    
 
     @Override
     public int hashCode() {

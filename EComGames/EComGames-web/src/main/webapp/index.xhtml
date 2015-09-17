@@ -14,20 +14,12 @@
             </ui:define>
             <ui:define name="content">
                 <div id="global">
-<!--                    <p:carousel numVisible="1" effect="easeInStrong" headerText="Tabs" style="margin-bottom:0">
-                            <p:tab title="A l'affiche">
-                            <ui:repeat value="#{gameBean.findXJeux(1)}" var="jeu">
-                                <h:panelGrid columns="2" cellpadding="10">
-                                    <p:graphicImage name="#{jeu.image}"/>
-                                    <h:outputText value="#{jeu.description}" style="width: 50%"/>
-                                </h:panelGrid>
-                            </ui:repeat>
-                            </p:tab>
-                    </p:carousel>-->
 
-                    <div id="carousel">
-                        <img id="carousel-img" src="resources/images/game.jpg"/>
-                    </div>
+                    <h:form>
+                        <p:carousel headerText="À la une" style="width:300px !important; margin-top: 40px;" itemStyle="height:300px;width:300px;" effect="easeInStrong" value="#{gameBean.findXJeuxByNote(6)}" var="jeu" circular="true"  >  
+                            <p:tab><h:panelGroup class="zoneImageCar"><a href="game.jsf?id=#{jeu.id}"><div class="jeuImageCar" style="background-image:url(#{jeu.image})"></div></a></h:panelGroup> </p:tab>
+                        </p:carousel>  
+                    </h:form>
                 </div>
 
                 <div id="gamePresentation">

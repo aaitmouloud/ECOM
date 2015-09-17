@@ -46,7 +46,14 @@
                                 <h:column class="border">
                                     <h:form>
                                         <p:commandButton class="supprPanier" action="#{panier.removeGame(item)}" 
-                                                         value="✗" update="@(.panierDiv)"/>
+                                                         value="✗" update="@(.panierDiv)">
+                                            <p:confirm header="Confirmation" message="Voulez vous acheter le tout pour #{panier.prix}" icon="ui-icon-alert" />
+                                        </p:commandButton>
+
+                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                            <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+                                            <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog>
                                     </h:form>
                                 </h:column>
                             </h:dataTable>

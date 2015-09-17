@@ -19,6 +19,8 @@ import fr.imag.entities.Jeu;
 import fr.imag.entities.Plateforme;
 import fr.imag.entities.PrixJeu;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -45,6 +47,7 @@ public class AdvancedSearchBean implements Serializable {
     private Map<Long, EditeurBean> edit;
     private Map<Long, PlateformeBean> plat;
     private Collection<Jeu> cjeu;
+    private static final NumberFormat DOUBLE_FORMAT = new DecimalFormat("#0.00€");
     private int prixMin;
     private int prixMax;
     private String searchTerm;
@@ -151,7 +154,8 @@ public class AdvancedSearchBean implements Serializable {
     }
     
     public String note(Jeu j){
-       Float note = jeuMan.getAverageNote(j);
+       Double note = jeuDAO.getNoteMoy(j.getId());
+        //Float note = jeuMan.getAverageNote(j);
         if (note == -1){
             return "N/D";
         }else{
@@ -214,6 +218,7 @@ public class AdvancedSearchBean implements Serializable {
         jeuMan.setElement(e);
         jeuMan.setSens(s);
         return jeuMan.orderBy(cjeu);
+        
 
     }
 
@@ -304,5 +309,9 @@ public class AdvancedSearchBean implements Serializable {
             this.e = Element.Note;
             this.s = Sens.Croissant;
         }
+    }
+    
+    public String formatPrix(Double d) {
+        return DOUBLE_FORMAT.format(d);
     }
 }

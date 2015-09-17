@@ -12,6 +12,19 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 Partie Class
 */
 
+.zoneImageCar{
+    width: 100%;
+    height: 300px;
+    margin:0;
+    background-color: white;
+}
+
+.jeuImageCar{
+    background-size: cover;
+    height: 300px;
+    background-position: center; 
+}
+
 .zoneImage{
     width: 23%;
     height: 150px;
