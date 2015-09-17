@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
 
         <ui:composition template="template/common/commonLayout.xhtml">
@@ -63,8 +64,10 @@
                         <div id="comments">
                             <h2 class='sectionTitle'>Commentaires</h2>
                             <ui:repeat value="#{gameDetailBean.achat}" var="achat" >
-                                <p><b>#{achat.utilisateur.nom}</b> <i>#{achat.commentaire}</i><br/>
-                                </p>
+                                <c:if test="${not empty achat.commentaire}">
+                                    <p><b>#{achat.utilisateur.nom}</b> <i>#{achat.commentaire}</i><br/>
+                                    </p>
+                                </c:if>
                             </ui:repeat>
                         </div>
                     </div>
