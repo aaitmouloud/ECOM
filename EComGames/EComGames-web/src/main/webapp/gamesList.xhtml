@@ -18,33 +18,41 @@
                     <ui:include src="/template/common/commonMenu.xhtml" />
                     <div id="gameList">
                         <h1 id="jeuTitle" class="center">Jeux</h1>
-                         <h:form>
-                             <h:outputScript library="js" name="gamelist.js" />
-                             <p:remoteCommand process="@this" update="@form" name="refreshGameList"></p:remoteCommand>
-                             <c:if test="#{aSearchBean.searching}">
-                                <p:commandButton value="supprimer" action="#{aSearchBean.removeSearchTerm}" update="@form"></p:commandButton>
+                        <h:form>
+                            <h:outputScript library="js" name="gamelist.js" />
+                            <p:remoteCommand process="@this" update="@form" name="refreshGameList"></p:remoteCommand>
+                            <c:if test="#{aSearchBean.searching}">
+                                <p:commandButton value="Supprimer" action="#{aSearchBean.removeSearchTerm}" update="@form"></p:commandButton>
                                 <h:outputText value="Résultat de la recherche: #{aSearchBean.searchTerm}"></h:outputText>
                             </c:if>
-                             <table id="gameListTable">
-                            
-                                 <tr><th>Jaquette</th><th><p:commandLink styleClass="orderLink" value="Nom" action="#{aSearchBean.orderByNom()}" update="@form" /></th><th><p:commandLink styleClass="orderLink" value="Annee" action="#{aSearchBean.orderByAnnee()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Note" action="#{aSearchBean.orderByNote()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Prix" action="#{aSearchBean.orderByPrix()}" update="@form"/></th><th></th></tr>
-                            <ui:repeat id="formListGame" value="#{aSearchBean.searchResult}" var="jeu">               
-                                <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
-                                            <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
-                                            <td>#{jeu.nom}<br/></td>
-                                            <td>#{jeu.annee}</td>
-                                            <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>
-                                            <td>#{jeu.currentPrix.prix}</td>
-                                            <td><c:choose><c:when test="#{panier.isAvailable(jeu.id)}"><p:commandButton disabled="true" value="EPUISE"></p:commandButton></c:when>
-                                                    <c:otherwise><p:commandButton value="+" action="#{panier.addGame(jeu)}"
-                                                 image="panierImage" update="@(.panierDiv)">
-                                            </p:commandButton></c:otherwise></c:choose>
+                            <table id="gameListTable">
+
+                                <tr><th>Jaquette</th><th><p:commandLink styleClass="orderLink" value="Nom" action="#{aSearchBean.orderByNom()}" update="@form" /></th><th><p:commandLink styleClass="orderLink" value="Annee" action="#{aSearchBean.orderByAnnee()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Note" action="#{aSearchBean.orderByNote()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Prix" action="#{aSearchBean.orderByPrix()}" update="@form"/></th><th></th></tr>
+                                <c:forEach items="#{aSearchBean.searchResult}" var="jeu">               
+                                    <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
+                                        <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
+                                        <td>#{jeu.nom}<br/></td>
+                                        <td>#{jeu.annee}</td>
+                                        <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>
+                                        <td>#{jeu.currentPrix.prix}</td>
+                                        <td>
+                                            <c:choose>
+                                                <c:when test="#{panier.getAvailableCle(jeu.id)>0}">
+                                                    <p:commandButton value="+" action="#{panier.addGame(jeu)}"
+                                                                     image="panierImage" update="@(.panierDiv)" 
+                                                                     styleClass="boutonListe"/>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <p:commandButton disabled="true" value="N/D" 
+                                                                     styleClass="boutonListe"/>
+                                                </c:otherwise>
+                                            </c:choose>
                                         </td> 
                                     </tr>
-                            </ui:repeat>
-                            
-                        </table>
-                       </h:form>
+                                </c:forEach>
+
+                            </table>
+                        </h:form>
                     </div>
                     <ui:include src="/template/common/commonPanier.xhtml" />
                 </div>

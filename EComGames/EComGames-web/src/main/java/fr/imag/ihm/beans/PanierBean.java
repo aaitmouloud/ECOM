@@ -103,7 +103,7 @@ public class PanierBean implements Serializable {
     }
     public void updatePanier(PanierItem i) {
         if (gameC.containsKey(i.getId())) {
-            int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
+            int nbCleDispo = getAvailableCle(i.getId());
             if (i.getNombre() > nbCleDispo) {
                 i.setNombre(nbCleDispo);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la mise à jour:", "Le nombre de jeu disponible est insufisant"));

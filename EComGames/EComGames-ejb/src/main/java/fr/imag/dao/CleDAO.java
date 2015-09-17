@@ -8,10 +8,10 @@ package fr.imag.dao;
 import fr.imag.dao.local.IntLocalCleDAO;
 import fr.imag.dao.remote.IntRemoteCleDAO;
 import fr.imag.entities.Cle;
-import fr.imag.entities.Jeu;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
 import org.apache.log4j.Logger;
@@ -34,28 +34,29 @@ public class CleDAO extends AbstractDAO implements IntLocalCleDAO, IntRemoteCleD
             return Collections.EMPTY_LIST;
         }
     }
-    
+
     @Override
-    public Collection<Cle> findAvailableCle(String jeuId){
+    public Collection<Cle> findAvailableCle(String jeuId) {
+
         TypedQuery<Cle> query = null;
         ArrayList<Cle> ccd = new ArrayList<>();
         try {
-             query = em.createNamedQuery("GetAvailableCleByJeuId", Cle.class);
+            query = em.createNamedQuery("GetAvailableCleByJeuId", Cle.class);
             query.setParameter("id", jeuId);
-            //throw new RuntimeException(query.toString());
+
             return query.getResultList();
 
         } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            throw new RuntimeException(e);
         }
     }
-    
+
     @Override
-    public Collection<Cle> findClebyJeu(String jeuId){
+    public Collection<Cle> findClebyJeu(String jeuId) {
         TypedQuery<Cle> query = null;
         ArrayList<Cle> ccd = new ArrayList<>();
         try {
-             query = em.createNamedQuery("GetCleByJeuId", Cle.class);
+            query = em.createNamedQuery("GetCleByJeuId", Cle.class);
             query.setParameter("id", jeuId);
             //throw new RuntimeException(query.toString());
             return query.getResultList();
