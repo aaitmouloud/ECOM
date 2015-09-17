@@ -33,11 +33,11 @@
                                     </div>
 
                                     <!--<input id="ajouterpanierBox" type="text"  name="AjoutPanier" value="1" />-->
-                                    <c:choose><c:when test="#{panier.getAvailableCle(jeu.id)==0}"><p:commandButton disabled="true" value="EPUISE"></p:commandButton></c:when>
+                                    <c:choose><c:when test="#{panier.getAvailableCle(jeu.id)>0}"><p:commandButton disabled="true" value="EPUISE"></p:commandButton></c:when>
                                         <c:otherwise><p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
-                                            </p:commandButton></c:otherwise></c:choose>
-                                  
+                                          </p:commandButton></c:otherwise></c:choose>
+                                
                                     </h:form>
 
                                 </div>
