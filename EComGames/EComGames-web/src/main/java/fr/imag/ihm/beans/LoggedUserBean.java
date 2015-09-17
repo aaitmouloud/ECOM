@@ -20,7 +20,6 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
 import org.primefaces.context.RequestContext;
 
 /**
@@ -37,7 +36,6 @@ public class LoggedUserBean implements Serializable {
     @EJB
     private IntRemoteUtilisateurDAO userDao;
 
-    
     public void login(String login, String hashMdp) {
 
         RequestContext context = RequestContext.getCurrentInstance();
@@ -49,13 +47,12 @@ public class LoggedUserBean implements Serializable {
                 && (tmp = userDao.findFromLoginEtMdp(login, hashMdp)) != null) {
             utilisateur = tmp;
             loggedIn = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenue", utilisateur.getNom());
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenue", "Bienvenue "+utilisateur.getNom());
         } else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Erreur d'authentification", "Identifiants invalides.");
 
         }
-        Logger.getLogger(LoggedUserBean.class).info(utilisateur);
 
         FacesContext.getCurrentInstance().addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
@@ -68,7 +65,7 @@ public class LoggedUserBean implements Serializable {
         }
         return utilisateur.getNom();
     }
-    
+
     public Long getId() {
         if (utilisateur == null) {
             return null;
@@ -82,15 +79,15 @@ public class LoggedUserBean implements Serializable {
         }
         return utilisateur.getEmail();
     }
-   
+
     public Calendar getDateN() {
         if (utilisateur == null) {
             return null;
         }
         return utilisateur.getDateNaissance();
     }
-    
-    public Collection<Achat> getAchats(){
+
+    public Collection<Achat> getAchats() {
         if (utilisateur == null) {
             return null;
         }
@@ -98,8 +95,8 @@ public class LoggedUserBean implements Serializable {
         a = utilisateur.getAchats();
         return a;
     }
-    
-    public boolean isHasAchats(){
+
+    public boolean isHasAchats() {
         if (utilisateur == null) {
             return false;
         }
@@ -122,14 +119,14 @@ public class LoggedUserBean implements Serializable {
     
 
     public boolean isUnlogged() {
-        Logger.getLogger(LoggedUserBean.class).info(utilisateur + " est l'actuel (test si null)");
+
         return utilisateur == null;
     }
 
     public void logout() throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         if (context != null) {
-            Logger.getLogger(LoggedUserBean.class).info("Déconnexion.");
+           
             context.invalidateSession();
             utilisateur = null;
             context.redirect(((HttpServletRequest) context.getRequest()).getRequestURI());

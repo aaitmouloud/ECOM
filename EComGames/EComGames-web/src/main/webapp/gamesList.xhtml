@@ -28,7 +28,7 @@
                             <table id="gameListTable">
 
                                 <tr><th>Jaquette</th><th><p:commandLink styleClass="orderLink" value="Nom" action="#{aSearchBean.orderByNom()}" update="@form" /></th><th><p:commandLink styleClass="orderLink" value="Annee" action="#{aSearchBean.orderByAnnee()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Note" action="#{aSearchBean.orderByNote()}" update="@form"/></th><th><p:commandLink styleClass="orderLink" value="Prix" action="#{aSearchBean.orderByPrix()}" update="@form"/></th><th></th></tr>
-                                <c:forEach items="#{aSearchBean.searchResult}" var="jeu">               
+                                <ui:repeat value="#{aSearchBean.searchResult}" var="jeu">               
                                     <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
                                         <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
                                         <td>#{jeu.nom}<br/></td>
@@ -42,7 +42,7 @@
                                                                      styleClass="boutonListe"/>
                                         </td> 
                                     </tr>
-                                </c:forEach>
+                                </ui:repeat>
 
                             </table>
                         </h:form>

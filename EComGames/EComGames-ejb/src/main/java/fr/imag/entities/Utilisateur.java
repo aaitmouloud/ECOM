@@ -103,12 +103,7 @@ public class Utilisateur implements Serializable {
     }
     
     public int getAge() {
-	long ageInMillis = new Date().getTime() - getDateNaissance().getTime().getTime();
-
-	Calendar c = Calendar.getInstance();
-        c.setTime(new Date(ageInMillis));
-
-	return c.get(Calendar.YEAR);
+        return Calendar.getInstance().get(Calendar.YEAR) - getDateNaissance().get(Calendar.YEAR);
     }
 
     /**
