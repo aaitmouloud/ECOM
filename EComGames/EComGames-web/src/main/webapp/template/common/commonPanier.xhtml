@@ -47,13 +47,10 @@
                                     <h:form>
                                         <p:commandButton class="supprPanier" action="#{panier.removeGame(item)}" 
                                                          value="✗" update="@(.panierDiv)">
-                                            <p:confirm header="Confirmation" message="Voulez vous acheter le tout pour #{panier.prix}" icon="ui-icon-alert" />
+                                            
                                         </p:commandButton>
 
-                                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-                                            <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
-                                            <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
-                                        </p:confirmDialog>
+                                        
                                     </h:form>
                                 </h:column>
                             </h:dataTable>
@@ -70,9 +67,18 @@
                             <p:growl id="growlPan" sticky="true" showDetail="true" autoUpdate="true" life="1200" class="growls"/>
                             <p:commandButton value="Finaliser commande" 
                                              actionListener="#{panier.validerAchats(loggedUserBean.id)}"
-                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').show() } else { updatePanier(); if (args.toutAchete) { alert('Tous les jeux ont été achetés.'); } else { alert('Certains jeux n'ont pas été achetés.); } } "
-                                             update="@(.growls)"/>
-                            <p:remoteCommand update="@(.panierDiv)" name="updatePanier" />
+                                             oncomplete="if (args.validationFailed || !args.loggedIn)
+                                                        {PF('loginDlg').show();}
+                                                        else { setTimeout(function(){location.reload();},3000);}  " update="@(.growls)">
+                                             <!-- if (args.toutAchete){ alert('Tous les jeux ont été achetés.'); }
+                                                               else { alert('Certains jeux n'ont pas été achetés.); } -->
+                                <p:confirm header="Confirmation" message="Voulez vous acheter le tout pour #{panier.prix} €" icon="ui-icon-alert" />
+                            </p:commandButton>
+                                       <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+                                           <p:commandButton value="Oui" type="button" styleClass="ui-confirmdialog-yes" icon="ui-icon-check" onclick="if(args.loggedIn){updatePanier();}" />
+                                            <p:commandButton value="Non" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                                        </p:confirmDialog> 
+                            <p:remoteCommand name="updatePanier" oncomplete="location.reload()" />
 
                         </h:form>
 

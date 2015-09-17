@@ -149,12 +149,11 @@ public class PanierBean implements Serializable {
 
     public void validerAchats(Long userId) {
         RequestContext context = RequestContext.getCurrentInstance();
-        boolean loggedIn;
+        boolean loggedIn =false;
         boolean toutAchete = false;
         FacesMessage message = null;
 
         if (userId == null) {
-            loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Connectez-vous!", "Vous devez vous connecter pour valider vos achats.");
         } else {
             Iterator<String> itemIte = gameC.keySet().iterator();
@@ -175,9 +174,9 @@ public class PanierBean implements Serializable {
             }
             if (!notValidatedItems.isEmpty()) {
                 if (validatedItems.isEmpty()) {
-                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat non complet.", "Aucun jeu n'a pu être acheté.");
+                    message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achat non complet.", "Aucun jeu n'a pu être acheté. Veuillez vérifier que vous avez bien l'âge requis pour ces jeux.");
                 } else {
-                    message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achat non complet.", "Les jeux toujours présents dans le panier n'ont pas pu être achetés");
+                    message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achat non complet.", "Les jeux toujours présents dans le panier n'ont pas pu être achetés. Veuillez vérifier que vous avez bien l'âge requis pour ces jeux.");
                 }
                 toutAchete = false;
             } else {
@@ -186,9 +185,10 @@ public class PanierBean implements Serializable {
             }
 
         }
-        FacesContext.getCurrentInstance().addMessage(null, message);
+        
         context.addCallbackParam("loggedIn", loggedIn);
         context.addCallbackParam("toutAchete", toutAchete);
+        FacesContext.getCurrentInstance().addMessage(null, message);
     }
 
 }

@@ -13,23 +13,25 @@
                 <h:outputStylesheet name="index-style.css" library="css" />
             </ui:define>
             <ui:define name="content">
-                <div id="global">
+                <div id="contentIndex"> 
+                    <div id="global">
 
-                    <h:form>
-                        <p:carousel headerText="À la une" style="width:300px !important; margin-top: 40px;" itemStyle="height:300px;width:300px;" effect="easeInStrong" value="#{gameBean.findXJeuxByNote(6)}" var="jeu" circular="true"  >  
-                            <p:tab><h:panelGroup class="zoneImageCar"><a href="game.jsf?id=#{jeu.id}"><div class="jeuImageCar" style="background-image:url(#{jeu.image})"></div></a></h:panelGroup> </p:tab>
-                        </p:carousel>  
-                    </h:form>
-                </div>
+                        <h:form>
+                            <p:carousel headerText="À la une" style="width:300px !important; margin-top: 40px;" itemStyle="height:300px;width:300px;" effect="easeInStrong" value="#{gameBean.findXJeuxByNote(6)}" var="jeu" circular="true"  >  
+                                <p:tab><h:panelGroup class="zoneImageCar"><a href="game.jsf?id=#{jeu.id}"><div class="jeuImageCar" style="background-image:url(#{jeu.image})"></div></a></h:panelGroup> </p:tab>
+                            </p:carousel>  
+                        </h:form>
+                    </div>
 
-                <div id="gamePresentation">
-                    <h1 id="titleLastGame">Les nouveautés</h1><br/>
-                    <a href="gamesList.jsf" id="linkList">Tous les jeux</a>
-                    <h:panelGrid columns="4" id='panelGrid'>                 
-                        <ui:repeat value="#{gameBean.findXJeux(16)}" var="jeu">
-                            <h:panelGroup class="zoneImage"><a href="game.jsf?id=#{jeu.id}"><div class="jeuImage" style="background-image:url(#{jeu.image})"></div></a></h:panelGroup> 
-                        </ui:repeat>
-                    </h:panelGrid>
+                    <div id="gamePresentation">
+                        <h1 id="titleLastGame">Les nouveautés</h1><br/>
+                        <a href="gamesList.jsf" id="linkList">Tous les jeux</a>
+                        <h:panelGrid columns="4" id='panelGrid'>                 
+                            <ui:repeat value="#{gameBean.findXJeux(16)}" var="jeu">
+                                <h:panelGroup class="zoneImage"><a href="game.jsf?id=#{jeu.id}"><div class="jeuImage" style="background-image:url(#{jeu.image})"></div></a></h:panelGroup> 
+                            </ui:repeat>
+                        </h:panelGrid>
+                    </div>
                 </div>
                 <ui:include src="/template/common/commonPanier.xhtml" />
             </ui:define>

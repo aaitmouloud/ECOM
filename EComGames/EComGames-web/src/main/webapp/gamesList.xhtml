@@ -41,10 +41,7 @@
                                                              image="panierImage" update="@(.panierDiv)" 
                                                              disabled="#{!(panier.getAvailableCleWithPanier(jeu.id)>0)}" />
                                                 
-                                           
-                                                    <p:commandButton value="+" action="#{panier.addGame(jeu)}"
-                                                                     image="panierImage" update="@(.panierDiv)" 
-                                                                     styleClass="boutonListe"/>
+
                                         </td> 
                                     </tr>
                                 </ui:repeat>

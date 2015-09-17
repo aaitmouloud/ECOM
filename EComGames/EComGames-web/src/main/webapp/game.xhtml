@@ -27,15 +27,16 @@
                                         <div style="font-size: 20px;font-weight:bold;margin-right: 15px;"><b>Prix :</b> #{gameDetailBean.prixUnit}</div>
                                         <div id="ajouterpanierBox" >
 
-                                    <!--<input id="ajouterpanierBox" type="text"  name="AjoutPanier" value="1" />-->
+                                    
                                     <p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
                                           </p:commandButton>
                                 
-                                    </h:form>
+                                   
 
                                 </div>
-
+                                </h:form>
+                                </div>
                                 <h:form>
 
                                     <p id='information'><b>Titre:</b> #{gameDetailBean.jeu.nom}<br/>
