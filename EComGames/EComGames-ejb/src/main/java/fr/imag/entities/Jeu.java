@@ -377,11 +377,11 @@ public class Jeu implements Serializable {
 
     /**
      *
-     * @param pri
+     * @param prix
      * @return
      */
-    final public boolean addPrix(PrixJeu pri) {
-        return this.prix.add(pri);
+    final public boolean addPrix(PrixJeu prix) {
+        return this.prix.add(prix);
     }
 
     final public boolean addCurrentPrix(double prix) {

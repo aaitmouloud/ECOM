@@ -33,9 +33,7 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
     
     @EJB
     IntRemoteAchatDAO achatDAO;
-    
-    @EJB
-    IntRemoteCleDAO cleDAO;
+
     
     private CompareJeu cj;
     private Element e;
@@ -70,7 +68,7 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
         if (j == null){
             return 0;
         }
-        Collection<Cle> cc = cleDAO.findClebyJeu(j.getId());
+        Collection<Cle> cc =j.getCles();
         if (cc == null){
             return -1;
         }
@@ -96,7 +94,7 @@ public class JeuManager implements JeuManagerLocal, JeuManagerRemote {
             return Collections.EMPTY_LIST;
         }
         ArrayList<Achat> aa = new ArrayList<>();
-        Collection<Cle> cc = cleDAO.findClebyJeu(j.getId());
+        Collection<Cle> cc = j.getCles();
         
         if (cc == null){
             return Collections.EMPTY_LIST;
