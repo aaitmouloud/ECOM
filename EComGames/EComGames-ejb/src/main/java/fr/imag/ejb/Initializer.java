@@ -218,10 +218,12 @@ public class Initializer {
         Categorie c9 = new Categorie("Combat");
         Categorie c10 = new Categorie("Moba");
         Categorie c11 = new Categorie("Simulation");
+        Categorie c12 = new Categorie("Gratuit");
         
         j1.addCategorie(c4);
         j1.addCategorie(c5);
         j2.addCategorie(c2);
+        j2.addCategorie(c12);
         j3.addCategorie(c3);
         j4.addCategorie(c4);
         j5.addCategorie(c5);
