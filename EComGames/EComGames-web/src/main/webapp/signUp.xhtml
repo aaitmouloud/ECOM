@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
     <h:body>
         <ui:composition template="template/common/commonLayout.xhtml">
             <ui:define name="cssFiles">
@@ -31,7 +32,7 @@
                     <br/>
                     <div class="inputSignUp">
                         <label class='signUp'>Date de naissance:</label>
-                        <h:inputText   value="#{userInscriptionBean.dateNaissance}"/>
+                        <h:inputText a:placeholder="jj/mm/aaaa" value="#{userInscriptionBean.dateNaissance}" />
                     </div>
                     <br/>
                     <div class="inputSignUp">

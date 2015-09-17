@@ -5,7 +5,6 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
 
 
@@ -39,7 +38,7 @@
                             <br/>
                             <div class="outputCompte">
                                 <label class='compte'>Date de naissance:</label>
-                                <h:outputText   value="#{loggedUserBean.dateN.time}"/>
+                                <h:outputText   value="#{loggedUserBean.dateNFormatted}"/>
                             </div>
                             <br/>
                         </h:form>
@@ -49,20 +48,20 @@
                             <c:choose>
                                 <c:when test="#{loggedUserBean.hasAchats}">
                                     <table id="achatTable">
-                                        <tr><th>Date</th><th>Cle</th><th>Commentaire</th><th>Note</th></tr>
+                                        <tr><th>Date</th><th>Jeu</th><th>Commentaire</th><th>Note</th></tr>
                                         <ui:repeat value="#{loggedUserBean.achats}" var="achat">
                                             <tr>
                                                 <td>
-                                                    <h:outputText value="#{achat.date.time}"></h:outputText>
+                                                    <h:outputText value="#{loggedUserBean.formatDateTime(achat.date)}"></h:outputText>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{achat.cle.cle}"></h:outputText>
+                                                    <h:outputText value="#{loggedUserBean.getNomJeu(achat.cle)}"></h:outputText>
                                                 </td>
                                                 <td>
                                                     <h:outputText value="#{achat.commentaire}"></h:outputText>
                                                 </td>
                                                 <td>
-                                                    <h:outputText value="#{achat.note}"></h:outputText>
+                                                    <h:outputText value="#{aSearchBean.formatNote(achat.note)}"></h:outputText>
                                                 </td>
                                             </tr>
                                         </ui:repeat>

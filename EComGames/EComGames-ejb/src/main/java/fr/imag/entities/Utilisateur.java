@@ -22,8 +22,10 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.UniqueConstraint;
 
 /**
  * Définit un utilisateur de l'application.
@@ -32,11 +34,14 @@ import javax.persistence.TemporalType;
  */
 @Entity
 @NamedQueries({
-    @NamedQuery(name="GetUserByAchatId", query="SELECT a.utilisateur FROM Achat a WHERE a.id = :id"),
-    @NamedQuery(name="GetAllUser", query="SELECT u FROM Utilisateur u"),
-    @NamedQuery(name="GetUserByLoginAndPass", query="SELECT u FROM Utilisateur u WHERE (u.nom = :login OR u.email = :login) AND u.hashMdp = :hashMdp"),
-    @NamedQuery(name="GetUserByUsername", query="SELECT u FROM Utilisateur u WHERE (u.nom = :login OR u.email = :email)")
+    @NamedQuery(name = "GetUserByAchatId", query = "SELECT a.utilisateur FROM Achat a WHERE a.id = :id"),
+    @NamedQuery(name = "GetAllUser", query = "SELECT u FROM Utilisateur u"),
+    @NamedQuery(name = "GetUserByLoginAndPass", query = "SELECT u FROM Utilisateur u WHERE (u.nom = :login OR u.email = :login) AND u.hashMdp = :hashMdp"),
+    @NamedQuery(name = "GetUserByUsername", query = "SELECT u FROM Utilisateur u WHERE (u.nom = :login OR u.email = :email)")
 })
+@Table(uniqueConstraints = {
+    @UniqueConstraint(name = "UNIQ_UNAME", columnNames = "NOM"),
+    @UniqueConstraint(name = "UNIQ_UEMAIL", columnNames = "EMAIL")})
 public class Utilisateur implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -82,7 +87,7 @@ public class Utilisateur implements Serializable {
         this.dateNaissance = dateNaissance;
         this.email = email;
         this.achats = new HashSet<>();
-        
+
         if (achats != null) {
             for (Achat a : achats) {
                 this.addAchat(a);
@@ -101,7 +106,7 @@ public class Utilisateur implements Serializable {
     public Utilisateur(String nom, String mdp, Calendar dateNaissance, String email) {
         this(nom, mdp, dateNaissance, email, null);
     }
-    
+
     public int getAge() {
         return Calendar.getInstance().get(Calendar.YEAR) - getDateNaissance().get(Calendar.YEAR);
     }
@@ -208,7 +213,7 @@ public class Utilisateur implements Serializable {
     public Collection<Achat> getAchats() {
         return new HashSet<>(achats);
     }
-    
+
     /**
      * Ajoute un achat à l'utilisateur
      *
@@ -216,9 +221,10 @@ public class Utilisateur implements Serializable {
      * @return Si l'ajout s'est effectué avec succès ou non.
      */
     final public boolean addAchat(Achat achat) {
-        if (achat == null)
+        if (achat == null) {
             return false;
-        
+        }
+
         if (this.achats.add(achat)) {
             achat.setUtilisateur(this);
             return true;
@@ -266,7 +272,7 @@ public class Utilisateur implements Serializable {
                 .append(", nom=").append(nom).append(", hashMdp=")
                 .append(hashMdp).append(", dateNaissance=")
                 .append(Util.formatCalendar(dateNaissance)).append(", email=").append(email)
-                .append(", ").append(achats == null? "aucun" : achats.size()).append(" achats}")
+                .append(", ").append(achats == null ? "aucun" : achats.size()).append(" achats}")
                 .toString();
     }
 

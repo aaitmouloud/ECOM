@@ -263,7 +263,7 @@ public class Initializer {
         l.add(j17);
 
         for (Jeu j : l) {
-            int rand = 2 + (int) (Math.random() * 13);
+            int rand = 5 + (int) (Math.random() * 13);
             for (int i = 0; i < rand; i++) {
                 j.addCle(new Cle());
             }

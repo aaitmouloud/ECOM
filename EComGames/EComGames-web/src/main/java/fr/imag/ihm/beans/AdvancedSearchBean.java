@@ -17,7 +17,6 @@ import fr.imag.entities.Categorie;
 import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
 import fr.imag.entities.Plateforme;
-import fr.imag.entities.PrixJeu;
 import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
@@ -128,7 +127,7 @@ public class AdvancedSearchBean implements Serializable {
     }
 
     public Double getPrixMax() {
-        Double pj =  prixDAO.getMaxPrix();
+        Double pj = prixDAO.getMaxPrix();
         return pj;
     }
 
@@ -152,18 +151,49 @@ public class AdvancedSearchBean implements Serializable {
     public void setMaxValue(int value) {
         this.prixMax = value;
     }
-    
-    public String note(Jeu j){
-       Double note = jeuDAO.getNoteMoy(j.getId());
-        //Float note = jeuMan.getAverageNote(j);
-        if (note == -1){
-            return "N/D";
-        }else{
-            return note.toString()+"/5";
+
+    public String formatNote(Short s) {
+        if (s == null) {
+            return null;
         }
+        StringBuilder sb = new StringBuilder();
+        for (short i = 0; i < s; i++) {
+            sb.append('★');
+        }
+        return sb.toString();
     }
-    
-    public int nbSell(Jeu j){
+
+    public String note(Jeu j) {
+        Double note = jeuDAO.getNoteMoy(j.getId());
+        if (note == null) {
+            return "N/D";
+        }
+
+        int noteI = note.intValue();
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < noteI; i++) {
+            sb.append('★');
+        }
+
+        double noteR = note - noteI;
+
+        if (noteR > 0.125) {
+            if (noteR < 0.375) {
+                sb.append('¼');
+            } else if (noteR < 0.625) {
+                sb.append('½');
+            } else if (noteR < 0.875) {
+                sb.append('¾');
+            } else {
+                sb.append('★');
+            }
+        }
+
+        return sb.toString();
+
+    }
+
+    public int nbSell(Jeu j) {
         return jeuMan.getNbSell(j).size();
     }
 
@@ -218,7 +248,6 @@ public class AdvancedSearchBean implements Serializable {
         jeuMan.setElement(e);
         jeuMan.setSens(s);
         return jeuMan.orderBy(cjeu);
-        
 
     }
 
@@ -258,59 +287,59 @@ public class AdvancedSearchBean implements Serializable {
     public void removeSearchTerm() {
         this.searchTerm = null;
     }
-    
-    public void orderByNom(){
-        if (this.e == Element.Defaut){
-            if (this.s == Sens.Croissant){
+
+    public void orderByNom() {
+        if (this.e == Element.Defaut) {
+            if (this.s == Sens.Croissant) {
                 this.s = Sens.Decroissant;
             } else {
                 this.s = Sens.Croissant;
             }
-        }else{
+        } else {
             this.e = Element.Defaut;
             this.s = Sens.Croissant;
         }
     }
-    
-    public void orderByAnnee(){
-        if (this.e == Element.Annee){
-            if (this.s == Sens.Croissant){
+
+    public void orderByAnnee() {
+        if (this.e == Element.Annee) {
+            if (this.s == Sens.Croissant) {
                 this.s = Sens.Decroissant;
             } else {
                 this.s = Sens.Croissant;
             }
-        }else{
+        } else {
             this.e = Element.Annee;
             this.s = Sens.Croissant;
         }
     }
-    
-    public void orderByPrix(){
-        if (this.e == Element.Prix){
-            if (this.s == Sens.Croissant){
+
+    public void orderByPrix() {
+        if (this.e == Element.Prix) {
+            if (this.s == Sens.Croissant) {
                 this.s = Sens.Decroissant;
             } else {
                 this.s = Sens.Croissant;
             }
-        }else{
+        } else {
             this.e = Element.Prix;
             this.s = Sens.Croissant;
         }
     }
-    
-    public void orderByNote(){
-        if (this.e == Element.Note){
-            if (this.s == Sens.Croissant){
+
+    public void orderByNote() {
+        if (this.e == Element.Note) {
+            if (this.s == Sens.Croissant) {
                 this.s = Sens.Decroissant;
             } else {
                 this.s = Sens.Croissant;
             }
-        }else{
+        } else {
             this.e = Element.Note;
             this.s = Sens.Croissant;
         }
     }
-    
+
     public String formatPrix(Double d) {
         return DOUBLE_FORMAT.format(d);
     }
