@@ -48,7 +48,7 @@ partie balise
 #img{
     margin-top: 5px;
     width : 30%;
-    height: 200px;
+    height: 240px;
     background-size: cover;
     background-color: white;
 }
@@ -111,7 +111,7 @@ partie id
 
 #summary{
     width : 70%;
-    height: 210px;
+    height: 240px;
     margin-left: 1%;
     right: 0px;
     background-color: #b0b0b0;

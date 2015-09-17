@@ -42,6 +42,7 @@
                                     <p id='information'><b>Titre:</b> #{gameDetailBean.jeu.nom}<br/>
                                         <b>Editeur:</b> #{gameDetailBean.jeu.editeur.nom}<br/>
                                         <b>Date de parution:</b> #{gameDetailBean.jeu.annee}<br/>
+                                        <b>Age minimum requis: </b><b style="color:red">+#{gameDetailBean.jeu.ageMin} ans</b><br/>
                                         <b>Note: </b> <p:outputLabel value=" #{aSearchBean.note(gameDetailBean.jeu)}"></p:outputLabel><br/>
                                         <b>Nombre de vente: </b> <p:outputLabel value="#{aSearchBean.nbSell(gameDetailBean.jeu)}"></p:outputLabel><br/>
                                         <b>Catégorie: </b> <ui:repeat value="#{gameDetailBean.jeu.categories}" var="categorieJeu"> <span class="cadre">#{categorieJeu.nom}</span></ui:repeat><br/>
