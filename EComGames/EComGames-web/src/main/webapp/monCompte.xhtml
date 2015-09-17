@@ -61,18 +61,8 @@
                                                     <td>
 
                                                         <h:form >
-                                                            <p:remoteCommand name="updateComment" update="@form" />
-                                                            <c:choose>
-                                                                <c:when test="#{achat.commentaire == null}">  
-                                                                    <h:form>
-                                                                        <p:inputText styleClass="commentInput" value="#{achat.commentaire}" placeholder="Entrez un commentaire"></p:inputText>
-                                                                        <p:commandButton value="Valider" update="@(.commentInput)" oncomplete="alert('#{achat.commentaire}');updateComment();" ></p:commandButton>
-                                                                    </h:form>
-                                                                </c:when>
-                                                                <c:otherwise>
-                                                                    <h:outputText value="#{achat.commentaire}"></h:outputText>
-                                                                </c:otherwise>
-                                                            </c:choose>
+                                                            <h:outputText rendered="#{achat.commentaire != null}" value="#{achat.commentaire}" />
+                                                            <h:outputText rendered="#{achat.commentaire == null}" value="Pas de commentaire." />
                                                         </h:form>
                                                     </td>
                                                     <td>
