@@ -34,7 +34,7 @@
                                             <td>#{jeu.nom}<br/></td>
                                             <td>#{jeu.annee}</td>
                                             <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>
-                                            <td>#{jeu.currentPrix.prix}€</td>
+                                            <td>#{jeu.currentPrix.prix}</td>
                                             <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
                                             </p:commandButton>

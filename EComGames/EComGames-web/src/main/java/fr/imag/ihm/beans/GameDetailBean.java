@@ -10,13 +10,17 @@ import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.entities.Achat;
 import fr.imag.entities.Jeu;
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Iterator;
+import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletRequest;
 
@@ -25,31 +29,50 @@ import javax.servlet.http.HttpServletRequest;
  * @author cedric
  */
 @ManagedBean(name = "gameDetailBean")
-@ApplicationScoped
+@ViewScoped
 public class GameDetailBean implements Serializable {
 
+    final private static NumberFormat DOUBLE_FORMAT = new DecimalFormat("#0.00€");
+    
+    private Jeu j;
     @EJB
     private JeuManagerRemote jeuMan;
     
     @EJB
     IntRemoteJeuDAO jeuDao;
    
-    public Jeu getJeu() {
+    @PostConstruct
+    public void Init() {
         HttpServletRequest request = (HttpServletRequest)FacesContext.getCurrentInstance().getExternalContext().getRequest();
-        return jeuDao.findById(request.getParameter("id"));
+        j = jeuDao.findById(request.getParameter("id"));
     }
     
-    public Collection<Achat> getAchat(Jeu jeu){
+    public Jeu getJeu(){
+        return j;
+    }
+    
+    public Collection<Achat> getAchat(){
 
-        if (jeu == null){
+        if (j == null){
             return Collections.EMPTY_LIST;
         }
         
-        Collection<Achat> ca = jeuMan.getNbSell(jeu);
+        Collection<Achat> ca = jeuMan.getNbSell(j);
         if (ca == null){
             return Collections.EMPTY_LIST;
         }
         return ca;
+    }
+    
+    public String getPrixUnit() {
+        return DOUBLE_FORMAT.format(getPrixUnitDouble(j));
+    }
+
+    public double getPrixUnitDouble(Jeu j) {
+        if (j.getCurrentPrix() != null) {
+            return j.getCurrentPrix().getPrix();
+        }
+        return -1;
     }
     
     

@@ -24,26 +24,35 @@
                             <div id="summary" class="inline">
                                 <h2 class='sectionTitle'>Information</h2>
                                 <div id="ajoutpanierDiv">
+                                     <h:form>
+                                         <div style="font-size: 20px;font:bold;margin-right: 15px;"><b>Prix :</b> #{gameDetailBean.prixUnit}</div>
                                     <div id="ajouterpanierBox" >
-                                        <h:form>
-                                            <p:spinner id="ajouterpanierDupBox" size="20" value="1" min="0" max="4" />
-                                        </h:form>
+                                        
+                                        
                                     </div>
 
                                     <!--<input id="ajouterpanierBox" type="text"  name="AjoutPanier" value="1" />-->
-                                    <a href="?panier=1"> <div id="ajouterButton">Ajouter au panier
-                                        </div></a>
+                                    <p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
+                                                 image="panierImage" update="@(.panierDiv)">
+                                     </p:commandButton>
+                                  
+                                    </h:form>
+
                                 </div>
+                                
                                 <h:form>
-                                <p id='information'><b>Titre:</b> #{gameDetailBean.jeu.nom}<br/>
-                                    <b>Catégorie:</b><ui:repeat value="#{gameDetailBean.jeu.categories}" var="categorieJeu"> #{categorieJeu.nom}</ui:repeat><br/>
+                                
+                                    <p id='information'><b>Titre:</b> #{gameDetailBean.jeu.nom}<br/>
                                     <b>Editeur:</b> #{gameDetailBean.jeu.editeur.nom}<br/>
                                     <b>Date de parution:</b> #{gameDetailBean.jeu.annee}<br/>
-                                    <b>Note:</b> <p:outputLabel value="#{aSearchBean.note(gameDetailBean.jeu)}"></p:outputLabel><br/>
-                                    <b>Nombre de vente:</b> <p:outputLabel value="#{aSearchBean.nbSell(gameDetailBean.jeu)}"></p:outputLabel><br/>
-                                    <b>Prix :</b> #{gameDetailBean.jeu.currentPrix.prix.toString().replace('.', ',')} €
+                                    <b>Note: </b> <p:outputLabel value=" #{aSearchBean.note(gameDetailBean.jeu)}"></p:outputLabel><br/>
+                                    <b>Nombre de vente: </b> <p:outputLabel value="#{aSearchBean.nbSell(gameDetailBean.jeu)}"></p:outputLabel><br/>
+                                    <b>Catégorie: </b> <ui:repeat value="#{gameDetailBean.jeu.categories}" var="categorieJeu"> <span class="cadre">#{categorieJeu.nom}</span></ui:repeat><br/>
+                                    
+                                    <b>Plateforme: </b> <ui:repeat value="#{gameDetailBean.jeu.plateformes}" var="plateforme"> <span class="cadre">#{plateforme.nom}</span></ui:repeat>
                                 </p>
                                 </h:form>
+                    
                             </div>
                         </div>
 
@@ -56,7 +65,7 @@
 
                         <div id="comments">
                             <h2 class='sectionTitle'>Commentaires</h2>
-                            <ui:repeat value="#{gameDetailBean.getAchat(gameDetailBean.jeu)}" var="achat" >
+                            <ui:repeat value="#{gameDetailBean.achat}" var="achat" >
                                 <p><b>#{achat.utilisateur.nom}</b> <i>#{achat.commentaire}</i><br/>
                             </p>
                             </ui:repeat>

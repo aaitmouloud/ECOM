@@ -11,6 +11,18 @@ Cette œuvre est mise à disposition selon les termes de la Licence Creative Com
 /*
 partie balise
 */
+#game h1 {
+    background: #909090 none repeat scroll 0 0;
+    border: 2px solid black;
+    font-size: 40px;
+    text-shadow: 10px;
+   padding-left: 1%;
+    padding-right: 1%;
+    margin-left : auto;
+    margin-right: 5px;
+    width : 95%;
+}
+
 #mydiv  {
     display: inline-block;
     
@@ -37,9 +49,10 @@ partie balise
 .image{
     //max-width : 100%;
     width: 100%;
-    height: 200px;
+    height: 214px;
     padding: 0px;
     margin: 0px;
+    
 }
 
 #contentGame {
@@ -111,6 +124,7 @@ partie id
     right: 0px;
     background-color: #b0b0b0;
     border: 2px solid black;
+    display: inline-block;
 }
 
 #comments{
@@ -182,4 +196,19 @@ partie id
 }
 #ajouterpanierBox input {
     width: 20px !important;
+}
+
+.panierImage {
+    background: url('/EComGames-web/javax.faces.resource/images/cart.png.jsf') no-repeat 0 0px!important;
+    padding-left: 30px;
+    height: 25px !important;
+    width: 25px !important;
+    margin-top: -12px !important;
+
+}
+
+.cadre{
+    border:1px solid black;
+    background-color: #A0A0A0;
+    display: inline-block;
 }
