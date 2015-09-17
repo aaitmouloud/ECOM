@@ -61,7 +61,15 @@ public class Initializer {
         Utilisateur u = new Utilisateur("toto", "toto", dn, "toto@gmail.com");
         em.persist(u);
 
+        Date date2 = null;
+        try {
+            date2 = formatter.parse("03/20/2008");
+        } catch (ParseException ex) {
+
+        }
         Calendar dn1 = Calendar.getInstance();
+        dn1.setTime(date2);
+        
         Utilisateur u1 = new Utilisateur("minor", "minor", dn1, "minor@gmail.com");
         em.persist(u1);
 
