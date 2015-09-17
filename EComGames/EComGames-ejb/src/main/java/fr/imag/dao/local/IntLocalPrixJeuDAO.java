@@ -16,5 +16,5 @@ import javax.ejb.Local;
  */
 @Local
 public interface IntLocalPrixJeuDAO extends IntDAO<PrixJeu> {
-    public PrixJeu getMaxPrix();
+    public Double getMaxPrix();
 }

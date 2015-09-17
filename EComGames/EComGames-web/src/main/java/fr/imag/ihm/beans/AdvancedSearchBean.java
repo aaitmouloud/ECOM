@@ -17,6 +17,7 @@ import fr.imag.entities.Categorie;
 import fr.imag.entities.Editeur;
 import fr.imag.entities.Jeu;
 import fr.imag.entities.Plateforme;
+import fr.imag.entities.PrixJeu;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -123,13 +124,14 @@ public class AdvancedSearchBean implements Serializable {
         return new ArrayList<>(plat.values());
     }
 
-    public int getPrixMax() {
-        return prixDAO.getMaxPrix().getPrix().intValue();
+    public Double getPrixMax() {
+        Double pj =  prixDAO.getMaxPrix();
+        return pj;
     }
 
     private void getPrix() {
         prixMin = 0;
-        prixMax = getPrixMax();
+        prixMax = getPrixMax().intValue();
     }
 
     public int getMinValue() {
