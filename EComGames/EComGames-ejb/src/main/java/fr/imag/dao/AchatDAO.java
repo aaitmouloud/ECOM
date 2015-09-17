@@ -7,6 +7,7 @@ package fr.imag.dao;
 
 import fr.imag.dao.local.IntLocalAchatDAO;
 import fr.imag.dao.remote.IntRemoteAchatDAO;
+import fr.imag.ejb.Initializer;
 import fr.imag.entities.Achat;
 import fr.imag.entities.Cle;
 import fr.imag.entities.Jeu;
@@ -20,6 +21,7 @@ import java.util.Iterator;
 import java.util.Set;
 import javax.ejb.Stateless;
 import javax.persistence.TypedQuery;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -54,6 +56,8 @@ public class AchatDAO extends AbstractDAO implements IntLocalAchatDAO, IntRemote
             return false;
         }
 
+        Logger.getLogger(Initializer.class).info(u + " achète " + j);
+        Logger.getLogger(Initializer.class).info(u.getAge() + "(" + u.getDateNaissance().getTime() + ") achète " + j.getAgeMin());
         if (u.getAge() < j.getAgeMin()) {
             return false;
         }

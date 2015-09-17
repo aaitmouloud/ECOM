@@ -5,8 +5,7 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui"
-      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+      xmlns:p="http://primefaces.org/ui">
     <h:body>
 
         <ui:composition template="template/common/commonLayout.xhtml">
@@ -23,36 +22,34 @@
                             <div id="summary" class="inline">
                                 <h2 class='sectionTitle'>Information</h2>
                                 <div id="ajoutpanierDiv">
-                                     <h:form>
-                                         <div style="font-size: 20px;font:bold;margin-right: 15px;"><b>Prix :</b> #{gameDetailBean.prixUnit}</div>
-                                    <div id="ajouterpanierBox" >
-                                        
-                                        
-                                    </div>
+                                    <h:form>
+                                        <div style="font-size: 20px;font-weight:bold;margin-right: 15px;"><b>Prix :</b> #{gameDetailBean.prixUnit}</div>
+                                        <div id="ajouterpanierBox" >
 
-                                    <!--<input id="ajouterpanierBox" type="text"  name="AjoutPanier" value="1" />-->
-                                    <c:choose><c:when test="#{panier.getAvailableCle(jeu.id)==0}"><p:commandButton disabled="true" value="EPUISE"></p:commandButton></c:when>
-                                        <c:otherwise><p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
-                                                 image="panierImage" update="@(.panierDiv)">
-                                            </p:commandButton></c:otherwise></c:choose>
-                                  
+
+                                        </div>
+
+                                        <p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
+                                                         image="panierImage" update="@(.panierDiv)" 
+                                                         disabled="#{!(panier.getAvailableCleWithPanier(gameDetailBean.jeu.id)>0)}" />
+
                                     </h:form>
 
                                 </div>
-                                
+
                                 <h:form>
-                                
+
                                     <p id='information'><b>Titre:</b> #{gameDetailBean.jeu.nom}<br/>
-                                    <b>Editeur:</b> #{gameDetailBean.jeu.editeur.nom}<br/>
-                                    <b>Date de parution:</b> #{gameDetailBean.jeu.annee}<br/>
-                                    <b>Note: </b> <p:outputLabel value=" #{aSearchBean.note(gameDetailBean.jeu)}"></p:outputLabel><br/>
-                                    <b>Nombre de vente: </b> <p:outputLabel value="#{aSearchBean.nbSell(gameDetailBean.jeu)}"></p:outputLabel><br/>
-                                    <b>Catégorie: </b> <ui:repeat value="#{gameDetailBean.jeu.categories}" var="categorieJeu"> <span class="cadre">#{categorieJeu.nom}</span></ui:repeat><br/>
-                                    
-                                    <b>Plateforme: </b> <ui:repeat value="#{gameDetailBean.jeu.plateformes}" var="plateforme"> <span class="cadre">#{plateforme.nom}</span></ui:repeat>
-                                </p>
+                                        <b>Editeur:</b> #{gameDetailBean.jeu.editeur.nom}<br/>
+                                        <b>Date de parution:</b> #{gameDetailBean.jeu.annee}<br/>
+                                        <b>Note: </b> <p:outputLabel value=" #{aSearchBean.note(gameDetailBean.jeu)}"></p:outputLabel><br/>
+                                        <b>Nombre de vente: </b> <p:outputLabel value="#{aSearchBean.nbSell(gameDetailBean.jeu)}"></p:outputLabel><br/>
+                                        <b>Catégorie: </b> <ui:repeat value="#{gameDetailBean.jeu.categories}" var="categorieJeu"> <span class="cadre">#{categorieJeu.nom}</span></ui:repeat><br/>
+
+                                        <b>Plateforme: </b> <ui:repeat value="#{gameDetailBean.jeu.plateformes}" var="plateforme"> <span class="cadre">#{plateforme.nom}</span></ui:repeat>
+                                    </p>
                                 </h:form>
-                    
+
                             </div>
                         </div>
 
@@ -67,7 +64,7 @@
                             <h2 class='sectionTitle'>Commentaires</h2>
                             <ui:repeat value="#{gameDetailBean.achat}" var="achat" >
                                 <p><b>#{achat.utilisateur.nom}</b> <i>#{achat.commentaire}</i><br/>
-                            </p>
+                                </p>
                             </ui:repeat>
                         </div>
                     </div>

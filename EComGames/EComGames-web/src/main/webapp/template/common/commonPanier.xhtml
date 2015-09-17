@@ -8,70 +8,72 @@
         <h:outputStylesheet name="panier.css" library="css" />
     </h:head>
     <h:body>
-        <h:panelGroup style="display: block" id="panier" styleClass="panierDiv">
-            <h2 class="center">Panier</h2>
-            <c:choose>
-                <c:when test="#{panier.emptyOrNot == true}">
-                    <h:outputText style="display: block;" value="Aucun item dans le panier" styleClass="panierTable"/>
-                </c:when>
-                <c:otherwise>
-                    <h:panelGrid columns="3" styleClass="panierTable">
-                        <h:dataTable value="#{panier.game}" var="item" >
+        <div>
+            <h:panelGroup style="display: block; text-align: center;" id="panier" styleClass="panierDiv">
+                <h2 class="center">Panier</h2>
+                <c:choose>
+                    <c:when test="#{panier.emptyOrNot == true}">
+                        <h:outputText style="display: block;" value="Aucun item dans le panier" styleClass="panierTable"/>
+                    </c:when>
+                    <c:otherwise>
+                        <h:panelGrid columns="3" styleClass="panierTable">
+                            <h:dataTable value="#{panier.game}" var="item" >
 
-                            <h:column class="border">
-                                <h:form class="panierNomFrom">
-                                    <h:outputText value="#{item.nom}" />
-                                </h:form>
-                            </h:column>
-                            <h:column class="border">
-                                <h:form >
-                                    <h:panelGrid columns="2" class="panierPrixQte">
+                                <h:column class="border">
+                                    <h:form class="panierNomFrom">
+                                        <h:outputText value="#{item.nom}" />
+                                    </h:form>
+                                </h:column>
+                                <h:column class="border">
+                                    <h:form >
+                                        <h:panelGrid columns="2" class="panierPrixQte">
 
-                                        <h:panelGroup class="smallPanier" p:title="Prix unitaire">PU: </h:panelGroup>
-                                        <h:outputText value="#{item.prixUnit}"  styleClass="toUpdate"/>
-                                        <h:panelGroup class="smallPanier" p:title="Quantité">Qté: </h:panelGroup>
-                              
-                                        <p:spinner id="minMax" value="#{item.nombre}" onblur="updatePrix();
-                                            updatePrixPanier();" min="1" max="#{panier.getAvailableCle(item.id)}" class="panierPrix"/>
-                  
-                                        <h:panelGroup class="smallPanier" p:title="Total prix jeu">TJ: </h:panelGroup>
-                                        <h:outputText value="#{item.prix}" styleClass="toUpdate" 
-                                                      id="prix_jeu" />
-                                        <p:remoteCommand name="updatePrix" process="@form" update="@(.toUpdate)" /> 
-                                    </h:panelGrid>
-                                </h:form>
-                            </h:column>
-                            <h:column class="border">
-                                <h:form>
-                                    <p:commandButton class="supprPanier" action="#{panier.removeGame(item)}" 
-                                                     value="✗" update="@(.panierDiv)"/>
-                                </h:form>
-                            </h:column>
-                        </h:dataTable>
-                    </h:panelGrid>
-                    <h:form id="prixPanierForm">
-                        <h:panelGroup>
-                            <h:panelGroup class="totalPanier">Total: </h:panelGroup>
-                            <h:outputText class="prixPanier" value="#{panier.prix}"/>
-                        </h:panelGroup>
-                        <p:remoteCommand name="updatePrixPanier" process="@form" update="@form" />                   
-                    </h:form>
+                                            <h:panelGroup class="smallPanier" p:title="Prix unitaire">PU: </h:panelGroup>
+                                            <h:outputText value="#{item.prixUnit}"  styleClass="toUpdate"/>
+                                            <h:panelGroup class="smallPanier" p:title="Quantité">Qté: </h:panelGroup>
 
-                    <h:form id="commander">
+                                            <p:spinner id="minMax" value="#{item.nombre}" onchange="updatePrix();
+                                                    updatePrixPanier();
+                                                       " min="1" max="#{panier.getAvailableCle(item.id)}" class="panierPrix"/>
 
-                        <p:commandButton value="Finaliser commande" 
-                                         actionListener="#{panier.validerAchats(loggedUserBean.id)}"
-                                         oncomplete="updateGrowl(); if (args.validationFailed || !args.loggedIn) { PF('loginDlg').show() } else { updatePanier(); } "
-                                         />
-                        <p:remoteCommand update="@(.panierDiv)" name="updatePanier" />
-                        <p:growl id="growlPan" showDetail="true" sticky="true" />  
-                        <p:remoteCommand update="growlPan" process="@this" name="updateGrowl" />
-                    </h:form>
+                                            <h:panelGroup class="smallPanier" p:title="Total prix jeu">TJ: </h:panelGroup>
+                                            <h:outputText value="#{item.prix}" styleClass="toUpdate" 
+                                                          id="prix_jeu" />
+                                            <p:remoteCommand name="updatePrix" process="@form" update="@(.toUpdate)" />
+                                        </h:panelGrid>
+                                    </h:form>
+                                </h:column>
+                                <h:column class="border">
+                                    <h:form>
+                                        <p:commandButton class="supprPanier" action="#{panier.removeGame(item)}" 
+                                                         value="✗" update="@(.panierDiv)"/>
+                                    </h:form>
+                                </h:column>
+                            </h:dataTable>
+                        </h:panelGrid>
+                        <h:form id="prixPanierForm">
+                            <h:panelGroup>
+                                <h:panelGroup class="totalPanier">Total: </h:panelGroup>
+                                <h:outputText class="prixPanier" value="#{panier.prix}"/>
+                            </h:panelGroup>
+                            <p:remoteCommand name="updatePrixPanier" process="@form" update="@form" />                   
+                        </h:form>
 
-                </c:otherwise>
-            </c:choose>
+                        <h:form id="commander">
+                            <p:growl id="growlPan" sticky="true" showDetail="true" autoUpdate="true" life="1200" class="growls"/>
+                            <p:commandButton value="Finaliser commande" 
+                                             actionListener="#{panier.validerAchats(loggedUserBean.id)}"
+                                             oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').show() } else { updatePanier(); if (args.toutAchete) { alert('Tous les jeux ont été achetés.'); } else { alert('Certains jeux n'ont pas été achetés.); } } "
+                                             update="@(.growls)"/>
+                            <p:remoteCommand update="@(.panierDiv)" name="updatePanier" />
 
-        </h:panelGroup>
+                        </h:form>
+
+                    </c:otherwise>
+                </c:choose>
+
+            </h:panelGroup>
+        </div>
     </h:body>
 </html>
 

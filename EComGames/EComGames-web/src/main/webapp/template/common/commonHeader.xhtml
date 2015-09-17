@@ -11,7 +11,7 @@
     </h:head>
     <h:body>
         <a href="index.jsf"><div id="webSiteName">
-            <h1>EComGames</h1>
+                <h1>EComGames</h1>
             </div></a>
         <h:form id="usrMenu">
 
@@ -25,11 +25,11 @@
                 </c:when>
                 <c:otherwise>
                     <div class="header_link">
-         
-                    <h:commandLink action="monCompte?faces-redirect=true" >
-                        Bienvenue <span style="font-weight:bold;">#{loggedUserBean.username}</span> (#{loggedUserBean.email})
-                    </h:commandLink>
-   
+
+                        <h:commandLink action="monCompte?faces-redirect=true" >
+                            Bienvenue <span style="font-weight:bold;">#{loggedUserBean.username}</span> (#{loggedUserBean.email})
+                        </h:commandLink>
+
                     </div>
                     <p:commandLink
                         value="Se déconnecter"
@@ -54,9 +54,9 @@
 
 
                     <f:facet name="footer" >
-                        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" life="1200" />
+                        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" life="1200" class="growls" />
                         <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
-                        <p:commandButton value="Se connecter" update="growl"
+                        <p:commandButton value="Se connecter" update="@(.growls)"
                                          actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"
                                          oncomplete="if (args.validationFailed || !args.loggedIn) { PF('loginDlg').jq.effect('shake', {times: 7}, 100); } else { location.reload(); }" />
                         <p:commandButton value="S'inscrire" update="growl"
@@ -69,9 +69,7 @@
             </p:dialog>
         </h:form>
         <h:form id="searchBar">
-            #{rechercheBean.searchTerm = null}
-            #{rechercheBean.setNomsJeux()}
-            <p:growl id="growlSearch" sticky="false" showDetail="true" autoUpdate="true" life="2500" /> 
+            <p:growl id="growlSearch" sticky="false" showDetail="true" autoUpdate="true" life="2500" class="growls"/> 
             <p:autoComplete id="searchField" value="#{rechercheBean.searchTerm}" 
                             completeMethod="#{rechercheBean.completion}" placeholder="Recherche... "
                             required="true" requiredMessage="Veuillez entrer les termes à rechercher"

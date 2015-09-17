@@ -45,7 +45,7 @@ public class PanierBean implements Serializable {
     @EJB
     private IntRemoteJeuDAO jeuDAO;
     private Map<String, PanierItem> gameC;
-    
+
     @PostConstruct
     public void init() {
         gameC = new HashMap<>();
@@ -72,6 +72,7 @@ public class PanierBean implements Serializable {
             }
 
             int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
+
             if (i.getNombre() + 1 > nbCleDispo) {
                 i.setNombre(nbCleDispo);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Impossible d'ajouter un exemlpaire:", "le nombre de cle en stock de " + j.getNom() + " est insuffisant."));
@@ -98,12 +99,22 @@ public class PanierBean implements Serializable {
 
     }
 
-    public int getAvailableCle(String id){
+    public int getAvailableCle(String id) {
         return cleDao.findAvailableCle(id).size();
+
     }
+
+    public int getAvailableCleWithPanier(String id) {
+        int available = getAvailableCle(id);
+        if (gameC.containsKey(id)) {
+            available -= gameC.get(id).getNombre();
+        }
+        return available;
+    }
+
     public void updatePanier(PanierItem i) {
         if (gameC.containsKey(i.getId())) {
-            int nbCleDispo = getAvailableCle(i.getId());
+            int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();
             if (i.getNombre() > nbCleDispo) {
                 i.setNombre(nbCleDispo);
                 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur lors de la mise à jour:", "Le nombre de jeu disponible est insufisant"));
@@ -138,10 +149,10 @@ public class PanierBean implements Serializable {
 
     public void validerAchats(Long userId) {
         RequestContext context = RequestContext.getCurrentInstance();
-        FacesContext fContext = FacesContext.getCurrentInstance();
         boolean loggedIn;
+        boolean toutAchete = false;
         FacesMessage message = null;
-        Logger.getLogger(PanierBean.class).debug("Valider achats pour " + userId);
+
         if (userId == null) {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Connectez-vous!", "Vous devez vous connecter pour valider vos achats.");
@@ -160,16 +171,24 @@ public class PanierBean implements Serializable {
                 } else {
                     notValidatedItems.add(item.getNom());
                 }
-                if (!notValidatedItems.isEmpty()) {
-                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat non complet.", "Les jeux suivants ont été achetés: <br/>" + validatedItems.toString() + "<br/><br/>Les jeux suivants n'ont pas pu être achetés. <br/>" + notValidatedItems.toString());
+
+            }
+            if (!notValidatedItems.isEmpty()) {
+                if (validatedItems.isEmpty()) {
+                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat non complet.", "Aucun jeu n'a pu être acheté.");
                 } else {
-                    message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat terminé.", "Les jeux suivants ont été achetés: <br/>" + validatedItems.toString());
+                    message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Achat non complet.", "Les jeux toujours présents dans le panier n'ont pas pu être achetés");
                 }
+                toutAchete = false;
+            } else {
+                toutAchete = true;
+                message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Achat terminé.", "Tous les jeux ont été achetés.");
             }
 
         }
-        fContext.addMessage(null, message);
+        FacesContext.getCurrentInstance().addMessage(null, message);
         context.addCallbackParam("loggedIn", loggedIn);
+        context.addCallbackParam("toutAchete", toutAchete);
     }
 
 }
