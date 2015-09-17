@@ -19,9 +19,7 @@
                         <a href="gamesList.jsf">Retour à la liste de jeux</a>
                         <h1 id="gameTitle">#{gameDetailBean.jeu.nom}</h1>
                         <div id='firstPart'>
-                            <div id="img" class="inline">
-                                <img src="#{gameDetailBean.jeu.image}" class="image"/>
-                            </div>
+                            <div id="img" class="inline" style="background-image:url(#{gameDetailBean.jeu.image})"></div>
                             <div id="summary" class="inline">
                                 <h2 class='sectionTitle'>Information</h2>
                                 <div id="ajoutpanierDiv">
