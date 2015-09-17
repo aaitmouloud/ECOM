@@ -35,9 +35,10 @@
                                             <td>#{jeu.annee}</td>
                                             <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>
                                             <td>#{jeu.currentPrix.prix}</td>
-                                            <td><p:commandButton value="+" action="#{panier.addGame(jeu)}"
+                                            <td><c:choose><c:when test="#{panier.getAvailableCle(jeu.id)==0}"><p:commandButton disabled="true" value="EPUISE"></p:commandButton></c:when>
+                                                    <c:otherwise><p:commandButton value="+" action="#{panier.addGame(jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
-                                            </p:commandButton>
+                                            </p:commandButton></c:otherwise></c:choose>
                                         </td> 
                                     </tr>
                             </ui:repeat>

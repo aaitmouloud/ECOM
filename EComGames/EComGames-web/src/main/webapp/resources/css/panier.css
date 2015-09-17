@@ -92,3 +92,7 @@
 .totalPanier {
     font-weight: bold;
 }
+
+#panier form td input {
+    width: 25px !important;
+}

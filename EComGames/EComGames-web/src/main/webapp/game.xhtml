@@ -5,7 +5,8 @@
       xmlns:h="http://java.sun.com/jsf/html"
       xmlns:ui="http://java.sun.com/jsf/facelets"
 
-      xmlns:p="http://primefaces.org/ui">
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
     <h:body>
 
         <ui:composition template="template/common/commonLayout.xhtml">
@@ -32,9 +33,10 @@
                                     </div>
 
                                     <!--<input id="ajouterpanierBox" type="text"  name="AjoutPanier" value="1" />-->
-                                    <p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
+                                    <c:choose><c:when test="#{panier.getAvailableCle(jeu.id)==0}"><p:commandButton disabled="true" value="EPUISE"></p:commandButton></c:when>
+                                        <c:otherwise><p:commandButton value="+" action="#{panier.addGame(gameDetailBean.jeu)}"
                                                  image="panierImage" update="@(.panierDiv)">
-                                     </p:commandButton>
+                                            </p:commandButton></c:otherwise></c:choose>
                                   
                                     </h:form>
 

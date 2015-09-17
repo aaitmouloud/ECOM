@@ -102,6 +102,9 @@ public class PanierBean implements Serializable {
 
     }
 
+    public int getAvailableCle(String id){
+        return cleDao.findAvailableCle(id).size();
+    }
     public void updatePanier(PanierItem i) {
         if (gameC.containsKey(i.getId())) {
             int nbCleDispo = cleDao.findAvailableCle(i.getId()).size();

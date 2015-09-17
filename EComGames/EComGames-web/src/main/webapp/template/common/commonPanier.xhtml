@@ -31,11 +31,10 @@
                                         <h:panelGroup class="smallPanier" p:title="Prix unitaire">PU: </h:panelGroup>
                                         <h:outputText value="#{item.prixUnit}"  styleClass="toUpdate"/>
                                         <h:panelGroup class="smallPanier" p:title="Quantité">Qté: </h:panelGroup>
-
-                                        <h:inputText value="#{item.nombre}" onblur="updatePrix();
-                                                updatePrixPanier();"
-                                                     class="panierPrix" />
-
+                              
+                                        <p:spinner id="minMax" value="#{item.nombre}" onblur="updatePrix();
+                                            updatePrixPanier();" min="1" max="#{panier.getAvailableCle(item.id)}" class="panierPrix"/>
+                  
                                         <h:panelGroup class="smallPanier" p:title="Total prix jeu">TJ: </h:panelGroup>
                                         <h:outputText value="#{item.prix}" styleClass="toUpdate" 
                                                       id="prix_jeu_#{loop.index}" />
