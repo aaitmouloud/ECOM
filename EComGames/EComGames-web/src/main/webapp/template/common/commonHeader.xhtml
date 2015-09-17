@@ -24,13 +24,13 @@
                                    id="loginLink" />
                 </c:when>
                 <c:otherwise>
-                    <div class="header_link">
 
-                        <h:commandLink action="monCompte?faces-redirect=true" >
-                            Bienvenue <span style="font-weight:bold;">#{loggedUserBean.username}</span> (#{loggedUserBean.email})
-                        </h:commandLink>
 
-                    </div>
+                    <h:commandLink action="monCompte?faces-redirect=true" styleClass="header_link">
+                        Bienvenue <span style="font-weight:bold;">#{loggedUserBean.username}</span> (#{loggedUserBean.email})
+                    </h:commandLink>
+
+
                     <p:commandLink
                         value="Se déconnecter"
                         action="#{loggedUserBean.logout()}"
@@ -54,7 +54,7 @@
 
 
                     <f:facet name="footer" >
-                        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true" life="1200" class="growls" />
+                        <p:growl id="growl" sticky="true" showDetail="true" autoUpdate="true"  life="2500"  class="growls" />
                         <p:remoteCommand name="updateEverything" process="@this" update="@all" /> 
                         <p:commandButton value="Se connecter" update="@(.growls)"
                                          actionListener="#{loggedUserBean.login(loginBean.login, loginBean.password)}"

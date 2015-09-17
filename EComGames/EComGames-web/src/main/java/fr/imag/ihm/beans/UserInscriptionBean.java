@@ -6,10 +6,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.ejb.EJB;
-import javax.faces.application.FacesMessage;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
-import javax.faces.context.FacesContext;
 import org.primefaces.context.RequestContext;
 
 @ManagedBean(name = "userInscriptionBean")
@@ -41,7 +39,7 @@ public class UserInscriptionBean {
         if (nom.equals("") || email.equals("") || dateNaissance.equals("") || password1.equals("") || password2.equals("") )
         {
             //des champs ne sont pas complété
-            error= "une ou des informations demandés ne sont pas remplient";
+            error= "Une ou plusieurs des informations demandées ne sont pas remplies.";
             
         }else
         {
@@ -54,7 +52,7 @@ public class UserInscriptionBean {
                     date = formatter.parse(dateNaissance);
                 } catch (ParseException e) {
                     //date n'est pas dans le bon format
-                    error= "le format de la date n'est pas valide";
+                    error= "Le format de la date n'est pas valide.";
                     onclick=url;
                     return url;
                 }
@@ -77,22 +75,22 @@ public class UserInscriptionBean {
                     }else
                     {
                         //ce loggin existe deja
-                        error="ce loggin est deja pris";
+                        error="Ce login est déjà pris.";
                     }
                 }else
                 {   //mot de pass entre 1 et 2 sont different
-                    error= "votre confirmation de mot de passe n'est pas correcte";
+                    error= "Les deux mots de passes fournis ne sont pas égaux.";
                 }
                 
             }else
             {
                 //adresse mail non valide
-                error="votre addresse email n'est pas valide";
+                error="Votre addresse email n'est pas valide.";
 
             }
         }
-        RequestContext context = RequestContext.getCurrentInstance();
-        context.addCallbackParam("register", url.equals("PF('dlg2').show()"));
+        RequestContext contextA = RequestContext.getCurrentInstance();
+        contextA.addCallbackParam("register", url.equals("PF('dlg2').show()"));
         onclick=url;
         return url;
     }

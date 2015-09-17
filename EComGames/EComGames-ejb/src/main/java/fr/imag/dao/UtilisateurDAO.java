@@ -7,6 +7,7 @@ package fr.imag.dao;
 
 import fr.imag.dao.local.IntLocalUtilisateurDAO;
 import fr.imag.dao.remote.IntRemoteUtilisateurDAO;
+import fr.imag.entities.Jeu;
 import fr.imag.entities.Utilisateur;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -64,10 +65,23 @@ public class UtilisateurDAO extends AbstractDAO implements IntLocalUtilisateurDA
             return false;
         }
     }
-    
+
     @Override
     public Utilisateur updateUser(Utilisateur u){
         return em.find(Utilisateur.class, u.getId());
     }
         
+
+    @Override
+    public String getNomJeu(String cle) {
+         try {
+            TypedQuery<Jeu> query = em.createNamedQuery("GetJeuByCle", Jeu.class);
+
+            query.setParameter("cle", cle);
+            return query.getSingleResult().getNom();
+        } catch (Exception ex) {
+            return null;
+        }
+    }
+
 }

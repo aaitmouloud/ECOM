@@ -30,7 +30,7 @@
                                 <tr><th>Jaquette</th><th><p:commandLink styleClass="orderLink" value="Nom" action="#{aSearchBean.orderByNom()}" update="@form" /></th><th><p:commandLink styleClass="orderLink" value="Annee" action="#{aSearchBean.orderByAnnee()}" update="@form"/></th><th>Note</th><th><p:commandLink styleClass="orderLink" value="Prix" action="#{aSearchBean.orderByPrix()}" update="@form"/></th><th></th></tr>
                                 <ui:repeat value="#{aSearchBean.searchResult}" var="jeu">               
                                     <tr class='clickable-row' data-href='game.jsf?id=#{jeu.id}'>
-                                        <td><div class="jaquetteJeu" style="background-image:url(#{jeu.image})"></div></td>
+                                        <td><div class="jaquetteJeu" style="background-color: white; background-image:url(#{jeu.image})"></div></td>
                                         <td>#{jeu.nom}<br/></td>
                                         <td>#{jeu.annee}</td>
                                         <td><p:outputLabel value="#{aSearchBean.note(jeu)}"></p:outputLabel></td>

@@ -37,6 +37,7 @@ Partie Class
 .jeuImage{
     background-size: cover;
     height: 150px;
+    background-position: center;
 }
 
 /*

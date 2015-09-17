@@ -5,11 +5,14 @@
  */
 package fr.imag.ihm.beans;
 
+import fr.imag.dao.remote.IntRemoteJeuDAO;
 import fr.imag.dao.remote.IntRemoteUtilisateurDAO;
 import fr.imag.entities.Achat;
+import fr.imag.entities.Cle;
 import fr.imag.entities.Utilisateur;
 import java.io.IOException;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
@@ -32,9 +35,15 @@ public class LoggedUserBean implements Serializable {
 
     private Utilisateur utilisateur = null;
     private Collection<Achat> a;
+    private final static SimpleDateFormat DN_FORMAT = new SimpleDateFormat("d MMM YYYY");
+    private final static SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("d MMM YYYY hh:mm:ss");
+
 
     @EJB
     private IntRemoteUtilisateurDAO userDao;
+    
+    @EJB
+    private IntRemoteJeuDAO jeuDao;
 
     public void login(String login, String hashMdp) {
 
@@ -47,7 +56,7 @@ public class LoggedUserBean implements Serializable {
                 && (tmp = userDao.findFromLoginEtMdp(login, hashMdp)) != null) {
             utilisateur = tmp;
             loggedIn = true;
-            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenue", "Bienvenue "+utilisateur.getNom());
+            message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Bienvenue", "Bienvenue " + utilisateur.getNom());
         } else {
             loggedIn = false;
             message = new FacesMessage(FacesMessage.SEVERITY_WARN, "Erreur d'authentification", "Identifiants invalides.");
@@ -87,6 +96,14 @@ public class LoggedUserBean implements Serializable {
         return utilisateur.getDateNaissance();
     }
 
+    public String getDateNFormatted() {
+        Calendar c = getDateN();
+        if (c == null) {
+            return null;
+        }
+        return DN_FORMAT.format(c.getTime());
+    }
+
     public Collection<Achat> getAchats() {
         if (utilisateur == null) {
             return null;
@@ -108,6 +125,7 @@ public class LoggedUserBean implements Serializable {
         return false;
     }
     
+
     public void UpdateUser(){
         userDao.refresh(utilisateur);
     }
@@ -115,8 +133,11 @@ public class LoggedUserBean implements Serializable {
     public void refreshUser(){
         this.utilisateur = userDao.updateUser(utilisateur);
     }
-  
-    
+
+    public String getNomJeu(Cle c) {
+        return userDao.getNomJeu(c.getCle());
+    }
+
 
     public boolean isUnlogged() {
 
@@ -126,12 +147,18 @@ public class LoggedUserBean implements Serializable {
     public void logout() throws IOException {
         ExternalContext context = FacesContext.getCurrentInstance().getExternalContext();
         if (context != null) {
-           
+
             context.invalidateSession();
             utilisateur = null;
             context.redirect(((HttpServletRequest) context.getRequest()).getRequestURI());
 
         }
+    }
+    
+    public String formatDateTime(Calendar time) {
+        if (time == null)
+            return null;
+        return DATE_FORMAT.format(time.getTime());
     }
 
 }

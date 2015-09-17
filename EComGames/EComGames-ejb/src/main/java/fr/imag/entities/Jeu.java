@@ -40,6 +40,7 @@ import javax.persistence.OneToMany;
     @NamedQuery(name = "GetJeuByPlateformeId", query = "SELECT p.jeux FROM Plateforme p WHERE p.id = :id"),
     @NamedQuery(name = "GetXJeuxOrderByDate", query = "SELECT j FROM Jeu j ORDER BY j.annee DESC"),
     @NamedQuery(name = "GetAllJeu", query = "SELECT j FROM Jeu j"),
+    @NamedQuery(name = "GetJeuByCle", query = "SELECT j FROM Jeu j INNER JOIN j.cles c WHERE c.cle = :cle"),
     @NamedQuery(name = "GetXJeuxOrderByNoteMoyenne", query = 
             "SELECT DISTINCT j FROM Jeu j "
                     + "INNER JOIN j.cles c "
